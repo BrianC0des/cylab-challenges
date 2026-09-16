@@ -142,5 +142,106 @@
     "cheatsheet": "jadx -d out app.apk && grep -rn \"flag{\" out/",
     "badge": "Android Hacker",
     "writeup": "Jadx decompiles the APK into Java code. Searching strings.xml or MainActivity reveals the stored flag."
+  },
+  {
+    "id": "rev-7",
+    "title": "Strings & Unpacked Python Bytecode",
+    "category": "Reverse Engineering",
+    "points": 100,
+    "difficulty": "Easy",
+    "source": "picoCTF / Beginner Reversing",
+    "description": "An operator recovered a compiled Python file `auth_check.pyc`. Decompile the bytecode or inspect disassembly to uncover hardcoded password comparison logic.",
+    "hints": [
+      "Use decompilation tools like `uncompyle6` or `pycdc` (Decompyle++) against `.pyc` files.",
+      "Alternatively, run `python3 -m dis auth_check.pyc` to view Python VM bytecode instructions."
+    ],
+    "hintPenalties": [
+      -10,
+      -20
+    ],
+    "flag": "CYLAB{pyc_byt3c0d3_d3c0mp1l3d_34sy}",
+    "concepts": [
+      "Python Bytecode",
+      "pycdc",
+      "Disassembly",
+      "Decompilation"
+    ],
+    "writeup": "1. Run `pycdc auth_check.pyc` or `uncompyle6 auth_check.pyc`.\n2. Decompiled Python source shows:\n   ```python\n   password = input('Enter key: ')\n   if password == 'CYLAB{pyc_byt3c0d3_d3c0mp1l3d_34sy}':\n       print('Access Granted')\n   ```\n3. Flag: `CYLAB{pyc_byt3c0d3_d3c0mp1l3d_34sy}`"
+  },
+  {
+    "id": "rev-8",
+    "title": "Anti-Debugging Ptrace Bypass",
+    "category": "Reverse Engineering",
+    "points": 250,
+    "difficulty": "Medium",
+    "source": "Hack The Box / Flare-On",
+    "description": "A Linux ELF binary `license_validator` terminates instantly when opened under GDB with 'Debugger detected! Exiting.'. Bypass the `ptrace(PTRACE_TRACEME, 0, 1, 0)` check by patching the binary or overriding system calls with LD_PRELOAD.",
+    "hints": [
+      "In Linux, a process can only be traced by one debugger. The binary calls `ptrace(0, 0, 1, 0)`. If under GDB, it returns -1.",
+      "Use GDB command `catch syscall ptrace` and set `$rax = 0`, or replace the conditional jump `jnz exit` with `nop` (0x90)."
+    ],
+    "hintPenalties": [
+      -15,
+      -25
+    ],
+    "flag": "CYLAB{ptr4c3_4nt1_d3bug_byp4ss3d}",
+    "concepts": [
+      "Anti-Debugging",
+      "ptrace",
+      "GDB",
+      "Binary Patching",
+      "x86 Assembly"
+    ],
+    "writeup": "1. Open binary in Ghidra or GDB.\n2. Locate `call ptrace` at address 0x401150 followed by `test eax, eax; js exit`.\n3. In GDB: `catch syscall ptrace`, `run`, then `set $rax=0`, `continue`.\n4. Input registration key to generate valid flag verification output.\n5. Flag: `CYLAB{ptr4c3_4nt1_d3bug_byp4ss3d}`"
+  },
+  {
+    "id": "rev-9",
+    "title": "Angr Symbolic Execution Keygen",
+    "category": "Reverse Engineering",
+    "points": 450,
+    "difficulty": "Hard",
+    "source": "DEFCON / AngstromCTF",
+    "description": "A crackme binary `matrix_hasher` processes a 32-character input through 100 complex linear matrix multiplications and bitwise shuffles before comparing against target hashes. Writing a manual solver is tedious. Automate solving using Angr symbolic execution.",
+    "hints": [
+      "Angr creates symbolic variables and tracks execution paths until finding a state that reaches the 'Access Granted' address.",
+      "Set `find=0x401500` (success address) and `avoid=0x401550` (fail address)."
+    ],
+    "hintPenalties": [
+      -20,
+      -40
+    ],
+    "flag": "CYLAB{4ngr_symb0l1c_smt_s0lv3d}",
+    "concepts": [
+      "Angr",
+      "Symbolic Execution",
+      "SMT Solvers",
+      "Z3"
+    ],
+    "writeup": "1. Write Angr script:\n   ```python\n   import angr, claripy\n   proj = angr.Project('./matrix_hasher')\n   flag_chars = [claripy.BVS(f'c_{i}', 8) for i in range(32)]\n   flag = claripy.Concat(*flag_chars)\n   state = proj.factory.entry_state(stdin=flag)\n   simgr = proj.factory.simulation_manager(state)\n   simgr.explore(find=0x401500, avoid=0x401550)\n   found = simgr.found[0]\n   print(found.solver.eval(flag, cast_to=bytes))\n   ```\n2. Solver yields flag.\n3. Flag: `CYLAB{4ngr_symb0l1c_smt_s0lv3d}`"
+  },
+  {
+    "id": "rev-10",
+    "title": "Custom VM Bytecode Interpreter",
+    "category": "Reverse Engineering",
+    "points": 500,
+    "difficulty": "Hard",
+    "source": "Flare-On / Google CTF",
+    "description": "A proprietary malware agent `agent_vm` runs a custom virtual machine with 8 virtual registers, an internal stack, and 16 custom opcodes. Reverse engineer the VM dispatch loop, disassemble the embedded bytecode program, and invert the encryption routine.",
+    "hints": [
+      "Identify the fetch-decode-execute loop (`switch(opcode)` inside `while(pc < size)`).",
+      "Map out the instruction set: 0x01 = PUSH, 0x02 = POP, 0x03 = ADD, 0x04 = XOR, 0x05 = JMP, 0x06 = CMP."
+    ],
+    "hintPenalties": [
+      -25,
+      -50
+    ],
+    "flag": "CYLAB{cust0m_vm_byt3c0d3_d1s4ss3mbl3d}",
+    "concepts": [
+      "VM Disassembly",
+      "Bytecode Reversing",
+      "Virtual Machine Architecture",
+      "Ghidra"
+    ],
+    "writeup": "1. Reverse the opcode handlers in Ghidra to map each opcode byte to its semantic operation.\n2. Dump bytecode section from binary `.data`.\n3. Write a Python disassembler that parses instructions and prints human-readable assembly.\n4. Analyze the bytecode algorithm: it performs RC4 key scheduling and XOR with hardcoded key.\n5. Decrypt target memory array to retrieve flag.\n6. Flag: `CYLAB{cust0m_vm_byt3c0d3_d1s4ss3mbl3d}`"
   }
 ]

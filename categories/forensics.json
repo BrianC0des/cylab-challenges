@@ -142,5 +142,105 @@
     "cheatsheet": "tshark -r https_traffic.pcapng -o \"tls.keylog_file:keys.log\" -Y http -T fields -e http.file_data",
     "badge": "TLS Decryptor",
     "writeup": "Loading the keylog file decrypts TLS 1.3 traffic, revealing the HTTP POST payload and flag."
+  },
+  {
+    "id": "forensics-7",
+    "title": "Magic Bytes Reconstruction",
+    "category": "Forensics",
+    "points": 100,
+    "difficulty": "Easy",
+    "source": "picoCTF / Forensics 101",
+    "description": "A top-secret image attachment `evidence.dat` refuses to open in any image viewer. Hex dump shows the first 8 bytes were corrupted by an adversary with `DE AD BE EF 00 00 00 00`. Inspect the file structure, restore the legitimate magic bytes, and view the image.",
+    "hints": [
+      "Look at subsequent ASCII chunks like `IHDR`, `IDAT`, and `IEND`. What file format uses these chunks?",
+      "Standard PNG magic bytes: `89 50 4E 47 0D 0A 1A 0A`."
+    ],
+    "hintPenalties": [
+      -10,
+      -20
+    ],
+    "flag": "CYLAB{m4g1c_byt3s_png_h34d3r_f1x3d}",
+    "concepts": [
+      "Hex Editing",
+      "Magic Bytes",
+      "PNG Specification",
+      "xxd"
+    ],
+    "writeup": "1. Run `xxd evidence.dat | head -n 2` to observe the corrupted header and the `IHDR` signature at offset 0x0C.\n2. In `hexedit` or python:\n   ```python\n   with open('evidence.dat', 'rb') as f:\n       data = bytearray(f.read())\n   data[:8] = bytes.fromhex('89504E470D0A1A0A')\n   with open('repaired.png', 'wb') as f:\n       f.write(data)\n   ```\n3. Open `repaired.png` to view the flag rendered on screen.\n4. Flag: `CYLAB{m4g1c_byt3s_png_h34d3r_f1x3d}`"
+  },
+  {
+    "id": "forensics-8",
+    "title": "USB Keystroke HID Capture",
+    "category": "Forensics",
+    "points": 250,
+    "difficulty": "Medium",
+    "source": "CSAW / DEFCON CTF",
+    "description": "An adversary plugged a hardware keystroke logger into an air-gapped terminal. The captured PCAP contains USB HID data packets (`Leftover Capture Data`). Extract the keystrokes to read the typed root password and flag.",
+    "hints": [
+      "Filter Wireshark for `usb.transfer_type == 0x01 && usb.endpoint_number.direction == 1` or check `usbhid.data`.",
+      "USB HID keyboard scan codes: 0x04=A, 0x05=B ... 0x1D=Z, with modifier byte at index 0 (0x02/0x20 for Shift)."
+    ],
+    "hintPenalties": [
+      -15,
+      -25
+    ],
+    "flag": "CYLAB{usb_h1d_k3ystr0k3_p4rs3d}",
+    "concepts": [
+      "Wireshark",
+      "USB HID Scancodes",
+      "tshark",
+      "Keyboard Parsing"
+    ],
+    "writeup": "1. Extract USB leftover data using tshark:\n   `tshark -r capture.pcap -Y 'usb.capdata' -T fields -e usb.capdata > data.txt`\n2. Map scancodes with Python script interpreting modifier byte (0x02 = Shift) and scancode byte (index 2).\n3. Reconstructed typed string reveals: `echo CYLAB{usb_h1d_k3ystr0k3_p4rs3d}`\n4. Flag: `CYLAB{usb_h1d_k3ystr0k3_p4rs3d}`"
+  },
+  {
+    "id": "forensics-9",
+    "title": "Ext4 Inode Carving & Journal Recovery",
+    "category": "Forensics",
+    "points": 400,
+    "difficulty": "Hard",
+    "source": "SANS NetWars / Collegiate Nationals",
+    "description": "A rogue insider executed `rm -rf /var/log/secure` on an Ext4 partition before taking a raw dd image `disk.img`. The log contained an exfiltrated token. Carve the deleted file using inode pointers and JBD2 filesystem journal logs.",
+    "hints": [
+      "In modern Ext4, `rm` zeroes out inode block pointers, but the filesystem journal (inode 8) keeps recent metadata and transaction blocks.",
+      "Use `ext4magic` or `extundelete` with `-r --restore-all` or inspect journal with `debugfs -R 'dump <8> journal.dat'`."
+    ],
+    "hintPenalties": [
+      -20,
+      -40
+    ],
+    "flag": "CYLAB{3xt4_j0urn4l_und3l3t3_succ3ss}",
+    "concepts": [
+      "Ext4 Filesystem",
+      "JBD2 Journaling",
+      "debugfs",
+      "ext4magic"
+    ],
+    "writeup": "1. Run `ext4magic disk.img -m -d output_dir/` to parse transaction logs.\n2. Alternatively, dump journal via debugfs: `debugfs -R 'dump <8> journal.copy' disk.img`.\n3. Grep strings inside recovered blocks: `strings output_dir/* | grep 'CYLAB{'`.\n4. Flag: `CYLAB{3xt4_j0urn4l_und3l3t3_succ3ss}`"
+  },
+  {
+    "id": "forensics-10",
+    "title": "TLS 1.3 Keylog Decryption & HTTP/2 Stream Analysis",
+    "category": "Forensics",
+    "points": 500,
+    "difficulty": "Hard",
+    "source": "DEFCON / Hack The Box",
+    "description": "Intercepted encrypted network traffic contains suspicious TLS 1.3 session handshakes. A memory scraper recovered an NSS `sslkeylog.txt`. Inject the keys into Wireshark, dissect the decrypted HTTP/2 multiplexed streams, and extract the exfiltrated ZIP attachment.",
+    "hints": [
+      "In Wireshark: Preferences -> Protocols -> TLS -> (Pre)-Master-Secret log filename -> select `sslkeylog.txt`.",
+      "Once decrypted, filter for `http2` and search for multipart/form-data POST payloads or stream frames containing magic bytes `PK\\x03\\x04`."
+    ],
+    "hintPenalties": [
+      -25,
+      -50
+    ],
+    "flag": "CYLAB{tls13_k3yl0g_http2_d3crypt3d}",
+    "concepts": [
+      "TLS 1.3",
+      "SSLKEYLOGFILE",
+      "HTTP/2 Multiplexing",
+      "Wireshark Stream Reassembly"
+    ],
+    "writeup": "1. Configure tshark with keylog: `tshark -r capture.pcap -o 'tls.keylog_file:sslkeylog.txt' -Y 'http2.data.data' -T fields -e http2.data.data > dumps.hex`.\n2. Locate the stream transferring the zip file (`504b0304`).\n3. Convert hex dump to binary: `xxd -r -p dumps.hex > exfil.zip`.\n4. Unzip `exfil.zip` to read `flag.txt`.\n5. Flag: `CYLAB{tls13_k3yl0g_http2_d3crypt3d}`"
   }
 ]
