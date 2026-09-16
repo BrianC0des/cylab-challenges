@@ -1,0 +1,146 @@
+[
+  {
+    "id": "misc-01",
+    "title": "The LGU Social Media Trail",
+    "category": "Misc/OSINT",
+    "points": 150,
+    "difficulty": "Easy",
+    "description": "An LGU IT officer posted a photo of a new server rack. A monitor in the background shows internal host configuration. Extract the hostname.",
+    "flag": "flag{OS1NT_Sp0tt3d_1n_Th3_B4ckgr0und}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/misc/social_post.png",
+    "hints": [
+      {
+        "text": "Zoom and adjust contrast on the background terminal display.",
+        "penalty": 10
+      },
+      {
+        "text": "The prompt displays user@internal-gateway-01.lgu.local.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Open-Source Intelligence (OSINT) and visual information leakage",
+    "cheatsheet": "gimp social_post.png (Levels & Curves adjustment)",
+    "badge": "OSINT Investigator",
+    "writeup": "Sharpening the image reveals the terminal window showing the hostname."
+  },
+  {
+    "id": "misc-02",
+    "title": "Damaged QR Code Restoration",
+    "category": "Misc/OSINT",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "A torn QR code from an event poster was scanned. Reconstruct the missing alignment patterns using Reed-Solomon correction to read the flag.",
+    "flag": "flag{QR_3rr0r_C0rr3ct10n_S4v3s_Th3_D4y}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/misc/damaged_qr.png",
+    "hints": [
+      {
+        "text": "QR codes feature up to 30% Reed-Solomon error tolerance.",
+        "penalty": 10
+      },
+      {
+        "text": "Use zbarimg or pyzbar to decode directly.",
+        "penalty": 15
+      }
+    ],
+    "concept": "QR code geometry and Reed-Solomon error correction",
+    "cheatsheet": "zbarimg damaged_qr.png",
+    "badge": "Code Reconstructor",
+    "writeup": "Reed-Solomon recovery algorithms allow direct decoding without manual repair."
+  },
+  {
+    "id": "misc-03",
+    "title": "Right-to-Left Override (RLO) Trap",
+    "category": "Misc/OSINT",
+    "points": 200,
+    "difficulty": "Medium",
+    "description": "A phishing attachment appears as 'Quarterly_Report_2026_gpj.pdf' but executes as a binary. Analyze the Unicode RLO character (U+202E).",
+    "flag": "flag{RL0_Un1c0d3_D1sgu1s3}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/misc/sample.bin",
+    "hints": [
+      {
+        "text": "Unicode character U+202E reverses the visual rendering order of following text.",
+        "penalty": 15
+      },
+      {
+        "text": "Inspect the filename in hex: file name contains \\xE2\\x80\\xAE.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Unicode Right-to-Left Override (RLO) file extension spoofing",
+    "cheatsheet": "python3 -c \"print(repr(filename))\"",
+    "badge": "Phishing Detector",
+    "writeup": "Reversing the RLO trick reveals the true extension is .exe disguised visually as .pdf."
+  },
+  {
+    "id": "misc-04",
+    "title": "Git Commit Reflog Ghost",
+    "category": "Misc/OSINT",
+    "points": 200,
+    "difficulty": "Easy",
+    "description": "A developer accidentally committed API credentials to a public git repo, then ran git reset --hard to delete it. Recover the dangling commit.",
+    "flag": "flag{G1t_R3fl0g_S4v3s_Cr3ds}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/misc/repo.bundle",
+    "hints": [
+      {
+        "text": "Git objects are not purged immediately; dangling commits remain in the object store.",
+        "penalty": 10
+      },
+      {
+        "text": "Run git reflog or git fsck --lost-found to locate unreachable commit hashes.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Git forensics, dangling object recovery, and git reflog analysis",
+    "cheatsheet": "git reflog ; git fsck --lost-found ; git show <dangling_hash>",
+    "badge": "Git Archaeologist",
+    "writeup": "Git fsck --lost-found locates the orphaned commit object containing the uncommitted flag."
+  },
+  {
+    "id": "misc-05",
+    "title": "CyberChef Multi-Stage Recipe",
+    "category": "Misc/OSINT",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "An encoded puzzle was found on a hacker forum: Base64 -> Gzip compressed -> Hex encoded -> ROT13 shifted. Build the decoding pipeline.",
+    "flag": "flag{Cyb3rCh3f_Ch41n_M4st3r}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/misc/cipher_chain.txt",
+    "hints": [
+      {
+        "text": "Reverse the operations in order: ROT13 -> From Hex -> Gunzip -> From Base64.",
+        "penalty": 15
+      },
+      {
+        "text": "Paste into CyberChef and drag the corresponding operations into the recipe.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Multi-stage deobfuscation and CyberChef recipe chaining",
+    "cheatsheet": "CyberChef: ROT13(13) -> From_Hex('Auto') -> Gunzip() -> From_Base64()",
+    "badge": "Recipe Chef",
+    "writeup": "Chaining the 4 inverse operations in CyberChef unpacks the layered payload."
+  },
+  {
+    "id": "misc-06",
+    "title": "DNS TXT & SPF Record Recon",
+    "category": "Misc/OSINT",
+    "points": 150,
+    "difficulty": "Easy",
+    "description": "A municipal domain had verification tokens stored in public DNS TXT records during a cloud migration. Enumerate DNS records to recover the flag.",
+    "flag": "flag{DN5_Txt_R3c0rd_R3c0n}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/misc/dns_zone.txt",
+    "hints": [
+      {
+        "text": "Query DNS TXT and SPF records for the domain.",
+        "penalty": 10
+      },
+      {
+        "text": "dig txt target.gov.ph or nslookup -type=txt target.gov.ph.",
+        "penalty": 15
+      }
+    ],
+    "concept": "DNS enumeration, TXT records, and OSINT domain reconnaissance",
+    "cheatsheet": "dig +nocmd TXT target.gov.ph +noall +answer",
+    "badge": "DNS Scout",
+    "writeup": "Querying TXT records exposes verification strings including the flag."
+  }
+]

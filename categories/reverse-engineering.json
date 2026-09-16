@@ -1,0 +1,146 @@
+[
+  {
+    "id": "rev-01",
+    "title": "The Locked Keygen Binary",
+    "category": "Reverse Engineering",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "A government utility binary requires a license key. Reverse engineer the validation routine to compute a valid key and reveal the flag.",
+    "flag": "flag{Ke7g3n_Cr4ck3d_Th3_L0g1c}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/rev/licensed_app",
+    "hints": [
+      {
+        "text": "Disassemble check_license in Ghidra or IDA and inspect loop character transformations.",
+        "penalty": 15
+      },
+      {
+        "text": "Each character is XORed against a rolling counter and compared to a static array.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Static reverse engineering and keygen algorithm recovery",
+    "cheatsheet": "ghidra licensed_app ; objdump -d -M intel licensed_app",
+    "badge": "Reverse Engineer",
+    "writeup": "Reversing the XOR loop in Ghidra recovers the expected license string, which unlocks the flag."
+  },
+  {
+    "id": "rev-02",
+    "title": "Anti-Debug Maze",
+    "category": "Reverse Engineering",
+    "points": 400,
+    "difficulty": "Hard",
+    "description": "A hardened binary detects debuggers via ptrace(PTRACE_TRACEME) before running. Bypass the anti-debugging check to reach the flag routine.",
+    "flag": "flag{Ptr4c3_D3t3ct10n_D3f34t3d}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/rev/hardened_app",
+    "hints": [
+      {
+        "text": "The binary calls ptrace(0, 0, 1, 0). If it returns -1, it exits early.",
+        "penalty": 20
+      },
+      {
+        "text": "Patch the conditional jump (e.g. JNZ -> JZ or NOP) or hook ptrace via LD_PRELOAD.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Anti-debugging evasion, ptrace bypass, and binary patching",
+    "cheatsheet": "gdb -q ./hardened_app ; (gdb) set $rax=0 or patch with radare2 'wa nop'",
+    "badge": "Debugger Whisperer",
+    "writeup": "Hooking ptrace or patching the conditional branch allows debugger attachment without triggering evasion exits."
+  },
+  {
+    "id": "rev-03",
+    "title": "Packed ELF with UPX",
+    "category": "Reverse Engineering",
+    "points": 150,
+    "difficulty": "Easy",
+    "description": "An incident triage extracted an unknown executable from a compromised server. The binary is packed. Unpack it to extract the embedded flag.",
+    "flag": "flag{UPX_Unp4ck3d_Succ3ss}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/rev/packed_binary",
+    "hints": [
+      {
+        "text": "Check file strings: strings packed_binary | grep UPX.",
+        "penalty": 10
+      },
+      {
+        "text": "Run upx -d to decompress the binary.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Executable packing, UPX headers, and binary decompression",
+    "cheatsheet": "upx -d packed_binary -o unpacked && strings unpacked | grep flag{",
+    "badge": "Unpacker",
+    "writeup": "Decompressing with 'upx -d' recovers the original ELF binary where strings immediately reveals the flag."
+  },
+  {
+    "id": "rev-04",
+    "title": "Decompiling Python Bytecode",
+    "category": "Reverse Engineering",
+    "points": 200,
+    "difficulty": "Easy",
+    "description": "Only a compiled Python .pyc file was recovered from an exfiltration script. Decompile the bytecode to recover the original source code.",
+    "flag": "flag{Pyc_D3c0mp1l3d_Cl34n}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/rev/script.pyc",
+    "hints": [
+      {
+        "text": "Python .pyc files contain marshal serialized code objects with magic numbers.",
+        "penalty": 10
+      },
+      {
+        "text": "Use decompyle++ (pycdc) or uncompyle6 to regenerate readable Python.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Python bytecode decompilation and opcode reconstruction",
+    "cheatsheet": "pycdc script.pyc > recovered.py # or uncompyle6 script.pyc",
+    "badge": "Bytecode Analyst",
+    "writeup": "Pycdc accurately decompiles the bytecode into readable Python functions, exposing the hardcoded flag."
+  },
+  {
+    "id": "rev-05",
+    "title": "Buffer Overflow ret2win",
+    "category": "Reverse Engineering",
+    "points": 450,
+    "difficulty": "Hard",
+    "description": "A legacy C daemon has a vulnerable gets() call and no stack canaries. Overwrite the saved return address (RIP) to jump directly to win().",
+    "flag": "flag{R3t2w1n_St4ck_0v3rwr1t3}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/rev/vuln_server",
+    "hints": [
+      {
+        "text": "Calculate offset to RIP using cyclic pattern: 72 bytes.",
+        "penalty": 20
+      },
+      {
+        "text": "Find win() address via objdump -d vuln_server | grep win.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Buffer overflow, stack frame layout, and ret2win control flow hijacking",
+    "cheatsheet": "python3 -c \"import pwn; elf=pwn.ELF('./vuln_server'); print(b'A'*72 + pwn.p64(elf.symbols['win']))\"",
+    "badge": "Binary Exploiter",
+    "writeup": "Crafting a 72-byte padding plus 8-byte win() address overrides the return address on function epilogue."
+  },
+  {
+    "id": "rev-06",
+    "title": "Android APK Secret Asset",
+    "category": "Reverse Engineering",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "A regional mobile contact tracing APK holds a hardcoded API token. Decompile the APK and locate the obfuscated string in MainActivity.",
+    "flag": "flag{J4dx_Andr01d_Apk_S3cr3t}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/rev/app.apk",
+    "hints": [
+      {
+        "text": "Use jadx-gui to decompile classes.dex into Java source code.",
+        "penalty": 15
+      },
+      {
+        "text": "Search for 'apiKey' or inspect res/values/strings.xml.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Android reverse engineering, APK decompilation, and JADX inspection",
+    "cheatsheet": "jadx -d out app.apk && grep -rn \"flag{\" out/",
+    "badge": "Android Hacker",
+    "writeup": "Jadx decompiles the APK into Java code. Searching strings.xml or MainActivity reveals the stored flag."
+  }
+]

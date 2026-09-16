@@ -1,0 +1,146 @@
+[
+  {
+    "id": "forensics-01",
+    "title": "Deleted But Not Gone",
+    "category": "Forensics",
+    "points": 150,
+    "difficulty": "Easy",
+    "description": "A seized flash drive from a data breach suspect was wiped before arrest. Analyze the raw disk image to carve out the deleted text document.",
+    "flag": "flag{F1l3_C4rv1ng_101}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/forensics/usb_image.dd",
+    "hints": [
+      {
+        "text": "Filesystem deletion unlinks metadata, but file bytes remain in unallocated space.",
+        "penalty": 10
+      },
+      {
+        "text": "Use foremost or photorec signature-based file carving.",
+        "penalty": 20
+      }
+    ],
+    "concept": "File carving and unallocated space data recovery",
+    "cheatsheet": "foremost -i usb_image.dd -o carved_output/ ; strings usb_image.dd | grep flag{",
+    "badge": "Carving Specialist",
+    "writeup": "Foremost scans magic bytes and extracts unlinked files from unallocated clusters, uncovering the deleted flag document."
+  },
+  {
+    "id": "forensics-02",
+    "title": "DNS Exfiltration in PCAP",
+    "category": "Forensics",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "An alert triggered on high volume DNS traffic from a provincial server. Inspect the packet capture to reassemble the data exfiltrated via DNS subdomain labels.",
+    "flag": "flag{DN5_Tunn3l1ng_C4ught}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/forensics/capture.pcapng",
+    "hints": [
+      {
+        "text": "Filter for DNS queries with unusual subdomains: dns.qry.name.",
+        "penalty": 15
+      },
+      {
+        "text": "Extract and concatenate the hex/base64 subdomain strings from queries.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Network traffic analysis and DNS tunneling protocol exfiltration",
+    "cheatsheet": "tshark -r capture.pcapng -Y \"dns.qry.type == 1\" -T fields -e dns.qry.name | sort -u",
+    "badge": "Packet Detective",
+    "writeup": "Tshark isolates DNS queries targeting attacker domain. Decoding concatenated subdomain prefixes reveals the exfiltrated flag."
+  },
+  {
+    "id": "forensics-03",
+    "title": "RAM Process Injection",
+    "category": "Forensics",
+    "points": 400,
+    "difficulty": "Hard",
+    "description": "A memory acquisition was captured from a compromised workstation. Identify the hollowed process and extract the in-memory injected payload string.",
+    "flag": "flag{V0l4t1l1ty_F1nd5_Pr0c3ss_Inj3ct10n}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/forensics/memdump.raw",
+    "hints": [
+      {
+        "text": "Use Volatility 3 to inspect running processes and unbacked memory pages.",
+        "penalty": 15
+      },
+      {
+        "text": "Execute windows.malfind to spot PAGE_EXECUTE_READWRITE permissions.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Memory forensics, process hollowing, and Volatility malfind analysis",
+    "cheatsheet": "volatility3 -f memdump.raw windows.pslist ; volatility3 -f memdump.raw windows.malfind",
+    "badge": "Memory Forensics Specialist",
+    "writeup": "windows.malfind flags svchost.exe with unmapped executable memory containing a shellcode payload with the embedded flag."
+  },
+  {
+    "id": "forensics-04",
+    "title": "Corrupted ZIP Magic Bytes",
+    "category": "Forensics",
+    "points": 200,
+    "difficulty": "Medium",
+    "description": "An intercepted ZIP archive has corrupted header bytes ('DEADBEEF') causing unzip errors. Fix the header signature and extract important.bmp.",
+    "flag": "flag{M4g1c_Byt3s_P4tch3d}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/forensics/broken_head.zip",
+    "hints": [
+      {
+        "text": "Inspect the first 4 bytes using a hex editor like hexyl, xxd, or bless.",
+        "penalty": 10
+      },
+      {
+        "text": "Standard ZIP local file header starts with 50 4B 03 04 ('PK..').",
+        "penalty": 20
+      }
+    ],
+    "concept": "File signature (magic byte) analysis and header restoration",
+    "cheatsheet": "printf '\\x50\\x4B\\x03\\x04' | dd of=broken_head.zip conv=notrunc count=4 bs=1",
+    "badge": "Hex Doctor",
+    "writeup": "Replacing the 4-byte 'DEADBEEF' corrupt header with '50 4B 03 04' restores the zip archive structure, allowing full extraction."
+  },
+  {
+    "id": "forensics-05",
+    "title": "PDF FlateDecode Stream Carving",
+    "category": "Forensics",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "A suspicious government policy circular in PDF format contains a hidden object stream compressed with /FlateDecode. Extract the decompressed stream.",
+    "flag": "flag{Fl4t3_D3c0mp4ss_Str34m}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/forensics/document.pdf",
+    "hints": [
+      {
+        "text": "Use pdf-parser.py or qpdf to extract compressed object streams.",
+        "penalty": 15
+      },
+      {
+        "text": "qpdf --qdf --object-streams=disable input.pdf decompressed.pdf",
+        "penalty": 20
+      }
+    ],
+    "concept": "PDF object structure and zlib / FlateDecode decompression",
+    "cheatsheet": "qpdf --qdf --object-streams=disable doc.pdf out.pdf && grep -a flag{ out.pdf",
+    "badge": "PDF Analyst",
+    "writeup": "QPDF or pdf-parser decompress all deflate streams, revealing hidden raw JavaScript and embedded flag."
+  },
+  {
+    "id": "forensics-06",
+    "title": "Decrypted TLS Session Log",
+    "category": "Forensics",
+    "points": 350,
+    "difficulty": "Hard",
+    "description": "Given an encrypted HTTPS packet capture and an extracted SSLKEYLOGFILE, decrypt the HTTPS streams to extract the administrator's POST credentials.",
+    "flag": "flag{TL5_D3crypt10n_M4st3r}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/forensics/https_traffic.pcapng",
+    "hints": [
+      {
+        "text": "Configure Wireshark (Preferences -> Protocols -> TLS -> (Pre)-Master-Secret log filename).",
+        "penalty": 15
+      },
+      {
+        "text": "In tshark: -o \"tls.keylog_file:keys.log\" -Y \"http.request.method==POST\".",
+        "penalty": 25
+      }
+    ],
+    "concept": "TLS session key decryption and encrypted packet analysis",
+    "cheatsheet": "tshark -r https_traffic.pcapng -o \"tls.keylog_file:keys.log\" -Y http -T fields -e http.file_data",
+    "badge": "TLS Decryptor",
+    "writeup": "Loading the keylog file decrypts TLS 1.3 traffic, revealing the HTTP POST payload and flag."
+  }
+]

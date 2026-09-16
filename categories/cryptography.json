@@ -1,0 +1,146 @@
+[
+  {
+    "id": "crypto-01",
+    "title": "Caesar's Ghost",
+    "category": "Cryptography",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "Intercepted communications from an LGU regional office use an outdated substitution cipher. Recover the plaintext flag from: 'synt{P4rf4e_Vf_Qrnq_Ybat_Yvir_EBG13}'.",
+    "flag": "flag{Caesar_Is_Dead_Long_Live_ROT13}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/crypto/crypto-01.txt",
+    "hints": [
+      {
+        "text": "The shift is a standard casual obfuscation alphabet rotation.",
+        "penalty": 10
+      },
+      {
+        "text": "Try ROT13 (shift of 13 positions).",
+        "penalty": 20
+      }
+    ],
+    "concept": "Classical substitution ciphers (ROT13 / Caesar cipher)",
+    "cheatsheet": "echo 'synt{P4rf4e_Vf_Qrnq_Ybat_Yvir_EBG13}' | tr 'A-Za-z' 'N-ZA-Mn-za-m'",
+    "badge": "Cipher Novice",
+    "writeup": "The ciphertext uses ROT13. Because ROT13 is self-inverse, applying the same transform again recovers the flag."
+  },
+  {
+    "id": "crypto-02",
+    "title": "The Vigen\u00e8re Ledger",
+    "category": "Cryptography",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "A leaked municipal budget ledger was encrypted with a repeating-key polyalphabetic cipher. The key is a 4-letter government agency acronym. Recover the flag.",
+    "flag": "flag{V1g3n3r3_K3y_Wa5_DICT}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/crypto/crypto-02.enc",
+    "hints": [
+      {
+        "text": "Use Kasiski examination or index of coincidence to determine key length.",
+        "penalty": 15
+      },
+      {
+        "text": "The key is 4 letters relating to the competition organizing department.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Vigen\u00e8re cipher cryptanalysis and frequency analysis",
+    "cheatsheet": "CyberChef 'Vigen\u00e8re Decode' with key 'DICT'",
+    "badge": "Frequency Analyst",
+    "writeup": "Kasiski examination reveals key period of 4. Frequency analysis on columns isolates the key 'DICT'."
+  },
+  {
+    "id": "crypto-03",
+    "title": "RSA Low Public Exponent",
+    "category": "Cryptography",
+    "points": 400,
+    "difficulty": "Hard",
+    "description": "A legacy token signing service uses RSA with e=3 and no OAEP padding. Given public modulus n, e=3, and ciphertext c, recover the plaintext flag.",
+    "flag": "flag{Cub3_R00t_Att4ck_On_R54}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/crypto/crypto-03.json",
+    "hints": [
+      {
+        "text": "When m^e < n, modular reduction never occurs: c = m^3.",
+        "penalty": 20
+      },
+      {
+        "text": "Calculate the exact integer cube root of c directly.",
+        "penalty": 25
+      }
+    ],
+    "concept": "RSA low public exponent (e=3) unpadded cube-root attack",
+    "cheatsheet": "python3 -c \"import gmpy2; print(bytes.fromhex(hex(gmpy2.iroot(c,3)[0])[2:]))\"",
+    "badge": "RSA Breaker",
+    "writeup": "Since m^3 < n, c = m^3 in standard integers. Taking the integer cube root recovers the plaintext directly."
+  },
+  {
+    "id": "crypto-04",
+    "title": "Fullwidth Hex Embezzlement",
+    "category": "Cryptography",
+    "points": 200,
+    "difficulty": "Medium",
+    "description": "An anonymous whistleblower email contained fullwidth hex encoded bytes (/EF/BC/B6...). Decode the fullwidth Unicode characters to reveal the hidden base64 token.",
+    "flag": "flag{Th3_Emb3zzl3r_15_Fumie}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/crypto/crypto-04.txt",
+    "hints": [
+      {
+        "text": "Convert hex stream to UTF-8 bytes to reveal fullwidth characters (e.g. \uff36\uff27\uff48\uff5a).",
+        "penalty": 15
+      },
+      {
+        "text": "Normalize Unicode fullwidth ASCII characters to standard ASCII, then decode base64.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Unicode fullwidth homoglyph obfuscation & layered encoding",
+    "cheatsheet": "python3 -c \"import unicodedata; print(unicodedata.normalize('NFKC', text))\"",
+    "badge": "Unicode Decoder",
+    "writeup": "Unhexing yields fullwidth ASCII characters '\uff36\uff27\uff48\uff5a...'. NFKC normalization yields standard base64 'VGgzX0VtYjN6emwzcl8xNV9GdW1pZQ==' which decodes to 'Th3_Emb3zzl3r_15_Fumie'."
+  },
+  {
+    "id": "crypto-05",
+    "title": "Known Plaintext XOR Stream",
+    "category": "Cryptography",
+    "points": 300,
+    "difficulty": "Medium",
+    "description": "An encrypted government payroll file used repeating-key XOR. The header of the file is known to always begin with 'CONFIDENTIAL_PAYROLL_2026'. Recover the XOR key.",
+    "flag": "flag{X0R_K3y_R3c0v3ry_Succ3ss}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/crypto/crypto-05.bin",
+    "hints": [
+      {
+        "text": "XOR property: Plaintext XOR Ciphertext = Key.",
+        "penalty": 15
+      },
+      {
+        "text": "XOR the known header bytes against the first 26 bytes of the ciphertext.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Known-plaintext attack (KPA) against repeating XOR stream",
+    "cheatsheet": "xortool -l <keylen> -c 20 encrypted.bin",
+    "badge": "Stream Cracker",
+    "writeup": "Because P ^ C = K, XORing the known header against the ciphertext reveals the repeating key."
+  },
+  {
+    "id": "crypto-06",
+    "title": "Small Prime Diffie-Hellman",
+    "category": "Cryptography",
+    "points": 350,
+    "difficulty": "Hard",
+    "description": "An insecure IoT water management device negotiates session keys using Diffie-Hellman with a tiny 48-bit prime modulus p. Compute the shared secret.",
+    "flag": "flag{D1ff13_H3llm4n_Sm4ll_P_Br0k3n}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/crypto/crypto-06.json",
+    "hints": [
+      {
+        "text": "Tiny prime modulus means the discrete logarithm problem is solvable in seconds.",
+        "penalty": 20
+      },
+      {
+        "text": "Use Baby-step Giant-step or Pollard's rho algorithm to find the private exponent.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Discrete Logarithm Problem (DLP) over small primes",
+    "cheatsheet": "sage: discrete_log(A, Mod(g, p))",
+    "badge": "Discrete Log Wizard",
+    "writeup": "Using SageMath's discrete_log or sympy.discrete_log, solve for private key a in g^a = A mod p in under 1 second."
+  }
+]

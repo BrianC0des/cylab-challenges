@@ -1,0 +1,146 @@
+[
+  {
+    "id": "stego-01",
+    "title": "Hidden in the Low Bits",
+    "category": "Steganography",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "An official DICT regional badge PNG was published online. Extract the hidden token embedded in the low-order bit planes of the pixel array.",
+    "flag": "flag{zsteg_1sb_m4st3r}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/stego/badge.png",
+    "hints": [
+      {
+        "text": "Examine least significant bits across color channels.",
+        "penalty": 15
+      },
+      {
+        "text": "Run zsteg with full auto-analysis mode (-a).",
+        "penalty": 20
+      }
+    ],
+    "concept": "Least Significant Bit (LSB) steganography in PNG images",
+    "cheatsheet": "zsteg -a badge.png",
+    "badge": "Stego Sleuth",
+    "writeup": "Running 'zsteg -a badge.png' tests all prime bit planes and surfaces the ASCII flag on b1,b,lsb,xy."
+  },
+  {
+    "id": "stego-02",
+    "title": "Audio Between the Lines",
+    "category": "Steganography",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "An intercepted radio transmission WAV file from a coastal maritime alert system contains hidden text encoded into its acoustic frequency spectrum.",
+    "flag": "flag{5p3ctr0gr4m_S3cr3ts}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/stego/transmission.wav",
+    "hints": [
+      {
+        "text": "Audio information can be hidden visually in the frequency domain.",
+        "penalty": 15
+      },
+      {
+        "text": "Render the audio spectrogram using sox, Audacity, or Sonic Visualiser.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Audio spectrogram steganography and visual frequency encoding",
+    "cheatsheet": "sox transmission.wav -n spectrogram -o spectrogram.png && feh spectrogram.png",
+    "badge": "Sound Wave Sleuth",
+    "writeup": "Generating a spectrogram using Sox or Audacity visualizes the audio frequencies, rendering the flag text clearly."
+  },
+  {
+    "id": "stego-03",
+    "title": "Exif Metadata Leak",
+    "category": "Steganography",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "An unscrubbed photograph of a municipal data center was uploaded. Inspect the metadata tags to extract the hidden equipment tag.",
+    "flag": "flag{3x1ft00l_M3t4d4t4_L34k}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/stego/datacenter.jpg",
+    "hints": [
+      {
+        "text": "Digital cameras and software store extensive metadata inside image headers.",
+        "penalty": 10
+      },
+      {
+        "text": "Use exiftool to inspect XPComment, Copyright, and UserComment fields.",
+        "penalty": 15
+      }
+    ],
+    "concept": "EXIF metadata analysis and header extraction",
+    "cheatsheet": "exiftool datacenter.jpg | grep -i flag",
+    "badge": "EXIF Investigator",
+    "writeup": "Running exiftool on the JPEG exposes the flag stored inside the XPComment tag."
+  },
+  {
+    "id": "stego-04",
+    "title": "PNG IHDR Height Tampering",
+    "category": "Steganography",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "A cropped PNG certificate contains a CRC mismatch error. The true height of the image was deliberately shrunken to conceal the lower half.",
+    "flag": "flag{PNG_1HDR_H31ght_F1x3d}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/stego/tampered.png",
+    "hints": [
+      {
+        "text": "PNG CRC chunk checksum does not match the dimensions in the IHDR chunk.",
+        "penalty": 15
+      },
+      {
+        "text": "Fix the height bytes in IHDR or use a script to brute-force matching CRC dimensions.",
+        "penalty": 25
+      }
+    ],
+    "concept": "PNG IHDR chunk tampering and aspect ratio restoration",
+    "cheatsheet": "python3 -c \"import zlib, struct; ...\" or hexedit IHDR height bytes",
+    "badge": "Image Surgeon",
+    "writeup": "Modifying the IHDR height bytes to match the original CRC reveals the concealed bottom banner containing the flag."
+  },
+  {
+    "id": "stego-05",
+    "title": "Appended Archive Carving",
+    "category": "Steganography",
+    "points": 150,
+    "difficulty": "Easy",
+    "description": "A JPEG wallpaper appears normal in photo viewers, but has an unexpectedly large file size. Inspect and carve out the appended archive.",
+    "flag": "flag{B1nw4lk_Jp3g_C4rv1ng}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/stego/wallpaper.jpg",
+    "hints": [
+      {
+        "text": "JPEG files terminate at End-Of-Image marker (FF D9). Anything after is ignored by viewers.",
+        "penalty": 10
+      },
+      {
+        "text": "Use binwalk -e to automatically detect and carve trailing zip or rar archives.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Trailing payload injection and binwalk archive carving",
+    "cheatsheet": "binwalk -e wallpaper.jpg ; unzip _wallpaper.jpg.extracted/*.zip",
+    "badge": "Archive Carvery",
+    "writeup": "Binwalk extracts the hidden ZIP archive appended after the JPEG FF D9 marker, which unpacks flag.txt."
+  },
+  {
+    "id": "stego-06",
+    "title": "Invisible Whitespace Stego",
+    "category": "Steganography",
+    "points": 300,
+    "difficulty": "Hard",
+    "description": "A text file containing municipal ordinances appears to have trailing invisible tabs and spaces at the end of each line. Decode the binary whitespace stream.",
+    "flag": "flag{Wh1t3sp4c3_St3g4n0gr4phy}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/stego/ordinance.txt",
+    "hints": [
+      {
+        "text": "Spaces represent 0 and tabs represent 1 (or SNOW whitespace encryption).",
+        "penalty": 15
+      },
+      {
+        "text": "Use stegsnow -C ordinance.txt or a python whitespace-to-ascii binary converter.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Whitespace steganography (SNOW / trailing spaces/tabs)",
+    "cheatsheet": "stegsnow -C ordinance.txt",
+    "badge": "Ghost In The Space",
+    "writeup": "Stegsnow extracts the concealed message from trailing whitespace sequences, revealing the flag."
+  }
+]

