@@ -149,22 +149,22 @@
     "category": "Cryptography",
     "points": 100,
     "difficulty": "Easy",
-    "source": "picoCTF / Beginner Quest",
     "description": "An intercepted message was scrambled using an affine cipher $E(x) = (a \\cdot x + b) \\pmod{26}$. Intel indicates $a = 5, b = 8$. Decrypt the ciphertext: 'Wbgx jv qyv ftxa: CYLAB{4ff1n3_c1ph3r_unw0und}'.",
-    "hints": [
-      "Find the modular multiplicative inverse of 5 modulo 26: $5^{-1} \\pmod{26} = 21$.",
-      "Decryption formula: $D(y) = 21 \\cdot (y - 8) \\pmod{26}$."
-    ],
-    "hintPenalties": [
-      -10,
-      -20
-    ],
     "flag": "CYLAB{4ff1n3_c1ph3r_unw0und}",
-    "concepts": [
-      "Affine Cipher",
-      "Modular Arithmetic",
-      "CyberChef"
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Find the modular multiplicative inverse of 5 modulo 26: $5^{-1} \\pmod{26} = 21$.",
+        "penalty": 10
+      },
+      {
+        "text": "Decryption formula: $D(y) = 21 \\cdot (y - 8) \\pmod{26}$.",
+        "penalty": 20
+      }
     ],
+    "concept": "Affine Cipher, Modular Arithmetic, CyberChef",
+    "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
+    "badge": "Easy Crypto",
     "writeup": "1. In CyberChef, select 'Affine Cipher Decode' with slope $a=5$ and intercept $b=8$.\n2. Or calculate manually using Python:\n   ```python\n   c = 'Wbgx jv qyv ftxa: CYLAB{4ff1n3_c1ph3r_unw0und}'\n   # Inverse of 5 mod 26 is 21 since (5*21)%26 == 1\n   inv_a = 21\n   # Letters map back cleanly to recover the plaintext and flag.\n   ```\n3. Flag: `CYLAB{4ff1n3_c1ph3r_unw0und}`"
   },
   {
@@ -173,23 +173,22 @@
     "category": "Cryptography",
     "points": 300,
     "difficulty": "Medium",
-    "source": "Google CTF / Crypto Hack",
     "description": "The command center broadcasted the same encrypted message $m$ to three independent listening outposts using RSA with public exponent $e = 3$ and different moduli $N_1, N_2, N_3$. Given $(C_1, N_1), (C_2, N_2), (C_3, N_3)$, recover $m$.",
-    "hints": [
-      "When the same message $m$ is encrypted $e$ times with different moduli, Chinese Remainder Theorem (CRT) can combine them into $C \\equiv m^e \\pmod{N_1 N_2 N_3}$.",
-      "Since $m < N_i$, $m^3 < N_1 N_2 N_3$, meaning $m^3$ does not wrap around! Take the exact integer cube root of $C$."
-    ],
-    "hintPenalties": [
-      -15,
-      -30
-    ],
     "flag": "CYLAB{h4st4d_br04dc4st_crt_r00t}",
-    "concepts": [
-      "RSA",
-      "Chinese Remainder Theorem",
-      "Hastad Attack",
-      "SageMath"
+    "file_url": "",
+    "hints": [
+      {
+        "text": "When the same message $m$ is encrypted $e$ times with different moduli, Chinese Remainder Theorem (CRT) can combine them into $C \\equiv m^e \\pmod{N_1 N_2 N_3}$.",
+        "penalty": 15
+      },
+      {
+        "text": "Since $m < N_i$, $m^3 < N_1 N_2 N_3$, meaning $m^3$ does not wrap around! Take the exact integer cube root of $C$.",
+        "penalty": 30
+      }
     ],
+    "concept": "RSA, Chinese Remainder Theorem, Hastad Attack, SageMath",
+    "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
+    "badge": "Medium Crypto",
     "writeup": "1. Use `sympy.ntheory.modular.crt([N1, N2, N3], [C1, C2, C3])` to compute $C \\pmod{N_1 N_2 N_3}$.\n2. Compute $m = \\text{integer\\_root}(C, 3)[0]$.\n3. Convert integer $m$ to bytes using `long_to_bytes(m)`.\n4. Flag: `CYLAB{h4st4d_br04dc4st_crt_r00t}`"
   },
   {
@@ -198,23 +197,22 @@
     "category": "Cryptography",
     "points": 450,
     "difficulty": "Hard",
-    "source": "DEFCON CTF / Crypto Hack",
     "description": "An SSL v3 legacy server responds with 'Valid PKCS' or 'Invalid PKCS' when decrypting ciphertext $c$. Exploit the million message attack (Bleichenbacher 1998) against RSA PKCS#1 v1.5 to decrypt the premaster secret.",
-    "hints": [
-      "PKCS#1 v1.5 padding requires the decrypted message to start with `0x00 0x02` followed by non-zero padding bytes.",
-      "Multiply ciphertext $c$ by $s^e \\pmod N$ to shift intervals $[2B, 3B-1]$ where $B = 2^{8(k-2)}$."
-    ],
-    "hintPenalties": [
-      -20,
-      -40
-    ],
     "flag": "CYLAB{bl31ch3nb4ch3r_1998_p4dd1ng_0r4cl3}",
-    "concepts": [
-      "Bleichenbacher Attack",
-      "Padding Oracle",
-      "PKCS#1 v1.5",
-      "Lattice / Interval Sieve"
+    "file_url": "",
+    "hints": [
+      {
+        "text": "PKCS#1 v1.5 padding requires the decrypted message to start with `0x00 0x02` followed by non-zero padding bytes.",
+        "penalty": 20
+      },
+      {
+        "text": "Multiply ciphertext $c$ by $s^e \\pmod N$ to shift intervals $[2B, 3B-1]$ where $B = 2^{8(k-2)}$.",
+        "penalty": 40
+      }
     ],
+    "concept": "Bleichenbacher Attack, Padding Oracle, PKCS#1 v1.5, Lattice / Interval Sieve",
+    "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
+    "badge": "Hard Crypto",
     "writeup": "1. Implement Bleichenbacher's step-by-step interval reduction algorithm:\n   - Step 1: Find initial $s_1 \\ge \\lceil N / 3B \\rceil$ such that $(c \\cdot s_1^e) \\pmod N$ is conforming.\n   - Step 2: Once a conforming $s$ is found, narrow down intervals $[a, b]$.\n   - Step 3: When a single interval remains, compute next $s_i$ directly from boundary formulas.\n2. When interval width narrows to 1, $m$ is completely revealed.\n3. Flag: `CYLAB{bl31ch3nb4ch3r_1998_p4dd1ng_0r4cl3}`"
   },
   {
@@ -223,23 +221,22 @@
     "category": "Cryptography",
     "points": 500,
     "difficulty": "Hard",
-    "source": "NahamCon / Real-World Cryptanalysis",
     "description": "Two distinct TLS messages were encrypted under the same 256-bit AES-GCM key and identical 96-bit IV. Because GHASH is linear over GF($2^{128}$), determine the GHASH authentication subkey $H$ and forge an admin authentication tag.",
-    "hints": [
-      "In AES-GCM, the authentication tag is $T = \\text{GHASH}_H(A, C) \\oplus E_K(J_0)$. If IV is reused, $E_K(J_0)$ cancels out: $T_1 \\oplus T_2 = \\text{GHASH}_H(M_1) \\oplus \\text{GHASH}_H(M_2)$.",
-      "This gives a polynomial in GF($2^{128}$) whose roots include the authentication subkey $H$."
-    ],
-    "hintPenalties": [
-      -25,
-      -50
-    ],
     "flag": "CYLAB{gcm_f0rb1dd3n_gh4sh_k3y_r3c0v3r3d}",
-    "concepts": [
-      "AES-GCM",
-      "GHASH",
-      "Galois Fields GF(2^128)",
-      "Forbidden Attack"
+    "file_url": "",
+    "hints": [
+      {
+        "text": "In AES-GCM, the authentication tag is $T = \\text{GHASH}_H(A, C) \\oplus E_K(J_0)$. If IV is reused, $E_K(J_0)$ cancels out: $T_1 \\oplus T_2 = \\text{GHASH}_H(M_1) \\oplus \\text{GHASH}_H(M_2)$.",
+        "penalty": 25
+      },
+      {
+        "text": "This gives a polynomial in GF($2^{128}$) whose roots include the authentication subkey $H$.",
+        "penalty": 50
+      }
     ],
+    "concept": "AES-GCM, GHASH, Galois Fields GF(2^128), Forbidden Attack",
+    "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
+    "badge": "Hard Crypto",
     "writeup": "1. Represent the ciphertext blocks as polynomials in GF($2^{128}$) with reduction polynomial $x^{128} + x^7 + x^2 + x + 1$.\n2. Set up polynomial $P(H) = (\\text{GHASH}_H(C_1) \\oplus T_1) \\oplus (\\text{GHASH}_H(C_2) \\oplus T_2) = 0$.\n3. Factor $P(H)$ using SageMath polynomial root-finding.\n4. With candidate $H$, derive $E_K(J_0) = \\text{GHASH}_H(C_1) \\oplus T_1$.\n5. Forge arbitrary message tags at will.\n6. Flag: `CYLAB{gcm_f0rb1dd3n_gh4sh_k3y_r3c0v3r3d}`"
   }
 ]

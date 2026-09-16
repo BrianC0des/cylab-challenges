@@ -149,23 +149,22 @@
     "category": "Steganography",
     "points": 100,
     "difficulty": "Easy",
-    "source": "picoCTF / Beginner Stego",
     "description": "A suspicious JPEG image `vacation.jpg` displays normally in all viewers. However, the file size is 45 KB larger than expected. Inspect bytes located past the JPEG End of Image marker (`FF D9`).",
-    "hints": [
-      "JPEG files strictly terminate at the marker `FF D9`. Any data appended after `FF D9` is ignored by image parsers.",
-      "Use `binwalk vacation.jpg` or `strings vacation.jpg | tail -n 20` to locate the appended payload."
-    ],
-    "hintPenalties": [
-      -10,
-      -20
-    ],
     "flag": "CYLAB{30f_tr41l1ng_d4t4_c4rv3d}",
-    "concepts": [
-      "File Signatures",
-      "Binwalk",
-      "JPEG EOF Marker",
-      "Data Carving"
+    "file_url": "",
+    "hints": [
+      {
+        "text": "JPEG files strictly terminate at the marker `FF D9`. Any data appended after `FF D9` is ignored by image parsers.",
+        "penalty": 10
+      },
+      {
+        "text": "Use `binwalk vacation.jpg` or `strings vacation.jpg | tail -n 20` to locate the appended payload.",
+        "penalty": 20
+      }
     ],
+    "concept": "File Signatures, Binwalk, JPEG EOF Marker, Data Carving",
+    "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
+    "badge": "Easy Stegan",
     "writeup": "1. Run `binwalk vacation.jpg` to see an embedded ZIP archive at offset 0x12400.\n2. Extract with `binwalk -e vacation.jpg` or `unzip vacation.jpg`.\n3. Read `secret.txt` from the extracted directory.\n4. Flag: `CYLAB{30f_tr41l1ng_d4t4_c4rv3d}`"
   },
   {
@@ -174,23 +173,22 @@
     "category": "Steganography",
     "points": 250,
     "difficulty": "Medium",
-    "source": "OverTheWire / CTFlearn",
     "description": "An intercepted WAV audio file `voicemail.wav` sounds like a sequence of telephone keypad button beeps. Identify the dual-tone multi-frequency (DTMF) pairs to decode the dialed digits and convert them to ASCII.",
-    "hints": [
-      "DTMF keypad tones combine a low frequency (697, 770, 852, 941 Hz) and a high frequency (1209, 1336, 1477, 1633 Hz).",
-      "Use `multimon-ng -t wav -a DTMF voicemail.wav` or load the audio into Audacity and use the Spectrogram view."
-    ],
-    "hintPenalties": [
-      -15,
-      -25
-    ],
     "flag": "CYLAB{dtmf_t0n3s_fr3qu3ncy_d14l3d}",
-    "concepts": [
-      "Audio Steganography",
-      "DTMF Tones",
-      "Audacity",
-      "multimon-ng"
+    "file_url": "",
+    "hints": [
+      {
+        "text": "DTMF keypad tones combine a low frequency (697, 770, 852, 941 Hz) and a high frequency (1209, 1336, 1477, 1633 Hz).",
+        "penalty": 15
+      },
+      {
+        "text": "Use `multimon-ng -t wav -a DTMF voicemail.wav` or load the audio into Audacity and use the Spectrogram view.",
+        "penalty": 25
+      }
     ],
+    "concept": "Audio Steganography, DTMF Tones, Audacity, multimon-ng",
+    "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
+    "badge": "Medium Stegan",
     "writeup": "1. Open `voicemail.wav` in Audacity and switch waveform display to 'Spectrogram'.\n2. Read frequency spikes corresponding to DTMF matrix: 67, 89, 76, 65, 66 ...\n3. Convert decimal pairs to ASCII characters.\n4. Flag: `CYLAB{dtmf_t0n3s_fr3qu3ncy_d14l3d}`"
   },
   {
@@ -199,22 +197,22 @@
     "category": "Steganography",
     "points": 400,
     "difficulty": "Hard",
-    "source": "NahamCon / AngstromCTF",
     "description": "A public blog post seems to contain only standard English sentences, but character counting utilities report 4,000 extra invisible bytes. Inspect the text for zero-width spaces (`\\u200B`), zero-width non-joiners (`\\u200C`), and zero-width joiners (`\\u200D`).",
-    "hints": [
-      "Zero-width characters can encode binary data (e.g., U+200B = 0, U+200C = 1).",
-      "Write a Python script to isolate non-ASCII invisible characters and reconstruct 8-bit byte groups."
-    ],
-    "hintPenalties": [
-      -20,
-      -40
-    ],
     "flag": "CYLAB{z3r0_w1dth_un1c0d3_st3g4n0}",
-    "concepts": [
-      "Unicode Steganography",
-      "Zero-Width Space",
-      "Python Scripting"
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Zero-width characters can encode binary data (e.g., U+200B = 0, U+200C = 1).",
+        "penalty": 20
+      },
+      {
+        "text": "Write a Python script to isolate non-ASCII invisible characters and reconstruct 8-bit byte groups.",
+        "penalty": 40
+      }
     ],
+    "concept": "Unicode Steganography, Zero-Width Space, Python Scripting",
+    "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
+    "badge": "Hard Stegan",
     "writeup": "1. Run python script to filter invisible codepoints:\n   ```python\n   text = open('blog.txt', 'r', encoding='utf-8').read()\n   zw = [c for c in text if c in ['\\u200b', '\\u200c']]\n   bits = ''.join(['0' if c == '\\u200b' else '1' for c in zw])\n   flag = ''.join([chr(int(bits[i:i+8], 2)) for i in range(0, len(bits), 8)])\n   print(flag)\n   ```\n2. Output reveals flag.\n3. Flag: `CYLAB{z3r0_w1dth_un1c0d3_st3g4n0}`"
   },
   {
@@ -223,23 +221,22 @@
     "category": "Steganography",
     "points": 500,
     "difficulty": "Hard",
-    "source": "DEFCON CTF / TokyoWesterns",
     "description": "An 8-bit indexed palette GIF file hides secret bytes by swapping adjacent visually identical RGB palette indices. Standard LSB tools like zsteg fail because pixel values themselves are index pointers into the CLUT.",
-    "hints": [
-      "In indexed color images (GIF/PNG-8), each pixel is an index into a 256-entry Color Look-Up Table (CLUT).",
-      "Examine palette entries where two palette slots share the same RGB values. The parity of the selected index encodes hidden bits."
-    ],
-    "hintPenalties": [
-      -25,
-      -50
-    ],
     "flag": "CYLAB{clut_p4l3tt3_1nd3x_m0dul4t10n}",
-    "concepts": [
-      "Palette Steganography",
-      "GIF CLUT",
-      "Pillow Image Analysis",
-      "Color Quantization"
+    "file_url": "",
+    "hints": [
+      {
+        "text": "In indexed color images (GIF/PNG-8), each pixel is an index into a 256-entry Color Look-Up Table (CLUT).",
+        "penalty": 25
+      },
+      {
+        "text": "Examine palette entries where two palette slots share the same RGB values. The parity of the selected index encodes hidden bits.",
+        "penalty": 50
+      }
     ],
+    "concept": "Palette Steganography, GIF CLUT, Pillow Image Analysis, Color Quantization",
+    "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
+    "badge": "Hard Stegan",
     "writeup": "1. Extract palette using PIL: `img.getpalette()` and find duplicate color entries (e.g. indices 12 and 13 both map to `#1a2b3c`).\n2. Iterate through pixel index array `list(img.getdata())`.\n3. When a pixel points to one of the duplicate pairs, extract bit `index % 2`.\n4. Pack bits into bytes to retrieve flag.\n5. Flag: `CYLAB{clut_p4l3tt3_1nd3x_m0dul4t10n}`"
   }
 ]
