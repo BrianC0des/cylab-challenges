@@ -1,0 +1,6 @@
+TARGET BRIEFING // CHALLENGE web-06
+==================================================
+Target Endpoint: https://sandbox.cylab.gov.ph/web-06/
+Vulnerability Class: Web Exploitation Drill
+Hint: Interactive Target Sandbox is also playable directly inside CyLab Warroom!
+Local flag reference: flag{Web_Exploit_Level_06_Pwn3d}

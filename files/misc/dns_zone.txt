@@ -1,0 +1,5 @@
+; Zone file for ctf.hack4gov.ph
+@       IN  SOA ns1.hack4gov.ph. admin.hack4gov.ph. ( 2026091601 3600 1800 604800 86400 )
+@       IN  NS  ns1.hack4gov.ph.
+@       IN  A   10.10.10.50
+flag    IN  TXT "flag{DNS_Txt_R3c0rd_L34k}"
