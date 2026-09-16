@@ -149,8 +149,8 @@
     "category": "Cryptography",
     "points": 100,
     "difficulty": "Easy",
-    "description": "An intercepted message was scrambled using an affine cipher $E(x) = (a \\cdot x + b) \\pmod{26}$. Intel indicates $a = 5, b = 8$. Decrypt the ciphertext: 'Wbgx jv qyv ftxa: CYLAB{4ff1n3_c1ph3r_unw0und}'.",
-    "flag": "CYLAB{4ff1n3_c1ph3r_unw0und}",
+    "description": "An intercepted message was scrambled using an affine cipher $E(x) = (a \\cdot x + b) \\pmod{26}$. Intel indicates $a = 5, b = 8$. Decrypt the ciphertext: 'Wbgx jv qyv ftxa: flag{4ff1n3_c1ph3r_unw0und}'.",
+    "flag": "flag{4ff1n3_c1ph3r_unw0und}",
     "file_url": "",
     "hints": [
       {
@@ -165,7 +165,7 @@
     "concept": "Affine Cipher, Modular Arithmetic, CyberChef",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Easy Crypto",
-    "writeup": "1. In CyberChef, select 'Affine Cipher Decode' with slope $a=5$ and intercept $b=8$.\n2. Or calculate manually using Python:\n   ```python\n   c = 'Wbgx jv qyv ftxa: CYLAB{4ff1n3_c1ph3r_unw0und}'\n   # Inverse of 5 mod 26 is 21 since (5*21)%26 == 1\n   inv_a = 21\n   # Letters map back cleanly to recover the plaintext and flag.\n   ```\n3. Flag: `CYLAB{4ff1n3_c1ph3r_unw0und}`"
+    "writeup": "1. In CyberChef, select 'Affine Cipher Decode' with slope $a=5$ and intercept $b=8$.\n2. Or calculate manually using Python:\n   ```python\n   c = 'Wbgx jv qyv ftxa: flag{4ff1n3_c1ph3r_unw0und}'\n   # Inverse of 5 mod 26 is 21 since (5*21)%26 == 1\n   inv_a = 21\n   # Letters map back cleanly to recover the plaintext and flag.\n   ```\n3. Flag: `flag{4ff1n3_c1ph3r_unw0und}`"
   },
   {
     "id": "crypto-8",
@@ -174,7 +174,7 @@
     "points": 300,
     "difficulty": "Medium",
     "description": "The command center broadcasted the same encrypted message $m$ to three independent listening outposts using RSA with public exponent $e = 3$ and different moduli $N_1, N_2, N_3$. Given $(C_1, N_1), (C_2, N_2), (C_3, N_3)$, recover $m$.",
-    "flag": "CYLAB{h4st4d_br04dc4st_crt_r00t}",
+    "flag": "flag{h4st4d_br04dc4st_crt_r00t}",
     "file_url": "",
     "hints": [
       {
@@ -189,7 +189,7 @@
     "concept": "RSA, Chinese Remainder Theorem, Hastad Attack, SageMath",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Medium Crypto",
-    "writeup": "1. Use `sympy.ntheory.modular.crt([N1, N2, N3], [C1, C2, C3])` to compute $C \\pmod{N_1 N_2 N_3}$.\n2. Compute $m = \\text{integer\\_root}(C, 3)[0]$.\n3. Convert integer $m$ to bytes using `long_to_bytes(m)`.\n4. Flag: `CYLAB{h4st4d_br04dc4st_crt_r00t}`"
+    "writeup": "1. Use `sympy.ntheory.modular.crt([N1, N2, N3], [C1, C2, C3])` to compute $C \\pmod{N_1 N_2 N_3}$.\n2. Compute $m = \\text{integer\\_root}(C, 3)[0]$.\n3. Convert integer $m$ to bytes using `long_to_bytes(m)`.\n4. Flag: `flag{h4st4d_br04dc4st_crt_r00t}`"
   },
   {
     "id": "crypto-9",
@@ -198,7 +198,7 @@
     "points": 450,
     "difficulty": "Hard",
     "description": "An SSL v3 legacy server responds with 'Valid PKCS' or 'Invalid PKCS' when decrypting ciphertext $c$. Exploit the million message attack (Bleichenbacher 1998) against RSA PKCS#1 v1.5 to decrypt the premaster secret.",
-    "flag": "CYLAB{bl31ch3nb4ch3r_1998_p4dd1ng_0r4cl3}",
+    "flag": "flag{bl31ch3nb4ch3r_1998_p4dd1ng_0r4cl3}",
     "file_url": "",
     "hints": [
       {
@@ -213,7 +213,7 @@
     "concept": "Bleichenbacher Attack, Padding Oracle, PKCS#1 v1.5, Lattice / Interval Sieve",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Hard Crypto",
-    "writeup": "1. Implement Bleichenbacher's step-by-step interval reduction algorithm:\n   - Step 1: Find initial $s_1 \\ge \\lceil N / 3B \\rceil$ such that $(c \\cdot s_1^e) \\pmod N$ is conforming.\n   - Step 2: Once a conforming $s$ is found, narrow down intervals $[a, b]$.\n   - Step 3: When a single interval remains, compute next $s_i$ directly from boundary formulas.\n2. When interval width narrows to 1, $m$ is completely revealed.\n3. Flag: `CYLAB{bl31ch3nb4ch3r_1998_p4dd1ng_0r4cl3}`"
+    "writeup": "1. Implement Bleichenbacher's step-by-step interval reduction algorithm:\n   - Step 1: Find initial $s_1 \\ge \\lceil N / 3B \\rceil$ such that $(c \\cdot s_1^e) \\pmod N$ is conforming.\n   - Step 2: Once a conforming $s$ is found, narrow down intervals $[a, b]$.\n   - Step 3: When a single interval remains, compute next $s_i$ directly from boundary formulas.\n2. When interval width narrows to 1, $m$ is completely revealed.\n3. Flag: `flag{bl31ch3nb4ch3r_1998_p4dd1ng_0r4cl3}`"
   },
   {
     "id": "crypto-10",
@@ -222,7 +222,7 @@
     "points": 500,
     "difficulty": "Hard",
     "description": "Two distinct TLS messages were encrypted under the same 256-bit AES-GCM key and identical 96-bit IV. Because GHASH is linear over GF($2^{128}$), determine the GHASH authentication subkey $H$ and forge an admin authentication tag.",
-    "flag": "CYLAB{gcm_f0rb1dd3n_gh4sh_k3y_r3c0v3r3d}",
+    "flag": "flag{gcm_f0rb1dd3n_gh4sh_k3y_r3c0v3r3d}",
     "file_url": "",
     "hints": [
       {
@@ -237,6 +237,174 @@
     "concept": "AES-GCM, GHASH, Galois Fields GF(2^128), Forbidden Attack",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Hard Crypto",
-    "writeup": "1. Represent the ciphertext blocks as polynomials in GF($2^{128}$) with reduction polynomial $x^{128} + x^7 + x^2 + x + 1$.\n2. Set up polynomial $P(H) = (\\text{GHASH}_H(C_1) \\oplus T_1) \\oplus (\\text{GHASH}_H(C_2) \\oplus T_2) = 0$.\n3. Factor $P(H)$ using SageMath polynomial root-finding.\n4. With candidate $H$, derive $E_K(J_0) = \\text{GHASH}_H(C_1) \\oplus T_1$.\n5. Forge arbitrary message tags at will.\n6. Flag: `CYLAB{gcm_f0rb1dd3n_gh4sh_k3y_r3c0v3r3d}`"
+    "writeup": "1. Represent the ciphertext blocks as polynomials in GF($2^{128}$) with reduction polynomial $x^{128} + x^7 + x^2 + x + 1$.\n2. Set up polynomial $P(H) = (\\text{GHASH}_H(C_1) \\oplus T_1) \\oplus (\\text{GHASH}_H(C_2) \\oplus T_2) = 0$.\n3. Factor $P(H)$ using SageMath polynomial root-finding.\n4. With candidate $H$, derive $E_K(J_0) = \\text{GHASH}_H(C_1) \\oplus T_1$.\n5. Forge arbitrary message tags at will.\n6. Flag: `flag{gcm_f0rb1dd3n_gh4sh_k3y_r3c0v3r3d}`"
+  },
+  {
+    "id": "crypto-11",
+    "title": "Rail Fence Transposition (Level 1)",
+    "category": "Cryptography",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "The cipher message bounces in a zigzag rail fence across 3 rails: 'f{aesLvvR3lgCarI_edon_ieOT}as_D_Lg_1'. Reconstruct the rails and read the original message.",
+    "flag": "flag{rail_f3nc3_z1gz4g_unf0ld3d}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "A 3-rail fence alternates down then up: row 0, 1, 2, 1, 0, 1, 2...",
+        "penalty": 10
+      },
+      {
+        "text": "CyberChef has a 'Rail Fence Cipher Decode' recipe. Set Rails to 3.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Transposition Ciphers, Rail Fence, Geometric Permutation",
+    "cheatsheet": "python3 -c \"import sys; # use CyberChef Rail Fence Decode\"",
+    "badge": "Rail Master",
+    "writeup": "1. Put the ciphertext into CyberChef.\n2. Add 'Rail Fence Cipher Decode' recipe with Rails = 3, Offset = 0.\n3. The decrypted message appears directly.\n4. Flag: `flag{rail_f3nc3_z1gz4g_unf0ld3d}`"
+  },
+  {
+    "id": "crypto-12",
+    "title": "Polybius Square & Tap Code (Level 2)",
+    "category": "Cryptography",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "Prisoner transmission using tap code pairs: '41 34 31 54 12 24 45 43'. Decrypt the 5x5 Polybius grid where C and K share coordinates (1,3).",
+    "flag": "flag{p0lyb1us_t4p_c0d3_d3c0d3d}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Each letter is represented by two numbers: Row and Column (1 to 5).",
+        "penalty": 10
+      },
+      {
+        "text": "Row 1: A B C/K D E, Row 2: F G H I J, Row 3: L M N O P, Row 4: Q R S T U, Row 5: V W X Y Z.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Polybius Square, Coordinate Ciphers, Tap Code",
+    "cheatsheet": "CyberChef -> 'Polybius Square Decode'",
+    "badge": "Grid Decoder",
+    "writeup": "1. Convert coordinate pairs using the 5x5 Polybius grid.\n2. Coordinates map out the plaintext characters.\n3. Flag: `flag{p0lyb1us_t4p_c0d3_d3c0d3d}`"
+  },
+  {
+    "id": "crypto-13",
+    "title": "Beaufort Cipher Reciprocal Variant (Level 4)",
+    "category": "Cryptography",
+    "points": 200,
+    "difficulty": "Medium",
+    "description": "An Italian maritime cipher uses the Beaufort formula: $C = (K - P) \\pmod{26}$. Key is 'NAVAL'. Decrypt the ciphertext stream.",
+    "flag": "flag{b34uf0rt_r3c1pr0c4l_v1g3n3r3}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Unlike standard Vigenere ($C = P + K$), Beaufort subtracts plaintext from key: $P = (K - C) \\pmod{26}$.",
+        "penalty": 15
+      },
+      {
+        "text": "Notice that encrypting and decrypting are identical reciprocal operations in Beaufort.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Beaufort Cipher, Polyalphabetic Substitution, Key Modulo",
+    "cheatsheet": "CyberChef -> 'Vigen\u00e8re Decode' with variant Beaufort",
+    "badge": "Naval Cryptor",
+    "writeup": "1. In CyberChef, add 'Beaufort Cipher Decode' with key 'NAVAL'.\n2. The reciprocal subtraction reveals the plaintext and flag.\n3. Flag: `flag{b34uf0rt_r3c1pr0c4l_v1g3n3r3}`"
+  },
+  {
+    "id": "crypto-14",
+    "title": "Solitaire Deck Keystream (Level 5)",
+    "category": "Cryptography",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "Bruce Schneier's Solitaire cipher generates keystream numbers from a 54-card deck with two jokers (A and B). Shift jokers, perform triple cut and count cut, and generate the first 16 keystream bytes.",
+    "flag": "flag{s0l1t41r3_c4rd_d3ck_k3ystr34m}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Step 1: Move Joker A down 1 card. Step 2: Move Joker B down 2 cards.",
+        "penalty": 15
+      },
+      {
+        "text": "Step 3: Triple cut around jokers. Step 4: Count cut based on bottom card. Output card value = keystream byte.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Solitaire Cipher, Pseudo-Random Generation, Manual Cryptography",
+    "cheatsheet": "python3 -c \"import solitaire; print(...)\"",
+    "badge": "Card Shark",
+    "writeup": "1. Implement Schneier's deck permutation algorithm in Python.\n2. Generate keystream integers $K_i$ and subtract from ciphertext letters modulo 26.\n3. Flag: `flag{s0l1t41r3_c4rd_d3ck_k3ystr34m}`"
+  },
+  {
+    "id": "crypto-15",
+    "title": "Wiener's Continued Fraction Attack (Level 7)",
+    "category": "Cryptography",
+    "points": 400,
+    "difficulty": "Hard",
+    "description": "An RSA key was generated with a small private exponent $d < \\frac{1}{3} N^{1/4}$ to speed up cryptographic signatures. Recover the private key $d$ using the continued fraction expansion of $e/N$.",
+    "flag": "flag{w13n3r_c0nt1nu3d_fr4ct10n_d_sm4ll}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Wiener proved that if $d < \\frac{1}{3} N^{1/4}$, then $\\frac{k}{d}$ is one of the convergents of the continued fraction of $\\frac{e}{N}$.",
+        "penalty": 20
+      },
+      {
+        "text": "Compute convergents $k_i/d_i$. For each, compute $\\phi = (e d_i - 1)/k_i$ and test if roots of $x^2 - (N - \\phi + 1)x + N = 0$ are integers.",
+        "penalty": 40
+      }
+    ],
+    "concept": "RSA Cryptanalysis, Wiener Attack, Continued Fractions, SageMath",
+    "cheatsheet": "python3 -m owiener -e <e> -n <n>",
+    "badge": "Wiener Cracker",
+    "writeup": "1. Install `owiener` (`pip install owiener`).\n2. Run `d = owiener.attack(e, N)`.\n3. Decrypt ciphertext: `m = pow(c, d, N)` and convert to ASCII.\n4. Flag: `flag{w13n3r_c0nt1nu3d_fr4ct10n_d_sm4ll}`"
+  },
+  {
+    "id": "crypto-16",
+    "title": "Franklin-Reiter Related Message Attack (Level 8)",
+    "category": "Cryptography",
+    "points": 450,
+    "difficulty": "Hard",
+    "description": "Two messages $m_1$ and $m_2$ differ by a known linear affine relation $m_2 = a \\cdot m_1 + b \\pmod N$. Both were encrypted with RSA exponent $e = 3$ under the same public modulus $N$. Recover $m_1$ by taking the greatest common divisor of polynomial ideals in SageMath.",
+    "flag": "flag{fr4nkl1n_r31t3r_p0lyn0m14l_gcd}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Let $P_1(x) = x^e - c_1$ and $P_2(x) = (a x + b)^e - c_2$. Both polynomials have $m_1$ as a common root modulo $N$.",
+        "penalty": 20
+      },
+      {
+        "text": "The greatest common divisor $\\gcd(P_1, P_2) = x - m_1 \\pmod N$.",
+        "penalty": 40
+      }
+    ],
+    "concept": "RSA Polynomial Rings, Franklin-Reiter, GCD in Z/NZ, SageMath",
+    "cheatsheet": "sage -c 'P.<x> = PolynomialRing(Zmod(N)); ...'",
+    "badge": "Ring Theorist",
+    "writeup": "1. In SageMath: define polynomial ring over integers modulo $N$.\n2. Compute monic polynomial GCD of $x^3 - c_1$ and $(a x + b)^3 - c_2$.\n3. The linear remainder gives $-m_1$, revealing the message.\n4. Flag: `flag{fr4nkl1n_r31t3r_p0lyn0m14l_gcd}`"
+  },
+  {
+    "id": "crypto-17",
+    "title": "Merkle-Hellman Knapsack LLL Reduction (Level 9)",
+    "category": "Cryptography",
+    "points": 500,
+    "difficulty": "Hard",
+    "description": "The Merkle-Hellman knapsack cryptosystem generates a public key sequence $B_i$. The ciphertext is the subset sum $S = \\sum m_i B_i$. Break the low-density subset sum problem using the Lenstra-Lenstra-Lovasz (LLL) lattice basis reduction algorithm.",
+    "flag": "flag{m3rkl3_h3llm4n_lll_l4tt1c3_r3duc3d}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Construct the $(n+1) \\times (n+1)$ lattice matrix with public weights $B_i$ on the top row and $1/2$ on the diagonal.",
+        "penalty": 25
+      },
+      {
+        "text": "Run LLL lattice reduction. The shortest vector in the reduced basis contains the binary vector $m_i \\in \\{0, 1\\}$.",
+        "penalty": 50
+      }
+    ],
+    "concept": "Lattice Cryptanalysis, Merkle-Hellman Knapsack, LLL Algorithm, Shortest Vector Problem",
+    "cheatsheet": "sage -c 'M = Matrix(...); M.LLL()'",
+    "badge": "Lattice Architect",
+    "writeup": "1. Build the basis matrix in SageMath.\n2. Apply `.LLL()` to find the shortest lattice vector.\n3. Check coordinates for $\\pm 1/2$ or $0/1$ assignments to reconstruct $m$.\n4. Flag: `flag{m3rkl3_h3llm4n_lll_l4tt1c3_r3duc3d}`"
   }
 ]

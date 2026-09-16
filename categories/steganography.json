@@ -150,7 +150,7 @@
     "points": 100,
     "difficulty": "Easy",
     "description": "A suspicious JPEG image `vacation.jpg` displays normally in all viewers. However, the file size is 45 KB larger than expected. Inspect bytes located past the JPEG End of Image marker (`FF D9`).",
-    "flag": "CYLAB{30f_tr41l1ng_d4t4_c4rv3d}",
+    "flag": "flag{30f_tr41l1ng_d4t4_c4rv3d}",
     "file_url": "",
     "hints": [
       {
@@ -165,7 +165,7 @@
     "concept": "File Signatures, Binwalk, JPEG EOF Marker, Data Carving",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Easy Stegan",
-    "writeup": "1. Run `binwalk vacation.jpg` to see an embedded ZIP archive at offset 0x12400.\n2. Extract with `binwalk -e vacation.jpg` or `unzip vacation.jpg`.\n3. Read `secret.txt` from the extracted directory.\n4. Flag: `CYLAB{30f_tr41l1ng_d4t4_c4rv3d}`"
+    "writeup": "1. Run `binwalk vacation.jpg` to see an embedded ZIP archive at offset 0x12400.\n2. Extract with `binwalk -e vacation.jpg` or `unzip vacation.jpg`.\n3. Read `secret.txt` from the extracted directory.\n4. Flag: `flag{30f_tr41l1ng_d4t4_c4rv3d}`"
   },
   {
     "id": "stego-8",
@@ -174,7 +174,7 @@
     "points": 250,
     "difficulty": "Medium",
     "description": "An intercepted WAV audio file `voicemail.wav` sounds like a sequence of telephone keypad button beeps. Identify the dual-tone multi-frequency (DTMF) pairs to decode the dialed digits and convert them to ASCII.",
-    "flag": "CYLAB{dtmf_t0n3s_fr3qu3ncy_d14l3d}",
+    "flag": "flag{dtmf_t0n3s_fr3qu3ncy_d14l3d}",
     "file_url": "",
     "hints": [
       {
@@ -189,7 +189,7 @@
     "concept": "Audio Steganography, DTMF Tones, Audacity, multimon-ng",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Medium Stegan",
-    "writeup": "1. Open `voicemail.wav` in Audacity and switch waveform display to 'Spectrogram'.\n2. Read frequency spikes corresponding to DTMF matrix: 67, 89, 76, 65, 66 ...\n3. Convert decimal pairs to ASCII characters.\n4. Flag: `CYLAB{dtmf_t0n3s_fr3qu3ncy_d14l3d}`"
+    "writeup": "1. Open `voicemail.wav` in Audacity and switch waveform display to 'Spectrogram'.\n2. Read frequency spikes corresponding to DTMF matrix: 67, 89, 76, 65, 66 ...\n3. Convert decimal pairs to ASCII characters.\n4. Flag: `flag{dtmf_t0n3s_fr3qu3ncy_d14l3d}`"
   },
   {
     "id": "stego-9",
@@ -198,7 +198,7 @@
     "points": 400,
     "difficulty": "Hard",
     "description": "A public blog post seems to contain only standard English sentences, but character counting utilities report 4,000 extra invisible bytes. Inspect the text for zero-width spaces (`\\u200B`), zero-width non-joiners (`\\u200C`), and zero-width joiners (`\\u200D`).",
-    "flag": "CYLAB{z3r0_w1dth_un1c0d3_st3g4n0}",
+    "flag": "flag{z3r0_w1dth_un1c0d3_st3g4n0}",
     "file_url": "",
     "hints": [
       {
@@ -213,7 +213,7 @@
     "concept": "Unicode Steganography, Zero-Width Space, Python Scripting",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Hard Stegan",
-    "writeup": "1. Run python script to filter invisible codepoints:\n   ```python\n   text = open('blog.txt', 'r', encoding='utf-8').read()\n   zw = [c for c in text if c in ['\\u200b', '\\u200c']]\n   bits = ''.join(['0' if c == '\\u200b' else '1' for c in zw])\n   flag = ''.join([chr(int(bits[i:i+8], 2)) for i in range(0, len(bits), 8)])\n   print(flag)\n   ```\n2. Output reveals flag.\n3. Flag: `CYLAB{z3r0_w1dth_un1c0d3_st3g4n0}`"
+    "writeup": "1. Run python script to filter invisible codepoints:\n   ```python\n   text = open('blog.txt', 'r', encoding='utf-8').read()\n   zw = [c for c in text if c in ['\\u200b', '\\u200c']]\n   bits = ''.join(['0' if c == '\\u200b' else '1' for c in zw])\n   flag = ''.join([chr(int(bits[i:i+8], 2)) for i in range(0, len(bits), 8)])\n   print(flag)\n   ```\n2. Output reveals flag.\n3. Flag: `flag{z3r0_w1dth_un1c0d3_st3g4n0}`"
   },
   {
     "id": "stego-10",
@@ -222,7 +222,7 @@
     "points": 500,
     "difficulty": "Hard",
     "description": "An 8-bit indexed palette GIF file hides secret bytes by swapping adjacent visually identical RGB palette indices. Standard LSB tools like zsteg fail because pixel values themselves are index pointers into the CLUT.",
-    "flag": "CYLAB{clut_p4l3tt3_1nd3x_m0dul4t10n}",
+    "flag": "flag{clut_p4l3tt3_1nd3x_m0dul4t10n}",
     "file_url": "",
     "hints": [
       {
@@ -237,6 +237,150 @@
     "concept": "Palette Steganography, GIF CLUT, Pillow Image Analysis, Color Quantization",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Hard Stegan",
-    "writeup": "1. Extract palette using PIL: `img.getpalette()` and find duplicate color entries (e.g. indices 12 and 13 both map to `#1a2b3c`).\n2. Iterate through pixel index array `list(img.getdata())`.\n3. When a pixel points to one of the duplicate pairs, extract bit `index % 2`.\n4. Pack bits into bytes to retrieve flag.\n5. Flag: `CYLAB{clut_p4l3tt3_1nd3x_m0dul4t10n}`"
+    "writeup": "1. Extract palette using PIL: `img.getpalette()` and find duplicate color entries (e.g. indices 12 and 13 both map to `#1a2b3c`).\n2. Iterate through pixel index array `list(img.getdata())`.\n3. When a pixel points to one of the duplicate pairs, extract bit `index % 2`.\n4. Pack bits into bytes to retrieve flag.\n5. Flag: `flag{clut_p4l3tt3_1nd3x_m0dul4t10n}`"
+  },
+  {
+    "id": "stego-11",
+    "title": "Audio Stereo Phase Inversion (Level 1)",
+    "category": "Steganography",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "An MP3 audio track `track.mp3` sounds like noisy ambient static. However, the left and right stereo channels contain inverted identical waveforms with a hidden center channel secret. Invert one channel and sum to mono to cancel out the background music.",
+    "flag": "flag{aud10_ph4s3_1nv3rs10n_c4nc3l}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Phase cancellation: $A + (-A) = 0$. When identical signals are 180 degrees out of phase, they completely cancel.",
+        "penalty": 10
+      },
+      {
+        "text": "Open Audacity -> Split Stereo Track -> Select one channel -> Effect -> Invert -> Mix and Render to Mono.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Audio Phase Inversion, Audacity, Channel Subtraction, Stereo Forensics",
+    "cheatsheet": "ffmpeg -i track.mp3 -af 'pan=mono|c0=0.5*c0-0.5*c1' out.wav",
+    "badge": "Acoustic Filter",
+    "writeup": "1. Load `track.mp3` into Audacity.\n2. Invert Channel R and merge with Channel L to mono.\n3. The static cancels out completely, revealing clear spoken voice speaking the flag.\n4. Flag: `flag{aud10_ph4s3_1nv3rs10n_c4nc3l}`"
+  },
+  {
+    "id": "stego-12",
+    "title": "BMP Scanline Row Padding Stego (Level 2)",
+    "category": "Steganography",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "A 24-bit BMP image has an unaligned width (e.g., 201 pixels). In the BMP format, every scanline row must be padded to a multiple of 4 bytes. An attacker hid secret characters inside these trailing padding bytes.",
+    "flag": "flag{bmp_p4dd1ng_byt3s_unp4ck3d}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Each row in a 24-bit BMP takes $3 \\times \\text{width}$ bytes. Extra bytes are added until divisible by 4.",
+        "penalty": 10
+      },
+      {
+        "text": "Write a Python script to seek past image data and read only the padding bytes at the end of each scanline.",
+        "penalty": 20
+      }
+    ],
+    "concept": "BMP Image Format, Scanline Padding, Pixel Array Alignment",
+    "cheatsheet": "python3 -c \"# extract row padding bytes\"",
+    "badge": "Pixel Aligner",
+    "writeup": "1. Parse BMP header: get width, height, and data offset.\n2. Calculate row padding: `pad = (4 - (width * 3) % 4) % 4`.\n3. Read the `pad` bytes after every scanline to extract the hidden string.\n4. Flag: `flag{bmp_p4dd1ng_byt3s_unp4ck3d}`"
+  },
+  {
+    "id": "stego-13",
+    "title": "PDF Invisible FlateDecode Annotation (Level 4)",
+    "category": "Steganography",
+    "points": 200,
+    "difficulty": "Medium",
+    "description": "A PDF memo appears completely blank on page 2. Inspect PDF object streams for hidden annotations with transparency masks and uncompressed `/FlateDecode` streams.",
+    "flag": "flag{pdf_fl4t3_str34m_4nn0t4t10n}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Use `pdf-parser.py` or `qpdf --qdf --object-streams=disable memo.pdf memo_raw.pdf`.",
+        "penalty": 15
+      },
+      {
+        "text": "Search for `/Annot` objects or text rendered with color identical to background (`1 1 1 rg`).",
+        "penalty": 25
+      }
+    ],
+    "concept": "PDF Object Streams, FlateDecode, qpdf, Didier Stevens PDF Tools",
+    "cheatsheet": "qpdf --qdf memo.pdf decompressed.pdf && grep -a flag decompressed.pdf",
+    "badge": "PDF Inspector",
+    "writeup": "1. Decompress PDF streams: `qpdf --qdf --object-streams=disable memo.pdf raw.pdf`.\n2. Grep raw text: `grep -i 'flag{' raw.pdf`.\n3. Flag: `flag{pdf_fl4t3_str34m_4nn0t4t10n}`"
+  },
+  {
+    "id": "stego-14",
+    "title": "Tar Archive Slack Space Injection (Level 5)",
+    "category": "Steganography",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "A standard POSIX tar archive stores files in 512-byte blocks. If a file is 100 bytes, the remaining 412 bytes in the block are normally zeroed. Carve non-zero payload hidden inside the slack blocks of `archive.tar`.",
+    "flag": "flag{t4r_bl0ck_sl4ck_sp4c3_c4rv3d}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Tar headers and file contents are always aligned to 512-byte block boundaries.",
+        "penalty": 15
+      },
+      {
+        "text": "Iterate through tar blocks. When a file block ends, check if the remaining bytes before the next header contain data.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Tar Block Structure, Slack Space Steganography, Byte Alignment",
+    "cheatsheet": "xxd archive.tar | grep -v '0000 0000'",
+    "badge": "Slack Hunter",
+    "writeup": "1. Parse tar headers and calculate file sizes.\n2. Read bytes between `offset + filesize` and `ceil(filesize / 512) * 512`.\n3. The non-zero slack bytes assemble into the flag.\n4. Flag: `flag{t4r_bl0ck_sl4ck_sp4c3_c4rv3d}`"
+  },
+  {
+    "id": "stego-15",
+    "title": "Video Keyframe I-Frame Steganography (Level 7)",
+    "category": "Steganography",
+    "points": 400,
+    "difficulty": "Hard",
+    "description": "An MP4 video file contains secret data encoded across the GOP (Group of Pictures) keyframe intervals. Extract intra-coded frames (I-frames) using FFmpeg and inspect quantization tables.",
+    "flag": "flag{mp4_1fr4m3_g0p_qu4nt1z4t10n}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Extract only I-frames with: `ffmpeg -i video.mp4 -vf 'select=eq(pict_type\\,I)' -vsync vfr iframe_%03d.png`.",
+        "penalty": 20
+      },
+      {
+        "text": "Compare pixel variance across sequential I-frames.",
+        "penalty": 40
+      }
+    ],
+    "concept": "Video Codecs, I-Frame Extraction, GOP Structure, FFmpeg",
+    "cheatsheet": "ffprobe -show_frames -select_streams v video.mp4 | grep pict_type",
+    "badge": "Video Frame Crafter",
+    "writeup": "1. Dump I-frames with FFmpeg.\n2. Diff first and second I-frame in Python to isolate injected pixels.\n3. Flag: `flag{mp4_1fr4m3_g0p_qu4nt1z4t10n}`"
+  },
+  {
+    "id": "stego-16",
+    "title": "Spread Spectrum Frequency Hopping (Level 8)",
+    "category": "Steganography",
+    "points": 450,
+    "difficulty": "Hard",
+    "description": "A high-fidelity FLAC audio recording hides a carrier signal using Direct Sequence Spread Spectrum (DSSS). The pseudorandom chipping code is generated by a 16-bit LFSR. Correlate the signal against the PN sequence to recover the hidden data.",
+    "flag": "flag{dsss_spr34d_sp3ctrum_d3spr34d}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "DSSS hides signals beneath the acoustic noise floor by spreading energy across a wide frequency band.",
+        "penalty": 20
+      },
+      {
+        "text": "Cross-correlate the audio spectrum against candidate PN sequences to produce sharp despreading peaks.",
+        "penalty": 40
+      }
+    ],
+    "concept": "DSSS Audio Stego, LFSR Chipping Sequences, Cross-Correlation, SciPy",
+    "cheatsheet": "python3 -c \"import scipy.signal; ...\"",
+    "badge": "Signal Specialist",
+    "writeup": "1. Load audio in Python using `scipy.io.wavfile`.\n2. Generate LFSR chipping sequence and multiply with windowed FFT bins.\n3. Peak correlation indices decode the bitstream.\n4. Flag: `flag{dsss_spr34d_sp3ctrum_d3spr34d}`"
   }
 ]

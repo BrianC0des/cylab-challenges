@@ -150,7 +150,7 @@
     "points": 100,
     "difficulty": "Easy",
     "description": "A top-secret image attachment `evidence.dat` refuses to open in any image viewer. Hex dump shows the first 8 bytes were corrupted by an adversary with `DE AD BE EF 00 00 00 00`. Inspect the file structure, restore the legitimate magic bytes, and view the image.",
-    "flag": "CYLAB{m4g1c_byt3s_png_h34d3r_f1x3d}",
+    "flag": "flag{m4g1c_byt3s_png_h34d3r_f1x3d}",
     "file_url": "",
     "hints": [
       {
@@ -165,7 +165,7 @@
     "concept": "Hex Editing, Magic Bytes, PNG Specification, xxd",
     "cheatsheet": "tshark -r capture.pcap -q -z conv,ip",
     "badge": "Easy Forens",
-    "writeup": "1. Run `xxd evidence.dat | head -n 2` to observe the corrupted header and the `IHDR` signature at offset 0x0C.\n2. In `hexedit` or python:\n   ```python\n   with open('evidence.dat', 'rb') as f:\n       data = bytearray(f.read())\n   data[:8] = bytes.fromhex('89504E470D0A1A0A')\n   with open('repaired.png', 'wb') as f:\n       f.write(data)\n   ```\n3. Open `repaired.png` to view the flag rendered on screen.\n4. Flag: `CYLAB{m4g1c_byt3s_png_h34d3r_f1x3d}`"
+    "writeup": "1. Run `xxd evidence.dat | head -n 2` to observe the corrupted header and the `IHDR` signature at offset 0x0C.\n2. In `hexedit` or python:\n   ```python\n   with open('evidence.dat', 'rb') as f:\n       data = bytearray(f.read())\n   data[:8] = bytes.fromhex('89504E470D0A1A0A')\n   with open('repaired.png', 'wb') as f:\n       f.write(data)\n   ```\n3. Open `repaired.png` to view the flag rendered on screen.\n4. Flag: `flag{m4g1c_byt3s_png_h34d3r_f1x3d}`"
   },
   {
     "id": "forensics-8",
@@ -174,7 +174,7 @@
     "points": 250,
     "difficulty": "Medium",
     "description": "An adversary plugged a hardware keystroke logger into an air-gapped terminal. The captured PCAP contains USB HID data packets (`Leftover Capture Data`). Extract the keystrokes to read the typed root password and flag.",
-    "flag": "CYLAB{usb_h1d_k3ystr0k3_p4rs3d}",
+    "flag": "flag{usb_h1d_k3ystr0k3_p4rs3d}",
     "file_url": "",
     "hints": [
       {
@@ -189,7 +189,7 @@
     "concept": "Wireshark, USB HID Scancodes, tshark, Keyboard Parsing",
     "cheatsheet": "tshark -r capture.pcap -q -z conv,ip",
     "badge": "Medium Forens",
-    "writeup": "1. Extract USB leftover data using tshark:\n   `tshark -r capture.pcap -Y 'usb.capdata' -T fields -e usb.capdata > data.txt`\n2. Map scancodes with Python script interpreting modifier byte (0x02 = Shift) and scancode byte (index 2).\n3. Reconstructed typed string reveals: `echo CYLAB{usb_h1d_k3ystr0k3_p4rs3d}`\n4. Flag: `CYLAB{usb_h1d_k3ystr0k3_p4rs3d}`"
+    "writeup": "1. Extract USB leftover data using tshark:\n   `tshark -r capture.pcap -Y 'usb.capdata' -T fields -e usb.capdata > data.txt`\n2. Map scancodes with Python script interpreting modifier byte (0x02 = Shift) and scancode byte (index 2).\n3. Reconstructed typed string reveals: `echo flag{usb_h1d_k3ystr0k3_p4rs3d}`\n4. Flag: `flag{usb_h1d_k3ystr0k3_p4rs3d}`"
   },
   {
     "id": "forensics-9",
@@ -198,7 +198,7 @@
     "points": 400,
     "difficulty": "Hard",
     "description": "A rogue insider executed `rm -rf /var/log/secure` on an Ext4 partition before taking a raw dd image `disk.img`. The log contained an exfiltrated token. Carve the deleted file using inode pointers and JBD2 filesystem journal logs.",
-    "flag": "CYLAB{3xt4_j0urn4l_und3l3t3_succ3ss}",
+    "flag": "flag{3xt4_j0urn4l_und3l3t3_succ3ss}",
     "file_url": "",
     "hints": [
       {
@@ -213,7 +213,7 @@
     "concept": "Ext4 Filesystem, JBD2 Journaling, debugfs, ext4magic",
     "cheatsheet": "tshark -r capture.pcap -q -z conv,ip",
     "badge": "Hard Forens",
-    "writeup": "1. Run `ext4magic disk.img -m -d output_dir/` to parse transaction logs.\n2. Alternatively, dump journal via debugfs: `debugfs -R 'dump <8> journal.copy' disk.img`.\n3. Grep strings inside recovered blocks: `strings output_dir/* | grep 'CYLAB{'`.\n4. Flag: `CYLAB{3xt4_j0urn4l_und3l3t3_succ3ss}`"
+    "writeup": "1. Run `ext4magic disk.img -m -d output_dir/` to parse transaction logs.\n2. Alternatively, dump journal via debugfs: `debugfs -R 'dump <8> journal.copy' disk.img`.\n3. Grep strings inside recovered blocks: `strings output_dir/* | grep 'flag{'`.\n4. Flag: `flag{3xt4_j0urn4l_und3l3t3_succ3ss}`"
   },
   {
     "id": "forensics-10",
@@ -222,7 +222,7 @@
     "points": 500,
     "difficulty": "Hard",
     "description": "Intercepted encrypted network traffic contains suspicious TLS 1.3 session handshakes. A memory scraper recovered an NSS `sslkeylog.txt`. Inject the keys into Wireshark, dissect the decrypted HTTP/2 multiplexed streams, and extract the exfiltrated ZIP attachment.",
-    "flag": "CYLAB{tls13_k3yl0g_http2_d3crypt3d}",
+    "flag": "flag{tls13_k3yl0g_http2_d3crypt3d}",
     "file_url": "",
     "hints": [
       {
@@ -237,6 +237,174 @@
     "concept": "TLS 1.3, SSLKEYLOGFILE, HTTP/2 Multiplexing, Wireshark Stream Reassembly",
     "cheatsheet": "tshark -r capture.pcap -q -z conv,ip",
     "badge": "Hard Forens",
-    "writeup": "1. Configure tshark with keylog: `tshark -r capture.pcap -o 'tls.keylog_file:sslkeylog.txt' -Y 'http2.data.data' -T fields -e http2.data.data > dumps.hex`.\n2. Locate the stream transferring the zip file (`504b0304`).\n3. Convert hex dump to binary: `xxd -r -p dumps.hex > exfil.zip`.\n4. Unzip `exfil.zip` to read `flag.txt`.\n5. Flag: `CYLAB{tls13_k3yl0g_http2_d3crypt3d}`"
+    "writeup": "1. Configure tshark with keylog: `tshark -r capture.pcap -o 'tls.keylog_file:sslkeylog.txt' -Y 'http2.data.data' -T fields -e http2.data.data > dumps.hex`.\n2. Locate the stream transferring the zip file (`504b0304`).\n3. Convert hex dump to binary: `xxd -r -p dumps.hex > exfil.zip`.\n4. Unzip `exfil.zip` to read `flag.txt`.\n5. Flag: `flag{tls13_k3yl0g_http2_d3crypt3d}`"
+  },
+  {
+    "id": "forensics-11",
+    "title": "Bash History & Logout Forensics (Level 1)",
+    "category": "Forensics",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "An attacker compromised a user account and executed cleanup scripts. However, they forgot about `.bash_logout` and unlinked history buffers. Triage the home directory dotfiles to extract commands executed right before exit.",
+    "flag": "flag{b4sh_h1st0ry_d0tf1l3s_4ud1t}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Check `cat ~/.bash_history`, `cat ~/.bash_logout`, and look for hidden files with `ls -la`.",
+        "penalty": 10
+      },
+      {
+        "text": "Look for base64 encoded strings in command line exports.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Linux Artifacts, Bash History, Dotfiles, Command Audit",
+    "cheatsheet": "cat ~/.bash_history | grep -E 'export|flag|key'",
+    "badge": "Shell Auditor",
+    "writeup": "1. Inspect `.bash_history` and `.bash_logout`.\n2. Recover uncommitted export string: `export SECRET_TOKEN=flag{b4sh_h1st0ry_d0tf1l3s_4ud1t}`.\n3. Flag: `flag{b4sh_h1st0ry_d0tf1l3s_4ud1t}`"
+  },
+  {
+    "id": "forensics-12",
+    "title": "Chromium SQLite History & Cookies (Level 2)",
+    "category": "Forensics",
+    "points": 100,
+    "difficulty": "Easy",
+    "description": "Extracted a suspect's Google Chrome profile folder `Default/`. Query the SQLite database `History` and `Cookies` to uncover visited darknet URL parameters and session tokens.",
+    "flag": "flag{chr0m1um_sql1t3_h1st0ry_3xtr4ct}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Chrome stores browsing history in an SQLite 3 database located at `Default/History`.",
+        "penalty": 10
+      },
+      {
+        "text": "Run `sqlite3 History 'SELECT url, title FROM urls;'`.",
+        "penalty": 20
+      }
+    ],
+    "concept": "Browser Forensics, SQLite Database, Chromium Artifacts",
+    "cheatsheet": "sqlite3 History \"SELECT url FROM urls WHERE url LIKE '%flag%';\"",
+    "badge": "Web Tracker",
+    "writeup": "1. Open `History` in `sqlite3` or DB Browser for SQLite.\n2. Query URLs table: `SELECT url FROM urls WHERE url LIKE '%flag%';`.\n3. URL contains parameter `?token=flag{chr0m1um_sql1t3_h1st0ry_3xtr4ct}`.\n4. Flag: `flag{chr0m1um_sql1t3_h1st0ry_3xtr4ct}`"
+  },
+  {
+    "id": "forensics-13",
+    "title": "Windows EVTX PowerShell Auditing (Level 4)",
+    "category": "Forensics",
+    "points": 200,
+    "difficulty": "Medium",
+    "description": "A Windows Server 2022 domain controller logged a malicious PowerShell script execution. Parse `Microsoft-Windows-PowerShell%4Operational.evtx` for Event ID 4104 (Script Block Logging) to assemble the attacker's deobfuscated payload.",
+    "flag": "flag{3vtx_p0w3rsh3ll_scr1ptbl0ck_4104}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Event ID 4104 records complete script blocks even if obfuscated with backticks or base64.",
+        "penalty": 15
+      },
+      {
+        "text": "Use `python-evtx` or `Chainsaw` or `Hayabusa` to parse the `.evtx` file.",
+        "penalty": 25
+      }
+    ],
+    "concept": "Windows Event Logs, EVTX Forensics, Script Block Logging, Event ID 4104",
+    "cheatsheet": "chainsaw hunt -s evtx_dir/ --mapping rules.yml",
+    "badge": "Log Hunter",
+    "writeup": "1. Extract Event ID 4104 script block text using `python-evtx`.\n2. Reconstruct chunks from the multi-stage logging.\n3. The script block reveals: `$flag = 'flag{3vtx_p0w3rsh3ll_scr1ptbl0ck_4104}'`.\n4. Flag: `flag{3vtx_p0w3rsh3ll_scr1ptbl0ck_4104}`"
+  },
+  {
+    "id": "forensics-14",
+    "title": "Master Boot Record (MBR) Repair (Level 5)",
+    "category": "Forensics",
+    "points": 250,
+    "difficulty": "Medium",
+    "description": "A disk image `drive.raw` fails to mount because sector 0 (MBR) was zeroed out by wiper malware. However, the volume boot record (VBR) at sector 2048 remains intact. Rebuild the 16-byte partition table entry in the MBR and mount the partition.",
+    "flag": "flag{mbr_p4rt1t10n_t4bl3_r3c0v3r3d}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "An MBR partition table starts at byte offset 446 (0x1BE) with 16 bytes per entry, ending with boot signature `55 AA`.",
+        "penalty": 15
+      },
+      {
+        "text": "Inspect sector 2048 using hexedit to verify the NTFS/FAT32 signature, then point LBA start to 2048.",
+        "penalty": 25
+      }
+    ],
+    "concept": "MBR Partition Table, Sector 0 Forensics, VBR Reconstruction, Hex Editing",
+    "cheatsheet": "testdisk /dev/loop0 OR xxd drive.raw | head -n 35",
+    "badge": "Disk Surgeon",
+    "writeup": "1. Run `testdisk` or manually edit sector 0 with `hexedit`.\n2. Set byte 446: Bootable flag (0x80), Partition type (0x07 for NTFS), Start LBA (2048 = `00 08 00 00` little endian).\n3. Mount loop device: `losetup -P /dev/loop0 drive.raw`.\n4. Read `flag.txt` from mounted partition.\n5. Flag: `flag{mbr_p4rt1t10n_t4bl3_r3c0v3r3d}`"
+  },
+  {
+    "id": "forensics-15",
+    "title": "Offline Registry SAM & SYSTEM Hive Secrets (Level 6)",
+    "category": "Forensics",
+    "points": 300,
+    "difficulty": "Medium",
+    "description": "Recovered raw Windows registry hives `SAM` and `SYSTEM` from an unallocated volume snapshot. Extract the local Administrator NTLM hash and decrypt cached secrets using `impacket-secretsdump`.",
+    "flag": "flag{s4m_syst3m_h1v3_s3cr3tsdmp_pwn}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "The `SYSTEM` hive contains the syskey used to decrypt the password hashes stored in `SAM`.",
+        "penalty": 15
+      },
+      {
+        "text": "Run: `impacket-secretsdump -sam SAM -system SYSTEM LOCAL`.",
+        "penalty": 30
+      }
+    ],
+    "concept": "Windows Registry, SAM Database, SysKey, Impacket Secretsdump",
+    "cheatsheet": "impacket-secretsdump -sam SAM -system SYSTEM LOCAL",
+    "badge": "Hive Harvester",
+    "writeup": "1. Execute `impacket-secretsdump -sam SAM -system SYSTEM LOCAL`.\n2. Observe extracted user accounts.\n3. The Administrator password description field contains the flag.\n4. Flag: `flag{s4m_syst3m_h1v3_s3cr3tsdmp_pwn}`"
+  },
+  {
+    "id": "forensics-16",
+    "title": "Shimcache & Amcache Execution Timeline (Level 7)",
+    "category": "Forensics",
+    "points": 400,
+    "difficulty": "Hard",
+    "description": "Malware executed from a USB flash drive and self-deleted immediately. Prove execution presence and obtain the SHA-1 hash of the deleted binary by parsing `Amcache.hve` and `SYSTEM\\CurrentControlSet\\Control\\Session Manager\\AppCompatCache` (Shimcache).",
+    "flag": "flag{sh1mc4ch3_4mc4ch3_3x3cut10n_pr0v3d}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "Shimcache stores executable path and last modified timestamp of executed binaries.",
+        "penalty": 20
+      },
+      {
+        "text": "Use Eric Zimmerman's `AppCompatCacheParser.exe` or python `ShimCacheParser.py`.",
+        "penalty": 40
+      }
+    ],
+    "concept": "Shimcache Forensics, Amcache.hve, Program Execution Artifacts, Timeline Analysis",
+    "cheatsheet": "python3 ShimCacheParser.py -i SYSTEM -o out.csv",
+    "badge": "Cache Investigator",
+    "writeup": "1. Run `ShimCacheParser.py -i SYSTEM -o output.csv`.\n2. Search CSV for executables running from removable drives (`E:\\malware.exe`).\n3. Correlate with `Amcache.hve` to verify SHA-1 hash and flag string.\n4. Flag: `flag{sh1mc4ch3_4mc4ch3_3x3cut10n_pr0v3d}`"
+  },
+  {
+    "id": "forensics-17",
+    "title": "Linux Kernel Core Dump & LKM Rootkit (Level 9)",
+    "category": "Forensics",
+    "points": 500,
+    "difficulty": "Hard",
+    "description": "A mission-critical Debian server experienced a kernel panic. A vmcore crash dump was preserved. Using Volatility 3 or GDB against the vmlinux debug symbol table, detect a hidden Loadable Kernel Module (LKM) that hooked the sys_call_table to hide processes.",
+    "flag": "flag{lkm_r00tk1t_hook3d_sysc4ll_t4bl3}",
+    "file_url": "",
+    "hints": [
+      {
+        "text": "In Volatility 3, use the `linux.check_modules` and `linux.check_syscall` plugins.",
+        "penalty": 25
+      },
+      {
+        "text": "Look for hijacked syscall table entries pointing to addresses outside the kernel `.text` range.",
+        "penalty": 50
+      }
+    ],
+    "concept": "Kernel Crash Dump, Volatility 3 Linux, LKM Rootkits, Syscall Hooking",
+    "cheatsheet": "vol -f vmcore linux.check_syscall.Check_syscall",
+    "badge": "Kernel Detective",
+    "writeup": "1. Run `vol -f vmcore linux.check_syscall`.\n2. Entry `sys_kill` (syscall 62) points to anomalous unlinked module address.\n3. Disassemble the hook function to find the authorization token.\n4. Flag: `flag{lkm_r00tk1t_hook3d_sysc4ll_t4bl3}`"
   }
 ]
