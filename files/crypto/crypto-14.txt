@@ -1,0 +1,2 @@
+Solitaire Keystream Generation
+Flag: flag{s0l1t41r3_c4rd_d3ck_k3ystr34m}

@@ -1,0 +1,3 @@
+Key: NAVAL
+Mode: Beaufort Reciprocal
+Target: flag{b34uf0rt_r3c1pr0c4l_v1g3n3r3}

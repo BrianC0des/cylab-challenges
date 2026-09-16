@@ -1,0 +1,12 @@
+{
+  "nonce_reused": "deadbeefdeadbeefdeadbeef",
+  "msg1": {
+    "ct": "a1b2c3d4e5f6...",
+    "tag": "4491029381029381"
+  },
+  "msg2": {
+    "ct": "f6e5d4c3b2a1...",
+    "tag": "9910293810293810"
+  },
+  "flag": "flag{gcm_f0rb1dd3n_gh4sh_k3y_r3c0v3r3d}"
+}

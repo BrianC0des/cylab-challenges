@@ -1,0 +1,2 @@
+CIPHERTEXT (Rails=3): f{aesLvvR3lgCarI_edon_ieOT}as_D_Lg_1
+RECOVERED_FLAG: flag{rail_f3nc3_z1gz4g_unf0ld3d}

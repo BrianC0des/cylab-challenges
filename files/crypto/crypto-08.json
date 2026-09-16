@@ -1,0 +1,19 @@
+{
+  "e": 3,
+  "transmissions": [
+    {
+      "N": "151703906371",
+      "c": "49182390123"
+    },
+    {
+      "N": "162810394851",
+      "c": "12984102941"
+    },
+    {
+      "N": "173921849203",
+      "c": "98234102948"
+    }
+  ],
+  "flag_hint": "Recover m using Chinese Remainder Theorem: m^3 mod (N1*N2*N3)",
+  "plaintext_flag": "flag{h4st4d_br04dc4st_crt_r00t}"
+}

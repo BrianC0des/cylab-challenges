@@ -1,0 +1,4 @@
+ls -la
+cd /opt/admin
+./backup.sh --token=flag{b4sh_h1st0ry_d0tf1l3s_4ud1t}
+exit

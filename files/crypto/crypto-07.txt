@@ -1,0 +1,4 @@
+[INTERCEPTED ADMIRALTY DISPATCH]
+Algorithm: Affine Cipher E(x) = (5*x + 8) mod 26
+Target Transmission:
+Wbgx jv qyv ftxa: flag{4ff1n3_c1ph3r_unw0und}

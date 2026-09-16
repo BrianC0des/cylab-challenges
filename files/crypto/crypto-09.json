@@ -1,0 +1,7 @@
+{
+  "target": "PKCS#1 v1.5 Padding Oracle Endpoint",
+  "modulus_bits": 1024,
+  "oracle_uri": "https://oracle.internal.cylab.ph/verify_padding",
+  "sample_ciphertext_hex": "3a7b9c...f4a1",
+  "flag": "flag{bl31ch3nb4ch3r_1998_p4dd1ng_0r4cl3}"
+}

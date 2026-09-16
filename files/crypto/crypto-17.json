@@ -1,0 +1,15 @@
+{
+  "attack": "Merkle-Hellman LLL Reduction",
+  "public_key": [
+    102,
+    205,
+    411,
+    822,
+    1644,
+    3288,
+    6576,
+    13152
+  ],
+  "ciphertext": 15483,
+  "flag": "flag{m3rkl3_h3llm4n_lll_l4tt1c3_r3duc3d}"
+}

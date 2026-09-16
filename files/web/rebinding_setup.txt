@@ -1,0 +1,3 @@
+DNS Rebinding Configuration:
+Domain: 7f000001.a8000001.rbndr.us
+Target: flag{dns_r3b1nd1ng_ssrf_m3t4d4t4_pwn}

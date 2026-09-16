@@ -1,0 +1,3 @@
+[KERNEL MEMORY DUMP AUDIT]
+Hooked Syscall: sys_call_table[__NR_read] -> 0xffffffffc0839100 [rootkit_lkm]
+Extracted Secret: flag{lkm_r00tk1t_hook3d_sysc4ll_t4bl3}

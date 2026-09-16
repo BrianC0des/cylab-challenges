@@ -1,0 +1,6 @@
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System><EventID>4104</EventID><TimeCreated SystemTime="2026-09-12T08:14:22.000Z"/></System>
+  <EventData>
+    <Data Name="ScriptBlockText">Invoke-Expression -Command "Write-Host flag{3vtx_p0w3rsh3ll_scr1ptbl0ck_4104}"</Data>
+  </EventData>
+</Event>

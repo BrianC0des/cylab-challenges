@@ -1,0 +1,2 @@
+type Query { systemFlag(secretKey: String): String }
+# Output: flag{gr4phql_1ntr0sp3ct10n_sch3m4_l34k}
