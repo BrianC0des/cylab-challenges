@@ -21,7 +21,8 @@
     "concept": "Least Significant Bit (LSB) steganography in PNG images",
     "cheatsheet": "zsteg -a badge.png",
     "badge": "Stego Sleuth",
-    "writeup": "Running 'zsteg -a badge.png' tests all prime bit planes and surfaces the ASCII flag on b1,b,lsb,xy."
+    "writeup": "Running 'zsteg -a badge.png' tests all prime bit planes and surfaces the ASCII flag on b1,b,lsb,xy.",
+    "track": "war"
   },
   {
     "id": "stego-02",
@@ -45,7 +46,8 @@
     "concept": "Audio spectrogram steganography and visual frequency encoding",
     "cheatsheet": "sox transmission.wav -n spectrogram -o spectrogram.png && feh spectrogram.png",
     "badge": "Sound Wave Sleuth",
-    "writeup": "Generating a spectrogram using Sox or Audacity visualizes the audio frequencies, rendering the flag text clearly."
+    "writeup": "Generating a spectrogram using Sox or Audacity visualizes the audio frequencies, rendering the flag text clearly.",
+    "track": "war"
   },
   {
     "id": "stego-03",
@@ -69,7 +71,8 @@
     "concept": "EXIF metadata analysis and header extraction",
     "cheatsheet": "exiftool datacenter.jpg | grep -i flag",
     "badge": "EXIF Investigator",
-    "writeup": "Running exiftool on the JPEG exposes the flag stored inside the XPComment tag."
+    "writeup": "Running exiftool on the JPEG exposes the flag stored inside the XPComment tag.",
+    "track": "war"
   },
   {
     "id": "stego-04",
@@ -93,7 +96,8 @@
     "concept": "PNG IHDR chunk tampering and aspect ratio restoration",
     "cheatsheet": "python3 -c \"import zlib, struct; ...\" or hexedit IHDR height bytes",
     "badge": "Image Surgeon",
-    "writeup": "Modifying the IHDR height bytes to match the original CRC reveals the concealed bottom banner containing the flag."
+    "writeup": "Modifying the IHDR height bytes to match the original CRC reveals the concealed bottom banner containing the flag.",
+    "track": "war"
   },
   {
     "id": "stego-05",
@@ -117,7 +121,8 @@
     "concept": "Trailing payload injection and binwalk archive carving",
     "cheatsheet": "binwalk -e wallpaper.jpg ; unzip _wallpaper.jpg.extracted/*.zip",
     "badge": "Archive Carvery",
-    "writeup": "Binwalk extracts the hidden ZIP archive appended after the JPEG FF D9 marker, which unpacks flag.txt."
+    "writeup": "Binwalk extracts the hidden ZIP archive appended after the JPEG FF D9 marker, which unpacks flag.txt.",
+    "track": "war"
   },
   {
     "id": "stego-06",
@@ -141,7 +146,8 @@
     "concept": "Whitespace steganography (SNOW / trailing spaces/tabs)",
     "cheatsheet": "stegsnow -C ordinance.txt",
     "badge": "Ghost In The Space",
-    "writeup": "Stegsnow extracts the concealed message from trailing whitespace sequences, revealing the flag."
+    "writeup": "Stegsnow extracts the concealed message from trailing whitespace sequences, revealing the flag.",
+    "track": "war"
   },
   {
     "id": "stego-7",
@@ -165,7 +171,8 @@
     "concept": "File Signatures, Binwalk, JPEG EOF Marker, Data Carving",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Easy Stegan",
-    "writeup": "1. Run `binwalk vacation.jpg` to see an embedded ZIP archive at offset 0x12400.\n2. Extract with `binwalk -e vacation.jpg` or `unzip vacation.jpg`.\n3. Read `secret.txt` from the extracted directory.\n4. Flag: `flag{30f_tr41l1ng_d4t4_c4rv3d}`"
+    "writeup": "1. Run `binwalk vacation.jpg` to see an embedded ZIP archive at offset 0x12400.\n2. Extract with `binwalk -e vacation.jpg` or `unzip vacation.jpg`.\n3. Read `secret.txt` from the extracted directory.\n4. Flag: `flag{30f_tr41l1ng_d4t4_c4rv3d}`",
+    "track": "training"
   },
   {
     "id": "stego-8",
@@ -189,7 +196,8 @@
     "concept": "Audio Steganography, DTMF Tones, Audacity, multimon-ng",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Medium Stegan",
-    "writeup": "1. Open `voicemail.wav` in Audacity and switch waveform display to 'Spectrogram'.\n2. Read frequency spikes corresponding to DTMF matrix: 67, 89, 76, 65, 66 ...\n3. Convert decimal pairs to ASCII characters.\n4. Flag: `flag{dtmf_t0n3s_fr3qu3ncy_d14l3d}`"
+    "writeup": "1. Open `voicemail.wav` in Audacity and switch waveform display to 'Spectrogram'.\n2. Read frequency spikes corresponding to DTMF matrix: 67, 89, 76, 65, 66 ...\n3. Convert decimal pairs to ASCII characters.\n4. Flag: `flag{dtmf_t0n3s_fr3qu3ncy_d14l3d}`",
+    "track": "training"
   },
   {
     "id": "stego-9",
@@ -213,7 +221,8 @@
     "concept": "Unicode Steganography, Zero-Width Space, Python Scripting",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Hard Stegan",
-    "writeup": "1. Run python script to filter invisible codepoints:\n   ```python\n   text = open('blog.txt', 'r', encoding='utf-8').read()\n   zw = [c for c in text if c in ['\\u200b', '\\u200c']]\n   bits = ''.join(['0' if c == '\\u200b' else '1' for c in zw])\n   flag = ''.join([chr(int(bits[i:i+8], 2)) for i in range(0, len(bits), 8)])\n   print(flag)\n   ```\n2. Output reveals flag.\n3. Flag: `flag{z3r0_w1dth_un1c0d3_st3g4n0}`"
+    "writeup": "1. Run python script to filter invisible codepoints:\n   ```python\n   text = open('blog.txt', 'r', encoding='utf-8').read()\n   zw = [c for c in text if c in ['\\u200b', '\\u200c']]\n   bits = ''.join(['0' if c == '\\u200b' else '1' for c in zw])\n   flag = ''.join([chr(int(bits[i:i+8], 2)) for i in range(0, len(bits), 8)])\n   print(flag)\n   ```\n2. Output reveals flag.\n3. Flag: `flag{z3r0_w1dth_un1c0d3_st3g4n0}`",
+    "track": "training"
   },
   {
     "id": "stego-10",
@@ -237,7 +246,8 @@
     "concept": "Palette Steganography, GIF CLUT, Pillow Image Analysis, Color Quantization",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Hard Stegan",
-    "writeup": "1. Extract palette using PIL: `img.getpalette()` and find duplicate color entries (e.g. indices 12 and 13 both map to `#1a2b3c`).\n2. Iterate through pixel index array `list(img.getdata())`.\n3. When a pixel points to one of the duplicate pairs, extract bit `index % 2`.\n4. Pack bits into bytes to retrieve flag.\n5. Flag: `flag{clut_p4l3tt3_1nd3x_m0dul4t10n}`"
+    "writeup": "1. Extract palette using PIL: `img.getpalette()` and find duplicate color entries (e.g. indices 12 and 13 both map to `#1a2b3c`).\n2. Iterate through pixel index array `list(img.getdata())`.\n3. When a pixel points to one of the duplicate pairs, extract bit `index % 2`.\n4. Pack bits into bytes to retrieve flag.\n5. Flag: `flag{clut_p4l3tt3_1nd3x_m0dul4t10n}`",
+    "track": "training"
   },
   {
     "id": "stego-11",
@@ -261,7 +271,8 @@
     "concept": "Audio Phase Inversion, Audacity, Channel Subtraction, Stereo Forensics",
     "cheatsheet": "ffmpeg -i track.mp3 -af 'pan=mono|c0=0.5*c0-0.5*c1' out.wav",
     "badge": "Acoustic Filter",
-    "writeup": "1. Load `track.mp3` into Audacity.\n2. Invert Channel R and merge with Channel L to mono.\n3. The static cancels out completely, revealing clear spoken voice speaking the flag.\n4. Flag: `flag{aud10_ph4s3_1nv3rs10n_c4nc3l}`"
+    "writeup": "1. Load `track.mp3` into Audacity.\n2. Invert Channel R and merge with Channel L to mono.\n3. The static cancels out completely, revealing clear spoken voice speaking the flag.\n4. Flag: `flag{aud10_ph4s3_1nv3rs10n_c4nc3l}`",
+    "track": "training"
   },
   {
     "id": "stego-12",
@@ -285,7 +296,8 @@
     "concept": "BMP Image Format, Scanline Padding, Pixel Array Alignment",
     "cheatsheet": "python3 -c \"# extract row padding bytes\"",
     "badge": "Pixel Aligner",
-    "writeup": "1. Parse BMP header: get width, height, and data offset.\n2. Calculate row padding: `pad = (4 - (width * 3) % 4) % 4`.\n3. Read the `pad` bytes after every scanline to extract the hidden string.\n4. Flag: `flag{bmp_p4dd1ng_byt3s_unp4ck3d}`"
+    "writeup": "1. Parse BMP header: get width, height, and data offset.\n2. Calculate row padding: `pad = (4 - (width * 3) % 4) % 4`.\n3. Read the `pad` bytes after every scanline to extract the hidden string.\n4. Flag: `flag{bmp_p4dd1ng_byt3s_unp4ck3d}`",
+    "track": "training"
   },
   {
     "id": "stego-13",
@@ -309,7 +321,8 @@
     "concept": "PDF Object Streams, FlateDecode, qpdf, Didier Stevens PDF Tools",
     "cheatsheet": "qpdf --qdf memo.pdf decompressed.pdf && grep -a flag decompressed.pdf",
     "badge": "PDF Inspector",
-    "writeup": "1. Decompress PDF streams: `qpdf --qdf --object-streams=disable memo.pdf raw.pdf`.\n2. Grep raw text: `grep -i 'flag{' raw.pdf`.\n3. Flag: `flag{pdf_fl4t3_str34m_4nn0t4t10n}`"
+    "writeup": "1. Decompress PDF streams: `qpdf --qdf --object-streams=disable memo.pdf raw.pdf`.\n2. Grep raw text: `grep -i 'flag{' raw.pdf`.\n3. Flag: `flag{pdf_fl4t3_str34m_4nn0t4t10n}`",
+    "track": "training"
   },
   {
     "id": "stego-14",
@@ -333,7 +346,8 @@
     "concept": "Tar Block Structure, Slack Space Steganography, Byte Alignment",
     "cheatsheet": "xxd archive.tar | grep -v '0000 0000'",
     "badge": "Slack Hunter",
-    "writeup": "1. Parse tar headers and calculate file sizes.\n2. Read bytes between `offset + filesize` and `ceil(filesize / 512) * 512`.\n3. The non-zero slack bytes assemble into the flag.\n4. Flag: `flag{t4r_bl0ck_sl4ck_sp4c3_c4rv3d}`"
+    "writeup": "1. Parse tar headers and calculate file sizes.\n2. Read bytes between `offset + filesize` and `ceil(filesize / 512) * 512`.\n3. The non-zero slack bytes assemble into the flag.\n4. Flag: `flag{t4r_bl0ck_sl4ck_sp4c3_c4rv3d}`",
+    "track": "training"
   },
   {
     "id": "stego-15",
@@ -357,7 +371,8 @@
     "concept": "Video Codecs, I-Frame Extraction, GOP Structure, FFmpeg",
     "cheatsheet": "ffprobe -show_frames -select_streams v video.mp4 | grep pict_type",
     "badge": "Video Frame Crafter",
-    "writeup": "1. Dump I-frames with FFmpeg.\n2. Diff first and second I-frame in Python to isolate injected pixels.\n3. Flag: `flag{mp4_1fr4m3_g0p_qu4nt1z4t10n}`"
+    "writeup": "1. Dump I-frames with FFmpeg.\n2. Diff first and second I-frame in Python to isolate injected pixels.\n3. Flag: `flag{mp4_1fr4m3_g0p_qu4nt1z4t10n}`",
+    "track": "training"
   },
   {
     "id": "stego-16",
@@ -381,6 +396,7 @@
     "concept": "DSSS Audio Stego, LFSR Chipping Sequences, Cross-Correlation, SciPy",
     "cheatsheet": "python3 -c \"import scipy.signal; ...\"",
     "badge": "Signal Specialist",
-    "writeup": "1. Load audio in Python using `scipy.io.wavfile`.\n2. Generate LFSR chipping sequence and multiply with windowed FFT bins.\n3. Peak correlation indices decode the bitstream.\n4. Flag: `flag{dsss_spr34d_sp3ctrum_d3spr34d}`"
+    "writeup": "1. Load audio in Python using `scipy.io.wavfile`.\n2. Generate LFSR chipping sequence and multiply with windowed FFT bins.\n3. Peak correlation indices decode the bitstream.\n4. Flag: `flag{dsss_spr34d_sp3ctrum_d3spr34d}`",
+    "track": "training"
   }
 ]

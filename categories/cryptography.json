@@ -21,7 +21,8 @@
     "concept": "Classical substitution ciphers (ROT13 / Caesar cipher)",
     "cheatsheet": "echo 'synt{P4rf4e_Vf_Qrnq_Ybat_Yvir_EBG13}' | tr 'A-Za-z' 'N-ZA-Mn-za-m'",
     "badge": "Cipher Novice",
-    "writeup": "The ciphertext uses ROT13. Because ROT13 is self-inverse, applying the same transform again recovers the flag."
+    "writeup": "The ciphertext uses ROT13. Because ROT13 is self-inverse, applying the same transform again recovers the flag.",
+    "track": "war"
   },
   {
     "id": "crypto-02",
@@ -45,7 +46,8 @@
     "concept": "Vigen\u00e8re cipher cryptanalysis and frequency analysis",
     "cheatsheet": "CyberChef 'Vigen\u00e8re Decode' with key 'DICT'",
     "badge": "Frequency Analyst",
-    "writeup": "Kasiski examination reveals key period of 4. Frequency analysis on columns isolates the key 'DICT'."
+    "writeup": "Kasiski examination reveals key period of 4. Frequency analysis on columns isolates the key 'DICT'.",
+    "track": "war"
   },
   {
     "id": "crypto-03",
@@ -69,7 +71,8 @@
     "concept": "RSA low public exponent (e=3) unpadded cube-root attack",
     "cheatsheet": "python3 -c \"import gmpy2; print(bytes.fromhex(hex(gmpy2.iroot(c,3)[0])[2:]))\"",
     "badge": "RSA Breaker",
-    "writeup": "Since m^3 < n, c = m^3 in standard integers. Taking the integer cube root recovers the plaintext directly."
+    "writeup": "Since m^3 < n, c = m^3 in standard integers. Taking the integer cube root recovers the plaintext directly.",
+    "track": "war"
   },
   {
     "id": "crypto-04",
@@ -93,7 +96,8 @@
     "concept": "Unicode fullwidth homoglyph obfuscation & layered encoding",
     "cheatsheet": "python3 -c \"import unicodedata; print(unicodedata.normalize('NFKC', text))\"",
     "badge": "Unicode Decoder",
-    "writeup": "Unhexing yields fullwidth ASCII characters '\uff36\uff27\uff48\uff5a...'. NFKC normalization yields standard base64 'VGgzX0VtYjN6emwzcl8xNV9GdW1pZQ==' which decodes to 'Th3_Emb3zzl3r_15_Fumie'."
+    "writeup": "Unhexing yields fullwidth ASCII characters '\uff36\uff27\uff48\uff5a...'. NFKC normalization yields standard base64 'VGgzX0VtYjN6emwzcl8xNV9GdW1pZQ==' which decodes to 'Th3_Emb3zzl3r_15_Fumie'.",
+    "track": "war"
   },
   {
     "id": "crypto-05",
@@ -117,7 +121,8 @@
     "concept": "Known-plaintext attack (KPA) against repeating XOR stream",
     "cheatsheet": "xortool -l <keylen> -c 20 encrypted.bin",
     "badge": "Stream Cracker",
-    "writeup": "Because P ^ C = K, XORing the known header against the ciphertext reveals the repeating key."
+    "writeup": "Because P ^ C = K, XORing the known header against the ciphertext reveals the repeating key.",
+    "track": "war"
   },
   {
     "id": "crypto-06",
@@ -141,7 +146,8 @@
     "concept": "Discrete Logarithm Problem (DLP) over small primes",
     "cheatsheet": "sage: discrete_log(A, Mod(g, p))",
     "badge": "Discrete Log Wizard",
-    "writeup": "Using SageMath's discrete_log or sympy.discrete_log, solve for private key a in g^a = A mod p in under 1 second."
+    "writeup": "Using SageMath's discrete_log or sympy.discrete_log, solve for private key a in g^a = A mod p in under 1 second.",
+    "track": "war"
   },
   {
     "id": "crypto-7",
@@ -165,7 +171,8 @@
     "concept": "Affine Cipher, Modular Arithmetic, CyberChef",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Easy Crypto",
-    "writeup": "1. In CyberChef, select 'Affine Cipher Decode' with slope $a=5$ and intercept $b=8$.\n2. Or calculate manually using Python:\n   ```python\n   c = 'Wbgx jv qyv ftxa: flag{4ff1n3_c1ph3r_unw0und}'\n   # Inverse of 5 mod 26 is 21 since (5*21)%26 == 1\n   inv_a = 21\n   # Letters map back cleanly to recover the plaintext and flag.\n   ```\n3. Flag: `flag{4ff1n3_c1ph3r_unw0und}`"
+    "writeup": "1. In CyberChef, select 'Affine Cipher Decode' with slope $a=5$ and intercept $b=8$.\n2. Or calculate manually using Python:\n   ```python\n   c = 'Wbgx jv qyv ftxa: flag{4ff1n3_c1ph3r_unw0und}'\n   # Inverse of 5 mod 26 is 21 since (5*21)%26 == 1\n   inv_a = 21\n   # Letters map back cleanly to recover the plaintext and flag.\n   ```\n3. Flag: `flag{4ff1n3_c1ph3r_unw0und}`",
+    "track": "training"
   },
   {
     "id": "crypto-8",
@@ -189,7 +196,8 @@
     "concept": "RSA, Chinese Remainder Theorem, Hastad Attack, SageMath",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Medium Crypto",
-    "writeup": "1. Use `sympy.ntheory.modular.crt([N1, N2, N3], [C1, C2, C3])` to compute $C \\pmod{N_1 N_2 N_3}$.\n2. Compute $m = \\text{integer\\_root}(C, 3)[0]$.\n3. Convert integer $m$ to bytes using `long_to_bytes(m)`.\n4. Flag: `flag{h4st4d_br04dc4st_crt_r00t}`"
+    "writeup": "1. Use `sympy.ntheory.modular.crt([N1, N2, N3], [C1, C2, C3])` to compute $C \\pmod{N_1 N_2 N_3}$.\n2. Compute $m = \\text{integer\\_root}(C, 3)[0]$.\n3. Convert integer $m$ to bytes using `long_to_bytes(m)`.\n4. Flag: `flag{h4st4d_br04dc4st_crt_r00t}`",
+    "track": "training"
   },
   {
     "id": "crypto-9",
@@ -213,7 +221,8 @@
     "concept": "Bleichenbacher Attack, Padding Oracle, PKCS#1 v1.5, Lattice / Interval Sieve",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Hard Crypto",
-    "writeup": "1. Implement Bleichenbacher's step-by-step interval reduction algorithm:\n   - Step 1: Find initial $s_1 \\ge \\lceil N / 3B \\rceil$ such that $(c \\cdot s_1^e) \\pmod N$ is conforming.\n   - Step 2: Once a conforming $s$ is found, narrow down intervals $[a, b]$.\n   - Step 3: When a single interval remains, compute next $s_i$ directly from boundary formulas.\n2. When interval width narrows to 1, $m$ is completely revealed.\n3. Flag: `flag{bl31ch3nb4ch3r_1998_p4dd1ng_0r4cl3}`"
+    "writeup": "1. Implement Bleichenbacher's step-by-step interval reduction algorithm:\n   - Step 1: Find initial $s_1 \\ge \\lceil N / 3B \\rceil$ such that $(c \\cdot s_1^e) \\pmod N$ is conforming.\n   - Step 2: Once a conforming $s$ is found, narrow down intervals $[a, b]$.\n   - Step 3: When a single interval remains, compute next $s_i$ directly from boundary formulas.\n2. When interval width narrows to 1, $m$ is completely revealed.\n3. Flag: `flag{bl31ch3nb4ch3r_1998_p4dd1ng_0r4cl3}`",
+    "track": "training"
   },
   {
     "id": "crypto-10",
@@ -237,7 +246,8 @@
     "concept": "AES-GCM, GHASH, Galois Fields GF(2^128), Forbidden Attack",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Hard Crypto",
-    "writeup": "1. Represent the ciphertext blocks as polynomials in GF($2^{128}$) with reduction polynomial $x^{128} + x^7 + x^2 + x + 1$.\n2. Set up polynomial $P(H) = (\\text{GHASH}_H(C_1) \\oplus T_1) \\oplus (\\text{GHASH}_H(C_2) \\oplus T_2) = 0$.\n3. Factor $P(H)$ using SageMath polynomial root-finding.\n4. With candidate $H$, derive $E_K(J_0) = \\text{GHASH}_H(C_1) \\oplus T_1$.\n5. Forge arbitrary message tags at will.\n6. Flag: `flag{gcm_f0rb1dd3n_gh4sh_k3y_r3c0v3r3d}`"
+    "writeup": "1. Represent the ciphertext blocks as polynomials in GF($2^{128}$) with reduction polynomial $x^{128} + x^7 + x^2 + x + 1$.\n2. Set up polynomial $P(H) = (\\text{GHASH}_H(C_1) \\oplus T_1) \\oplus (\\text{GHASH}_H(C_2) \\oplus T_2) = 0$.\n3. Factor $P(H)$ using SageMath polynomial root-finding.\n4. With candidate $H$, derive $E_K(J_0) = \\text{GHASH}_H(C_1) \\oplus T_1$.\n5. Forge arbitrary message tags at will.\n6. Flag: `flag{gcm_f0rb1dd3n_gh4sh_k3y_r3c0v3r3d}`",
+    "track": "training"
   },
   {
     "id": "crypto-11",
@@ -261,7 +271,8 @@
     "concept": "Transposition Ciphers, Rail Fence, Geometric Permutation",
     "cheatsheet": "python3 -c \"import sys; # use CyberChef Rail Fence Decode\"",
     "badge": "Rail Master",
-    "writeup": "1. Put the ciphertext into CyberChef.\n2. Add 'Rail Fence Cipher Decode' recipe with Rails = 3, Offset = 0.\n3. The decrypted message appears directly.\n4. Flag: `flag{rail_f3nc3_z1gz4g_unf0ld3d}`"
+    "writeup": "1. Put the ciphertext into CyberChef.\n2. Add 'Rail Fence Cipher Decode' recipe with Rails = 3, Offset = 0.\n3. The decrypted message appears directly.\n4. Flag: `flag{rail_f3nc3_z1gz4g_unf0ld3d}`",
+    "track": "training"
   },
   {
     "id": "crypto-12",
@@ -285,7 +296,8 @@
     "concept": "Polybius Square, Coordinate Ciphers, Tap Code",
     "cheatsheet": "CyberChef -> 'Polybius Square Decode'",
     "badge": "Grid Decoder",
-    "writeup": "1. Convert coordinate pairs using the 5x5 Polybius grid.\n2. Coordinates map out the plaintext characters.\n3. Flag: `flag{p0lyb1us_t4p_c0d3_d3c0d3d}`"
+    "writeup": "1. Convert coordinate pairs using the 5x5 Polybius grid.\n2. Coordinates map out the plaintext characters.\n3. Flag: `flag{p0lyb1us_t4p_c0d3_d3c0d3d}`",
+    "track": "training"
   },
   {
     "id": "crypto-13",
@@ -309,7 +321,8 @@
     "concept": "Beaufort Cipher, Polyalphabetic Substitution, Key Modulo",
     "cheatsheet": "CyberChef -> 'Vigen\u00e8re Decode' with variant Beaufort",
     "badge": "Naval Cryptor",
-    "writeup": "1. In CyberChef, add 'Beaufort Cipher Decode' with key 'NAVAL'.\n2. The reciprocal subtraction reveals the plaintext and flag.\n3. Flag: `flag{b34uf0rt_r3c1pr0c4l_v1g3n3r3}`"
+    "writeup": "1. In CyberChef, add 'Beaufort Cipher Decode' with key 'NAVAL'.\n2. The reciprocal subtraction reveals the plaintext and flag.\n3. Flag: `flag{b34uf0rt_r3c1pr0c4l_v1g3n3r3}`",
+    "track": "training"
   },
   {
     "id": "crypto-14",
@@ -333,7 +346,8 @@
     "concept": "Solitaire Cipher, Pseudo-Random Generation, Manual Cryptography",
     "cheatsheet": "python3 -c \"import solitaire; print(...)\"",
     "badge": "Card Shark",
-    "writeup": "1. Implement Schneier's deck permutation algorithm in Python.\n2. Generate keystream integers $K_i$ and subtract from ciphertext letters modulo 26.\n3. Flag: `flag{s0l1t41r3_c4rd_d3ck_k3ystr34m}`"
+    "writeup": "1. Implement Schneier's deck permutation algorithm in Python.\n2. Generate keystream integers $K_i$ and subtract from ciphertext letters modulo 26.\n3. Flag: `flag{s0l1t41r3_c4rd_d3ck_k3ystr34m}`",
+    "track": "training"
   },
   {
     "id": "crypto-15",
@@ -357,7 +371,8 @@
     "concept": "RSA Cryptanalysis, Wiener Attack, Continued Fractions, SageMath",
     "cheatsheet": "python3 -m owiener -e <e> -n <n>",
     "badge": "Wiener Cracker",
-    "writeup": "1. Install `owiener` (`pip install owiener`).\n2. Run `d = owiener.attack(e, N)`.\n3. Decrypt ciphertext: `m = pow(c, d, N)` and convert to ASCII.\n4. Flag: `flag{w13n3r_c0nt1nu3d_fr4ct10n_d_sm4ll}`"
+    "writeup": "1. Install `owiener` (`pip install owiener`).\n2. Run `d = owiener.attack(e, N)`.\n3. Decrypt ciphertext: `m = pow(c, d, N)` and convert to ASCII.\n4. Flag: `flag{w13n3r_c0nt1nu3d_fr4ct10n_d_sm4ll}`",
+    "track": "training"
   },
   {
     "id": "crypto-16",
@@ -381,7 +396,8 @@
     "concept": "RSA Polynomial Rings, Franklin-Reiter, GCD in Z/NZ, SageMath",
     "cheatsheet": "sage -c 'P.<x> = PolynomialRing(Zmod(N)); ...'",
     "badge": "Ring Theorist",
-    "writeup": "1. In SageMath: define polynomial ring over integers modulo $N$.\n2. Compute monic polynomial GCD of $x^3 - c_1$ and $(a x + b)^3 - c_2$.\n3. The linear remainder gives $-m_1$, revealing the message.\n4. Flag: `flag{fr4nkl1n_r31t3r_p0lyn0m14l_gcd}`"
+    "writeup": "1. In SageMath: define polynomial ring over integers modulo $N$.\n2. Compute monic polynomial GCD of $x^3 - c_1$ and $(a x + b)^3 - c_2$.\n3. The linear remainder gives $-m_1$, revealing the message.\n4. Flag: `flag{fr4nkl1n_r31t3r_p0lyn0m14l_gcd}`",
+    "track": "training"
   },
   {
     "id": "crypto-17",
@@ -405,6 +421,7 @@
     "concept": "Lattice Cryptanalysis, Merkle-Hellman Knapsack, LLL Algorithm, Shortest Vector Problem",
     "cheatsheet": "sage -c 'M = Matrix(...); M.LLL()'",
     "badge": "Lattice Architect",
-    "writeup": "1. Build the basis matrix in SageMath.\n2. Apply `.LLL()` to find the shortest lattice vector.\n3. Check coordinates for $\\pm 1/2$ or $0/1$ assignments to reconstruct $m$.\n4. Flag: `flag{m3rkl3_h3llm4n_lll_l4tt1c3_r3duc3d}`"
+    "writeup": "1. Build the basis matrix in SageMath.\n2. Apply `.LLL()` to find the shortest lattice vector.\n3. Check coordinates for $\\pm 1/2$ or $0/1$ assignments to reconstruct $m$.\n4. Flag: `flag{m3rkl3_h3llm4n_lll_l4tt1c3_r3duc3d}`",
+    "track": "training"
   }
 ]

